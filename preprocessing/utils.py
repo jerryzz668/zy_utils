@@ -19,7 +19,7 @@ def create_empty_json_instance(img_file_path: str):
                 'imagePath': img_file_path[img_file_path.rindex(os.sep)+1:]}
     img = cv2.imread(img_file_path)
     instance['imageHeight'], instance['imageWidth'], instance['imageDepth'] = img.shape
-    instance_to_json(instance, img_file_path[:img_file_path.rindex('.')]+'.json')
+    # instance_to_json(instance, img_file_path[:img_file_path.rindex('.')]+'.json')
     return instance
 
 def word_to_pinyin(word: str):
@@ -133,19 +133,19 @@ class Line(object):
         self.p2 = p2
 
 def getLinePara(line):
-    line.a =line.p1.y - line.p2.y
-    line.b = line.p2.x - line.p1.x
-    line.c = line.p1.x *line.p2.y - line.p2.x * line.p1.y
+    line.a =line.p1.y - line.p2.y;
+    line.b = line.p2.x - line.p1.x;
+    line.c = line.p1.x *line.p2.y - line.p2.x * line.p1.y;
 
 def getCrossPoint(l1, l2):
-    getLinePara(l1)
-    getLinePara(l2)
+    getLinePara(l1);
+    getLinePara(l2);
     d = l1.a * l2.b - l2.a * l1.b
     p=Point()
     if d == 0: return None
     p.x = (l1.b * l2.c - l2.b * l1.c)*1.0 / d
     p.y = (l1.c * l2.a - l2.c * l1.a)*1.0 / d
-    return p
+    return p;
 
 def get_cross_point(x1, y1, x2, y2, x3, y3, x4, y4):
     p1 = Point(x1, y1)
