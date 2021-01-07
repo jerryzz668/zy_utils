@@ -1,16 +1,14 @@
-import numpy as np
 import json
 import pandas as pd
 import itertools
 import numpy as np
-import pandas as pd
 import os
-
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 import time
 import shutil
+
 class AnnalyResult(object):
     def __init__(self,yt_labelme,test_labelme,out_path,title_png):
         self.yt_labelme = yt_labelme
