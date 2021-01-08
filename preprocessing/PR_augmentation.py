@@ -1,4 +1,4 @@
-from utils.plg_utils import *
+from preprocessing.utils import *
 import shutil
 
 
@@ -86,68 +86,69 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, saved_folder
 if __name__ == '__main__':
     from PIL import Image
     # 自定义自己的img-boxes对应方法，Box类参考utils.py
-    def img_boxes_query_mmdet(img_file_path):
-        bbox_json_path = '/Users/zhangyan/Desktop/internship/cm_gj/cm1/半残废coco数据集/zy_20_val.bbox.json'
-        val_json_path = '/Users/zhangyan/Desktop/internship/cm_gj/cm1/半残废coco数据集/coco/annotations/instances_train2017.json'
-        # img_file_path = '/Users/zhangyan/Desktop/val2017/1447-0007-11_-6_870.jpg'
-
-        img_file_name = img_file_path[img_file_path.rindex(os.sep) + 1:]
-        cls_id_name_dict = {0: 'a', 1: 'aotuhen', 2: 'aotuhen1', 3: 'aotuhen2', 4: 'baidian', 5: 'bianxing',
-                            6: 'daowen',
-                            7: 'diaoqi', 8: 'guashang', 9: 'guoqie', 10: 'heidian', 11: 'jiaxi', 12: 'keli',
-                            13: 'maoxu',
-                            14: 'pengshang', 15: 'tabian', 16: 'xianhen', 17: 'yashang', 18: 'yinglihen', 19: 'yise',
-                            20: 'yiwu'}
-
-        # 从val_json中找到图像名字对应的id
-        val_json_data = json_to_instance(val_json_path)
-        images = val_json_data.get('images')
-        for obj in images:
-            if obj['file_name'] == img_file_name:
-                img_id = obj['id']
-
-        # 从bbox.json中获取defects的6个值
-        boxes = []
-        try:
-            bbox_json_data = json_to_instance(bbox_json_path)
-        except FileNotFoundError:
-            return boxes
-        for i in bbox_json_data:
-            if i['image_id'] == img_id:
-                cls_id = int(i['category_id'])
-                x, y, w, h = float(i['bbox'][0]), float(i['bbox'][1]), float(i['bbox'][2]), float(i['bbox'][3])
-                confidence, cls_name = float(i['score']), cls_id_name_dict[cls_id]
-                boxes.append(Box(x, y, w, h, cls_name, confidence))
-        return boxes
-
-    # # yolo_strategy
-    # def img_boxes_query(img_file_path):
-    #     cls_id_name_dict = {0: 'baomo', 1: 'cashang', 2: 'huashang', 3: 'pengshang', 4: 'yashang', 5: 'yise'}
-    #     txt_folder_path = '/Users/zhangyan/Desktop/labels'
-    #     txt_file = img_file_path[img_file_path.rindex(os.sep)+1:img_file_path.rindex('.')] + '.txt'
-    #     txt_file_path = os.path.join(txt_folder_path, txt_file)
-    #     img = Image.open(img_file_path)
-    #     width = img.width
-    #     height = img.height
+    # def img_boxes_query_mmdet(img_file_path):
+    #     bbox_json_path = '/Users/zhangyan/Desktop/internship/cm_gj/cm1/半残废coco数据集/zy_20_val.bbox.json'
+    #     val_json_path = '/Users/zhangyan/Desktop/internship/cm_gj/cm1/半残废coco数据集/coco/annotations/instances_train2017.json'
+    #     # img_file_path = '/Users/zhangyan/Desktop/val2017/1447-0007-11_-6_870.jpg'
+    #
+    #     img_file_name = img_file_path[img_file_path.rindex(os.sep) + 1:]
+    #     cls_id_name_dict = {0: 'a', 1: 'aotuhen', 2: 'aotuhen1', 3: 'aotuhen2', 4: 'baidian', 5: 'bianxing',
+    #                         6: 'daowen',
+    #                         7: 'diaoqi', 8: 'guashang', 9: 'guoqie', 10: 'heidian', 11: 'jiaxi', 12: 'keli',
+    #                         13: 'maoxu',
+    #                         14: 'pengshang', 15: 'tabian', 16: 'xianhen', 17: 'yashang', 18: 'yinglihen', 19: 'yise',
+    #                         20: 'yiwu'}
+    #
+    #     # 从val_json中找到图像名字对应的id
+    #     val_json_data = json_to_instance(val_json_path)
+    #     images = val_json_data.get('images')
+    #     for obj in images:
+    #         if obj['file_name'] == img_file_name:
+    #             img_id = obj['id']
+    #
+    #     # 从bbox.json中获取defects的6个值
     #     boxes = []
     #     try:
-    #         with open(txt_file_path, 'r', encoding='utf-8') as f:
-    #             lines = f.readlines()
+    #         bbox_json_data = json_to_instance(bbox_json_path)
     #     except FileNotFoundError:
     #         return boxes
-    #     # 遍历txt文件中的每一个检测目标
-    #     for line in lines:
-    #         words = line.split(' ')
-    #         cls_id = int(words[0])
-    #         cls_name = cls_id_name_dict[cls_id]
-    #         cx, cy, w, h = float(words[1]) * width, float(words[2]) * height, float(words[3]) * width, float(words[4]) * height
-    #         confidence = float(words[5])
-    #         # 一个Box代表一个检测目标的xywh、label、confidence
-    #         boxes.append(Box(cx-w/2, cy-h/2, w, h, cls_name, confidence))
+    #     for i in bbox_json_data:
+    #         if i['image_id'] == img_id:
+    #             cls_id = int(i['category_id'])
+    #             x, y, w, h = float(i['bbox'][0]), float(i['bbox'][1]), float(i['bbox'][2]), float(i['bbox'][3])
+    #             confidence, cls_name = float(i['score']), cls_id_name_dict[cls_id]
+    #             boxes.append(Box(x, y, w, h, cls_name, confidence))
     #     return boxes
-    precision_recall_visualize(target_folder_path='/Users/zhangyan/Desktop/internship/cm_gj/cm1/半残废coco数据集/coco/train2017',
+
+    # yolo_strategy
+    def img_boxes_query(img_file_path):
+        # cls_id_name_dict = {0: 'baomo', 1: 'cashang', 2: 'huashang', 3: 'pengshang', 4: 'yashang', 5: 'yise'}
+        cls_id_name_dict = {0: 'daowen', 1:'yise', 2:'guashang',3: 'heidian', 4:'baisezaodian', 5:'pengshang',6: 'aotuhen', 7:'aokeng'}
+        txt_folder_path = '/Users/zhangyan/Desktop/labels'
+        txt_file = img_file_path[img_file_path.rindex(os.sep)+1:img_file_path.rindex('.')] + '.txt'
+        txt_file_path = os.path.join(txt_folder_path, txt_file)
+        img = Image.open(img_file_path)
+        width = img.width
+        height = img.height
+        boxes = []
+        try:
+            with open(txt_file_path, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+        except FileNotFoundError:
+            return boxes
+        # 遍历txt文件中的每一个检测目标
+        for line in lines:
+            words = line.split(' ')
+            cls_id = int(words[0])
+            cls_name = cls_id_name_dict[cls_id]
+            cx, cy, w, h = float(words[1]) * width, float(words[2]) * height, float(words[3]) * width, float(words[4]) * height
+            confidence = float(words[5])
+            # 一个Box代表一个检测目标的xywh、label、confidence
+            boxes.append(Box(cx-w/2, cy-h/2, w, h, cls_name, confidence))
+        return boxes
+    precision_recall_visualize(target_folder_path='/Users/zhangyan/Desktop/exp',
                                # 自定义的query方法
-                               img_boxes_query=img_boxes_query_mmdet,
+                               img_boxes_query=img_boxes_query,
                                # 保存在图片文件夹下的特定目录名
                                saved_folder_name='PR',
                                # 计算漏失

@@ -15,4 +15,10 @@ class Test:
     def minus(self, d, e):
         print(d-e)
 
-Test(1,2,3)
+# Test(1,2,3)
+
+for i in range(10):
+    if i > 5:
+        print(i)
+        continue
+    print('111')
