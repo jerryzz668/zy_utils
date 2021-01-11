@@ -178,7 +178,7 @@ def recursion_cut(shapes_img_l,counter_per_cut,crop_w,crop_h,cut_one_img,mid_poi
     recursion_cut(next_allow,counter_per_cut,crop_w,crop_h,cut_one_img,mid_point)
 
 if __name__ == '__main__':
-    root_path = r'/Users/zhangyan/Desktop/0830img'
+    root_path = r'/Users/zhangyan/Desktop/a件_0830damian/0830img/val'
     if '\\' in root_path:
         root_path.replace('\\','/')
     out_path_root = root_path[:root_path.rindex(os.sep)+1]
@@ -195,7 +195,7 @@ if __name__ == '__main__':
     para_list = []
     counter_per_cut = 0
     for json_path in jsons:
-        para_list.append((json_path,imgs_path,768,768,out_path,cut_label,counter_per_cut))
+        para_list.append((json_path,imgs_path,640,640,out_path,cut_label,counter_per_cut))
     pool = multiprocessing.Pool(processes=32)
     start_time = time.time()
     pool.map(cut_json,para_list)

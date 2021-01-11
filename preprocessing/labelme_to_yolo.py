@@ -1,5 +1,5 @@
-from coco_to_yolo import split_train_val_test
-from utils import *
+from preprocessing.coco_to_yolo import split_train_val_test
+from preprocessing.utils import *
 
 
 def labelme_to_yolo(img_folder_path):
@@ -41,9 +41,9 @@ def labelme_to_yolo(img_folder_path):
 
 if __name__ == '__main__':
     # 图片文件夹绝对路径
-    # labelme_to_yolo(img_folder_path='/Users/zhangyan/Desktop/crop')
+    labelme_to_yolo(img_folder_path='/Users/zhangyan/Desktop/a件_0830damian/0830img/val/crop')
     # 按比例分训练、验证、测试集
-    split_train_val_test(img_folder_path='/Users/zhangyan/Desktop/crop',
-                         target_folder_path='/Users/zhangyan/Desktop/yolo',
-                         test_ratio=0.1,
-                         val_ratio=1)
+    # split_train_val_test(img_folder_path='/Users/zhangyan/Desktop/crop',
+    #                      target_folder_path='/Users/zhangyan/Desktop/yolo',
+    #                      test_ratio=0.1,
+    #                      val_ratio=1)
