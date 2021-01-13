@@ -46,7 +46,7 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, saved_folder
             x, y, w, h = points_to_xywh(obj)
             gt_box = Box(x, y, w, h, obj['label'])
             # 漏检 错检
-            false_negative, false_label, hard = False, True, False
+            false_negative, false_label, hard = True, True, True
             for i, predict_box in enumerate(predict_boxes):
                 if gt_box.get_iou(predict_box) > iou_thres:
                     false_negative = False
@@ -123,7 +123,7 @@ if __name__ == '__main__':
     # yolo_strategy
     def img_boxes_query(img_file_path):
         # cls_id_name_dict = {0: 'baomo', 1: 'cashang', 2: 'huashang', 3: 'pengshang', 4: 'yashang', 5: 'yise'}
-        cls_id_name_dict = {0: 'daowen', 1:'yise', 2:'guashang',3: 'heidian', 4:'baisezaodian', 5:'pengshang',6: 'aotuhen', 7:'aokeng'}
+        cls_id_name_dict = {0: 'aokeng', 1:'aotuhen', 2:'baisezaodian',3: 'daowen', 4:'guashang', 5:'heidian',6: 'pengshang', 7:'yise'}
         txt_folder_path = '/Users/zhangyan/Desktop/labels'
         txt_file = img_file_path[img_file_path.rindex(os.sep)+1:img_file_path.rindex('.')] + '.txt'
         txt_file_path = os.path.join(txt_folder_path, txt_file)
@@ -146,7 +146,7 @@ if __name__ == '__main__':
             # 一个Box代表一个检测目标的xywh、label、confidence
             boxes.append(Box(cx-w/2, cy-h/2, w, h, cls_name, confidence))
         return boxes
-    precision_recall_visualize(target_folder_path='/Users/zhangyan/Desktop/val',
+    precision_recall_visualize(target_folder_path='/Users/zhangyan/Desktop/a件_0830damian/0830damian_yolo/images/train',
                                # 自定义的query方法
                                img_boxes_query=img_boxes_query,
                                # 保存在图片文件夹下的特定目录名
