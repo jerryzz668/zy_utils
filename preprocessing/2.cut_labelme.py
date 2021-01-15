@@ -178,7 +178,7 @@ def recursion_cut(shapes_img_l,counter_per_cut,crop_w,crop_h,cut_one_img,mid_poi
     recursion_cut(next_allow,counter_per_cut,crop_w,crop_h,cut_one_img,mid_point)
 
 if __name__ == '__main__':
-    root_path = r'/Users/zhangyan/Desktop/a件_0830damian/0830img/val'
+    root_path = r'/Users/zhangyan/Desktop/a件_0830damian/0830img/train'
     if '\\' in root_path:
         root_path.replace('\\','/')
     out_path_root = root_path[:root_path.rindex(os.sep)+1]

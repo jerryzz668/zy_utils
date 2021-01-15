@@ -27,10 +27,10 @@ def get_max_w_h(img_jsons,label,size=(512,512)):
                 #     shutil.move(os.path.join(img_jsons,i),os.path.join(big_jsons,i))
                 #     break
     return 0
-# label_l = ['guashang', 'heidian', 'baisezaodian', 'yise', 'aotuhen', 'aokeng', 'cashang', 'shuiyin', 'pengshang', 'penshabujun', 'daowen', 'yiwu', 'shahenyin', 'huanxingdaowen', 'mianhua', 'tabian']
-label_l =['shahenyin', 'baisezaodian', 'shuiyin', 'aokeng', 'cashang', '3Daohen', 'daowenxian']
-#'heidian', 'guashang', 'yise', 'baisezaodian',
-img_jsons = '/Users/zhangyan/Desktop/jsonsss'
+
+# label_l =['shahenyin', 'baisezaodian', 'shuiyin', 'aokeng', 'cashang', '3Daohen', 'daowenxian']
+label_l = ['huanxingdaowen']
+img_jsons = '/Users/zhangyan/Desktop/a件_0830damian/0830img/train/jsons'
 big_jsons = '/Users/zhangyan/Desktop/yichu'
 print('获取最大size:',get_max_w_h(img_jsons,label_l,(512,512)))
 

@@ -36,13 +36,12 @@ def get_max_w_h(img_jsons,label,size=(512,512)):
 # label_l = ['guashang', 'heidian', 'baisezaodian', 'yise', 'aotuhen', 'aokeng', 'cashang', 'shuiyin', 'pengshang', 'penshabujun', 'daowen', 'yiwu', 'shahenyin', 'huanxingdaowen', 'mianhua', 'tabian']
 # label_l = ['guashang','yise','heidian']
 # label_l =['heidian', 'guashang', 'yise', 'baisezaodian']
-label_l = ['aotuhen']
+label_l = ['huanxingdaowen']
 # img_jsons = r'D:\work\data\microsoft\damian\damian_source\1027data\classfile\ds\bd\les\jsons'
 # imgss = r'D:\work\data\microsoft\damian\damian_source\1027data\classfile\ds\bd\les\imgs'
 # big_jsons = r'D:\work\data\microsoft\damian\damian_source\1027data\classfile\ds\bd\les'
 # more_jsons = r'D:\work\data\microsoft\damian\damian_source\1027data\classfile\ds\bd\big'
-img_jsons = r'/Users/zhangyan/Desktop/class'
-imgss = r'/Users/zhangyan/Desktop/class'
-big_jsons = r'D:\work\data\microsoft\damian\damian_source\1027data\classfile\ds\bd\les'
-more_jsons = r'/Users/zhangyan/Desktop/aotuhen'
+img_jsons = r'/Users/zhangyan/Desktop/a件_0830damian/0830img/train/imgs'
+imgss = r'/Users/zhangyan/Desktop/a件_0830damian/0830img/train/imgs'
+more_jsons = r'/Users/zhangyan/Desktop/huanxingdaowen'
 print('获取最大size:',get_max_w_h(img_jsons,label_l,(512,512)))
