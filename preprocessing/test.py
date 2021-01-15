@@ -3,22 +3,21 @@
 # @Time       : 2020/12/30 2:20 下午
 
 
-class Test:
-    def __init__(self, a, b, c):
-        self.a = a
-        self.b = b
-        self.c = c
-        self.plus(a, b)
-        self.minus(b, c)
-    def plus(self, f, g):
-        print(f+g)
-    def minus(self, d, e):
-        print(d-e)
+import os
 
-# Test(1,2,3)
+train_path = '/Users/zhangyan/Desktop/a件_0830damian/0830img/train/imgs'
+PR_path = '/Users/zhangyan/Desktop/a件_0830damian/0830img/train/imgs/PR'
 
-for i in range(10):
-    if i > 5:
-        print(i)
-        continue
-    print('111')
+train_files = os.listdir(train_path)
+PR_files = os.listdir(PR_path)
+
+tra = []
+PR = []
+
+for file in train_files:
+    tra.append(file)
+for file in PR_files:
+    PR.append(file)
+
+result = [d for d in tra if d not in PR]
+print(result)

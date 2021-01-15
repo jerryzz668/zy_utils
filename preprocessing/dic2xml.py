@@ -8,6 +8,9 @@ import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
 class Dic2Xml():
+    def __init__(self,dic, xml_save_path):
+        self.dic2xml(dic, xml_save_path)
+
     def create_Node(self, element, text=None):
         elem = ET.Element(element)
         elem.text = text
@@ -93,4 +96,4 @@ if __name__ == '__main__':
            '456.jpg': {'anno': [(11, 21, 31, 41, '擦伤'), (11, 22, 33, 41, '白点')], 'w': 512, 'h': 512}}
 
     xml_save_path = '/Users/zhangyan/Desktop/xml'
-    Dic2Xml().dic2xml(dic, xml_save_path)
+    Dic2Xml(dic, xml_save_path)

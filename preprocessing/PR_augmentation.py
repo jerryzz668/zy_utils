@@ -146,7 +146,7 @@ if __name__ == '__main__':
             # 一个Box代表一个检测目标的xywh、label、confidence
             boxes.append(Box(cx-w/2, cy-h/2, w, h, cls_name, confidence))
         return boxes
-    precision_recall_visualize(target_folder_path='/Users/zhangyan/Desktop/a件_0830damian/0830damian_yolo/images/train',
+    precision_recall_visualize(target_folder_path='/Users/zhangyan/Desktop/a件_0830damian/0830img/train/imgs',
                                # 自定义的query方法
                                img_boxes_query=img_boxes_query,
                                # 保存在图片文件夹下的特定目录名
