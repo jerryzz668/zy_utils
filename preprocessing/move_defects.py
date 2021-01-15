@@ -9,7 +9,7 @@ import time
 
 def get_json_label(json_path):
     """
-    @param json_file: just json files
+    @param json_file: just json files / json files and img files also can be put in one folder
     @return: img_name and json_label_list
     """
     instance = json_to_instance(json_path)
@@ -37,18 +37,24 @@ def move_json_file(json_path, label_list, json_save_path):
 
         len_label = 0
         for json_file in json_files:
+            if not json_file.endswith('.json'): continue
             json_file_path = os.path.join(json_path, json_file)
+            img_file_path = json_file_path[:json_file_path.rindex('.')] + '.jpg'
             img_name, json_label_list = get_json_label(json_file_path)
             if label_list[i] in json_label_list:
                 shutil.move(json_file_path, target_path)
+                try:
+                    shutil.move(img_file_path, target_path)
+                except:
+                    print('there is no %s' % img_file_path)
             len_label += 1
         print(label_list[i] + ' has been moved!')
     t1 = time.time()
     print('time:', t1-t0)
 
 if __name__ == '__main__':
-    # label_list = ['heidian', 'guashang', 'daowen', 'yise', 'baisezaodian', 'pengshang', 'aotuhen', 'aokeng', 'huanxingdaowen']
-    label_list = ['huanxingdaowen']
-    json_path = '/Users/zhangyan/Desktop/a件_0830damian/0830img/train/jsons'
-    json_save_path = '/Users/zhangyan/Desktop/def'
+    label_list = ['heidian', 'guashang', 'daowen', 'yise', 'baisezaodian', 'pengshang', 'aotuhen', 'aokeng', 'huanxingdaowen']
+    # label_list = ['huanxingdaowen']
+    json_path = '/Users/zhangyan/Desktop/imgs'
+    json_save_path = '/Users/zhangyan/Desktop/defects'
     move_json_file(json_path, label_list, json_save_path)
