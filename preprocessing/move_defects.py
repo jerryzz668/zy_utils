@@ -54,7 +54,6 @@ def move_json_file(json_path, label_list, json_save_path):
 
 if __name__ == '__main__':
     label_list = ['heidian', 'guashang', 'daowen', 'yise', 'baisezaodian', 'pengshang', 'aotuhen', 'aokeng', 'huanxingdaowen']
-    # label_list = ['huanxingdaowen']
     json_path = '/Users/zhangyan/Desktop/imgs'
     json_save_path = '/Users/zhangyan/Desktop/defects'
     move_json_file(json_path, label_list, json_save_path)
