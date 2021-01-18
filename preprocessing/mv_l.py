@@ -1,11 +1,11 @@
 import os
 import shutil
-p = '/Users/zhangyan/Desktop/val'
-o_p = '/Users/zhangyan/Desktop/a件_0830damian/0830img/imgs'
-o_p_1 ='/Users/zhangyan/Desktop/val_imgs'
+p = '/Users/zhangyan/Desktop/a件_0830damian/0830img/train/imgs'
+o_p = '/Users/zhangyan/Desktop/labels2'
+o_p_1 ='/Users/zhangyan/Desktop/label'
 for i in os.listdir(p):
-    name = i.split('.json')[0]
-    nn = '{}.jpg'.format(name)
+    name = i.split('.jpg')[0]
+    nn = '{}.txt'.format(name)
 
     try:
         shutil.move(os.path.join(o_p,nn),o_p_1)
