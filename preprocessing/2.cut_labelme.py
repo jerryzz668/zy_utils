@@ -179,17 +179,14 @@ def recursion_cut(shapes_img_l,counter_per_cut,crop_w,crop_h,cut_one_img,mid_poi
 
 if __name__ == '__main__':
     root_path = r'/Users/zhangyan/Desktop/a件_0830damian/0830img/train'
-    if '\\' in root_path:
-        root_path.replace('\\','/')
+
     out_path_root = root_path[:root_path.rindex(os.sep)+1]
     out_path = '{}/crop'.format(out_path_root)
     if not os.path.exists(out_path):
         os.makedirs(out_path)
     json_source='{}/jsons'.format(root_path)
     imgs_path = '{}/imgs'.format(root_path)
-    # cut_label = ['a','aotuhen', 'aotuhen1', 'aotuhen2', 'baidian', 'bianxing', 'daowen', 'diaoqi', 'guashang', 'guoqie',
-    #              'heidian', 'jiaxi', 'keli', 'maoxu', 'pengshang', 'tabian', 'xianhen', 'yashang', 'yinglihen', 'yise', 'yiwu']
-    cut_label = ['daowen', 'yise', 'guashang', 'heidian', 'baisezaodian', 'pengshang', 'aotuhen', 'aokeng']
+    cut_label = ['heidian', 'guashang', 'daowen', 'yise', 'guashang1', 'baisezaodian', 'aotuhen', 'aokeng', 'pengshang']
 
     jsons = glob.glob('{}/*.json'.format(json_source))
     para_list = []

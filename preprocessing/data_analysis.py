@@ -1,5 +1,4 @@
-import matplotlib.pyplot as plt
-from utils import *
+from preprocessing.utils import *
 
 
 def objs_labels(json_folder_path):
@@ -81,11 +80,11 @@ def objs_statistic(json_folder_path):
 
 if __name__ == '__main__':
     # 删除labelme json文件中的cuowu、loushi、hard前缀
-    objs_rm_prefixs(json_folder_path=r'/Users/zhangyan/Desktop/a件_0830damian/0830img/train/imgs/PR')
+    objs_rm_prefixs(json_folder_path=r'/Users/zhangyan/Desktop/a件_0830damian/0830img/train/imgs')
     # 删除labelme json文件中的guojian前缀
-    objs_rm_guojian(json_folder_path=r'/Users/zhangyan/Desktop/a件_0830damian/0830img/train/imgs/PR')
+    objs_rm_guojian(json_folder_path=r'/Users/zhangyan/Desktop/a件_0830damian/0830img/train/imgs')
     # 显示labelme json文件夹中所有labels
-    objs_labels(json_folder_path=r'/Users/zhangyan/Desktop/a件_0830damian/0830img/train/imgs/PR')
+    objs_labels(json_folder_path=r'/Users/zhangyan/Desktop/a件_0830damian/0830img/train/imgs')
 
 
 
