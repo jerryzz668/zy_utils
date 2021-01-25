@@ -123,7 +123,7 @@ if __name__ == '__main__':
     # yolo_strategy
     def img_boxes_query(img_file_path):
         # cls_id_name_dict = {0: 'baomo', 1: 'cashang', 2: 'huashang', 3: 'pengshang', 4: 'yashang', 5: 'yise'}
-        cls_id_name_dict = {0: 'aokeng', 1:'aotuhen', 2:'baisezaodian',3: 'daowen', 4:'guashang', 5:'heidian',6: 'pengshang', 7:'yise'}
+        cls_id_name_dict = {0: 'aokeng', 1:'aotuhen', 2:'baisezaodian',3: 'daowen', 4:'guashang', 5:'heidian', 6:'heidian',7: 'pengshang', 8:'yise'}
         txt_folder_path = '/Users/zhangyan/Desktop/label'
         txt_file = img_file_path[img_file_path.rindex(os.sep)+1:img_file_path.rindex('.')] + '.txt'
         txt_file_path = os.path.join(txt_folder_path, txt_file)

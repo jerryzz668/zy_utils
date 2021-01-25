@@ -5,3 +5,9 @@
 
 import os
 
+import functools
+
+class Person:
+    def __setitem__(self, key, value):
+        print(key, value)
+    
