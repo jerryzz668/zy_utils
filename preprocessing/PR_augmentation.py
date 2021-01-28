@@ -43,6 +43,11 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, saved_folder
         temp = []
         # 漏失统计
         for obj in instance['shapes']:
+            # try:
+            #     x, y, w, h = points_to_xywh(obj)
+            # except:
+            #     print('\033[1;45m %s \033[0m'%img_file_path)
+            #     shutil.copy(img_file_path, '/Users/zhangyan/Desktop/yichang')
             x, y, w, h = points_to_xywh(obj)
             gt_box = Box(x, y, w, h, obj['label'])
             # 漏检 错检
@@ -123,7 +128,7 @@ if __name__ == '__main__':
     # yolo_strategy
     def img_boxes_query(img_file_path):
         # cls_id_name_dict = {0: 'baomo', 1: 'cashang', 2: 'huashang', 3: 'pengshang', 4: 'yashang', 5: 'yise'}
-        cls_id_name_dict = {0: 'aokeng', 1:'aotuhen', 2:'baisezaodian',3: 'daowen', 4:'guashang', 5:'heidian', 6:'heidian',7: 'pengshang', 8:'yise'}
+        cls_id_name_dict = {0: 'aokeng', 1:'aotuhen', 2:'baisezaodian',3: 'daowen', 4:'guashang', 5:'guashang1', 6:'heidian',7: 'pengshang', 8:'yise'}
         txt_folder_path = '/Users/zhangyan/Desktop/label'
         txt_file = img_file_path[img_file_path.rindex(os.sep)+1:img_file_path.rindex('.')] + '.txt'
         txt_file_path = os.path.join(txt_folder_path, txt_file)

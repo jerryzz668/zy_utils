@@ -186,7 +186,7 @@ if __name__ == '__main__':
         os.makedirs(out_path)
     json_source='{}/jsons'.format(root_path)
     imgs_path = '{}/imgs'.format(root_path)
-    cut_label = ['heidian', 'guashang', 'daowen', 'yise', 'guashang1', 'baisezaodian', 'aotuhen', 'aokeng', 'pengshang']
+    cut_label = ['aokeng', 'aotuhen', 'baisezaodian', 'daowen', 'guashang', 'guashang1', 'heidian', 'pengshang', 'yise']
 
     jsons = glob.glob('{}/*.json'.format(json_source))
     para_list = []
