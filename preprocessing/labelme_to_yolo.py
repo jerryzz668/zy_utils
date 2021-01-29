@@ -41,7 +41,7 @@ def labelme_to_yolo(img_folder_path):
 
 if __name__ == '__main__':
     # 图片文件夹绝对路径
-    labelme_to_yolo(img_folder_path='/Users/zhangyan/Desktop/a件_0830damian/0830img/crop')
+    labelme_to_yolo(img_folder_path='/Users/zhangyan/Desktop/gs/images/val')
     # 按比例分训练、验证、测试集
     # split_train_val_test(img_folder_path='/Users/zhangyan/Desktop/crop',
     #                      target_folder_path='/Users/zhangyan/Desktop/yolo',
