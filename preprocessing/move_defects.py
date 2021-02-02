@@ -56,6 +56,6 @@ if __name__ == '__main__':
     # label_list = ['heidian', 'guashang', 'daowen', 'yise', 'baisezaodian', 'pengshang', 'aotuhen', 'aokeng', 'huanxingdaowen']
     # label_list = ['loushi_guashang1', 'hard_guashang1', 'cuowu_guashang_guashang1', 'cuowu_guashang1_guashang', 'cuowu_guashang1_heidian']
     label_list = ['guashang1']
-    json_path = '/Users/zhangyan/Desktop/a件_0830damian/0830img/train/crop'
+    json_path = '/Users/zhangyan/Desktop/crop'
     json_save_path = '/Users/zhangyan/Desktop/defects'
     move_json_file(json_path, label_list, json_save_path)
