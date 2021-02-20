@@ -15,3 +15,7 @@ def demo(*p):
     print(p)
 
 demo(1,1,1,1,1)
+
+
+a = ['heidian', 'guashang','yise', 'guashang1', 'baisezaodian','daowen', 'aotuhen', 'aokeng','pengshang']
+print(a.sort())
