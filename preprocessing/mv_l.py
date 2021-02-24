@@ -1,13 +1,13 @@
 import os
 import shutil
-p = '/Users/zhangyan/Desktop/defects/guashang1'
-o_p = '/Users/zhangyan/Desktop/a件_0830damian/0830damian_yolo/labels/train'
-o_p_1 ='/Users/zhangyan/Desktop/defects/guashang1'
+p = '/Users/zhangyan/Desktop/tmp/xml'
+o_p = '/Users/zhangyan/Desktop/tmp/origin'
+o_p_1 ='/Users/zhangyan/Desktop/tmp/img'
 for i in os.listdir(p):
-    name = i.split('.json')[0]
-    nn = '{}.txt'.format(name)
+    name = i.split('.xml')[0]
+    nn = '{}.jpg'.format(name)
 
     try:
-        shutil.copy(os.path.join(o_p,nn),o_p_1)
+        shutil.move(os.path.join(o_p,nn),o_p_1)
     except:
         print(nn)

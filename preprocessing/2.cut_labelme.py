@@ -192,7 +192,7 @@ if __name__ == '__main__':
     para_list = []
     counter_per_cut = 0
     for json_path in jsons:
-        para_list.append((json_path,imgs_path,640,640,out_path,cut_label,counter_per_cut))
+        para_list.append((json_path,imgs_path,2560,2560,out_path,cut_label,counter_per_cut))
     pool = multiprocessing.Pool(processes=32)
     start_time = time.time()
     pool.map(cut_json,para_list)

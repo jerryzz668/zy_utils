@@ -108,7 +108,7 @@ import time
 
 if __name__ == "__main__":
     s = time.time()
-    xml_outputs_path = '/Users/zhangyan/Desktop/0830xml'
+    xml_outputs_path = '/Users/zhangyan/Desktop/tmp/xml'
     json_save_path = '/Users/zhangyan/Desktop/jsons'
     process_num = 8
     main(xml_outputs_path,json_save_path,process_num)
