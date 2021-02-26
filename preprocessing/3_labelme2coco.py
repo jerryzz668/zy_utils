@@ -144,6 +144,6 @@ class labelme2coco(object):
         # 保存json文件
         json.dump(self.data_coco, open(self.save_json_path, 'w',encoding='utf-8'), indent=4)  # indent=4 更加美观显示
 
-labelme_json=glob.glob('/Users/zhangyan/Desktop/train/*.json')
+labelme_json=glob.glob('/Users/zhangyan/Desktop/val/crop/*.json')
 labelme2coco(labelme_json,'/Users/zhangyan/Desktop/instances_train2017.json')
 #labelme2coco(labelme_json,r'D:\work\project\928\mmdetection-master\data\cco\new.json')
