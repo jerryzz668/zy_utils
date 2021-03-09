@@ -1,6 +1,6 @@
 import json
 json_two = r'/Users/zhangyan/Desktop/annotations/instances_train2017.json'  # 模版
-json_one = r'/Users/zhangyan/Desktop/annotations/instances_val2017.json'  # 需修改
+json_one = r'/Users/zhangyan/Desktop/instances_train2017.json'  # 需修改
 def save_json(dic,save_path):
     json.dump(dic, open(save_path, 'w',encoding='utf-8'), indent=4)  # indent=4 更加美观显示
 def parse_para(input_json):

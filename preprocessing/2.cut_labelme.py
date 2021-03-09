@@ -178,7 +178,7 @@ def recursion_cut(shapes_img_l,counter_per_cut,crop_w,crop_h,cut_one_img,mid_poi
     recursion_cut(next_allow,counter_per_cut,crop_w,crop_h,cut_one_img,mid_point)
 
 if __name__ == '__main__':
-    root_path = r'/Users/zhangyan/Desktop/val'
+    root_path = r'/Users/zhangyan/Desktop/dataset1_2000/train'
 
     out_path_root = root_path[:root_path.rindex(os.sep)+1]
     out_path = '{}/crop'.format(out_path_root)
@@ -186,13 +186,14 @@ if __name__ == '__main__':
         os.makedirs(out_path)
     json_source='{}/jsons'.format(root_path)
     imgs_path = '{}/imgs'.format(root_path)
-    cut_label = ['aokeng', 'baisezaodian', 'cashang', 'daowen', 'daowenxian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'tabian', 'yise', 'yiwu']
+    cut_label = ['guashang','pengshang','yise','heidian','penshabujun','baidian','aohen','shahenyin','daowen','maoxu','tabian','tubao','aokeng']
+    # cut_label = ['maoxu', 'tubao', 'guashang', 'aohen', 'heidian']
 
     jsons = glob.glob('{}/*.json'.format(json_source))
     para_list = []
     counter_per_cut = 0
     for json_path in jsons:
-        para_list.append((json_path,imgs_path,2000,2000,out_path,cut_label,counter_per_cut))
+        para_list.append((json_path,imgs_path,640,640,out_path,cut_label,counter_per_cut))
     pool = multiprocessing.Pool(processes=32)
     start_time = time.time()
     pool.map(cut_json,para_list)
