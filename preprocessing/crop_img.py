@@ -39,6 +39,14 @@ def crop_images(img_path, rownum, colnum, dstpath):
     t1 = time.time()
     print('time:', t1-t0)
 
+def jigsaw(img, rownum, colnum, save_path):
+    img_jig_list = os.listdir(save_path)
+    img_jig_len = len(img_jig_list)
+    img_num = rownum*colnum
+    for i in range(img_jig_len):
+        img_jig_list[i] = img_jig_list[i].split('_')[0] + '.' + img_jig_list[i].split('.')[-1]
+    for img_jig in img_jig_list:
+        img1 = cv2.imread()
 
 
 if __name__ == '__main__':
