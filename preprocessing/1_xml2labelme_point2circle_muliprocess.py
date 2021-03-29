@@ -108,8 +108,8 @@ import time
 
 if __name__ == "__main__":
     s = time.time()
-    xml_outputs_path = '/Users/zhangyan/Desktop/tmp/xml'
-    json_save_path = '/Users/zhangyan/Desktop/jsons'
+    xml_outputs_path = r'C:\Users\Administrator\Desktop\compare\compare\rending\cemian\outputs'
+    json_save_path = r'C:\Users\Administrator\Desktop\compare\compare\cm_json'
     process_num = 8
     main(xml_outputs_path,json_save_path,process_num)
     print('run time:', time.time()-s)

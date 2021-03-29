@@ -5,6 +5,7 @@
 import os
 import time
 import cv2
+import numpy as np
 
 def crop_image(src, rownum, colnum, dstpath):
     img = cv2.imread(src)
@@ -39,17 +40,45 @@ def crop_images(img_path, rownum, colnum, dstpath):
     t1 = time.time()
     print('time:', t1-t0)
 
-def jigsaw(img, rownum, colnum, save_path):
+def jigsaw(jig_img_path, rownum, colnum, save_path):
     img_jig_list = os.listdir(save_path)
     img_jig_len = len(img_jig_list)
-    img_num = rownum*colnum
+    # img_num = rownum*colnum
     for i in range(img_jig_len):
         img_jig_list[i] = img_jig_list[i].split('_')[0] + '.' + img_jig_list[i].split('.')[-1]
+    img_jig_list = list(set(img_jig_list))
+    # print(img_jig_list)
     for img_jig in img_jig_list:
-        img1 = cv2.imread()
+        img_row = []
+        img_col = []
+        num = rownum * colnum
+        img_first = img_jig.split('.')[0] + '_0.' + img_jig.split('.')[-1]
+        # print(img_name)
+        img1 = cv2.imread(os.path.join(save_path, img_first))
+        h, w, c = img1.shape
+
+        img_vertical_white = np.zeros((h,5,3))
+        img_horizontal_white = np.zeros((5, rownum*w+5, 3))
+        img_vertical_white = np.uint8(np.asarray(img_vertical_white))
+        img_horizontal_white = np.uint8(np.asarray(img_horizontal_white))
+
+        img1 = np.hstack((img1, img_vertical_white))
+        # cv2.imshow('img',img)
+        # cv2.waitKey()
+
+        for i in range(rownum):
+            for j in range(colnum):
+                img_name = img_jig.split('.')[0] + '_{}.'.format(i+j) + img_jig.split('.')[-1]
+                # print(img_name)
+                img = cv2.imread(os.path.join(save_path, img_name))
+                img_row.append(img)
+            img_col.append(img_row)
+        # print(np.array(img_col).shape)
+
 
 
 if __name__ == '__main__':
-    img_path = '/Users/zhangyan/Desktop/1'  # img文件夹路径
-    save_path = '/Users/zhangyan/Desktop/crop_result'  # 保存路径
-    crop_images(img_path, 2, 2, save_path)
+    img_path = r'C:\Users\Administrator\Desktop\1'  # img文件夹路径
+    save_path = r'C:\Users\Administrator\Desktop\crop_result'  # 保存路径
+    # crop_images(img_path, 2, 2, save_path)
+    jigsaw(jig_img_path=None, rownum=2, colnum=2, save_path=save_path)

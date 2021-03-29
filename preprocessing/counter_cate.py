@@ -8,7 +8,7 @@ def parse_para(input_json):
     return ret_dic
 
 def main():
-    jsons = glob.glob('/Users/zhangyan/Desktop/kehurending_outputs_v2/gj/*.json')
+    jsons = glob.glob(r'C:\Users\Administrator\Desktop\compare\compare\model_result\cemian_result\2021-03-24 170354/*.json')
     dic = {}
     for i in jsons:
         ret_dic = parse_para(i)
