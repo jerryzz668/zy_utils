@@ -11,30 +11,18 @@ import shutil
 import glob
 import numpy as np
 
-# save_path = '/Users/zhangyan/Desktop/new_ja'
-# path = '/Users/zhangyan/Desktop/jalama'
-# filelist = os.listdir(path)
-# for file in filelist:
-#     if file.endswith('jpg'):
-#         img = cv2.imread(os.path.join(path, file))
-#         # h, w, c =  img.shape
-#         # if h > w:
-#         #     img = cv2.transpose(img)
-#         #     img = cv2.flip(img, 1)
-#         #     cv2.imwrite(os.path.join(save_path, file), img, 95.)
-#         # else:
-#         #     shutil.copy(os.path.join(path, file), save_path)
-#         # print(h ,w, c)
-#         a = random.randint()
+def search(array, num):
+    low, high = 0, len(array)-1
+    while low < high:
+        mid = (low+high)//2
+        if num > array[mid]:
+            low = mid + 1
+        elif num < array[mid]:
+            high = mid - 1
+        else:
+            return mid
+    return -1
 
-
-a = [
-    [0,0,0,0,0],
-    [255,255,255,255,255],
-    [0,0,0,0,0]
-]
-c = np.uint8(np.asarray(a))
-
-cv2.namedWindow('img', 0)
-cv2.imshow('img',c)
-cv2.waitKey()
+array = [i for i in range(1,1000,5)]
+print(array)
+print(search(array, 46))
