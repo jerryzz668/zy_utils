@@ -11,18 +11,22 @@ import shutil
 import glob
 import numpy as np
 
-def search(array, num):
-    low, high = 0, len(array)-1
-    while low < high:
-        mid = (low+high)//2
-        if num > array[mid]:
-            low = mid + 1
-        elif num < array[mid]:
-            high = mid - 1
-        else:
-            return mid
-    return -1
+# def search(array, num):
+#     low, high = 0, len(array)-1
+#     while low < high:
+#         mid = (low+high)//2
+#         if num > array[mid]:
+#             low = mid + 1
+#         elif num < array[mid]:
+#             high = mid - 1
+#         else:
+#             return mid
+#     return -1
+#
+# array = [i for i in range(1,1000,5)]
+# print(array)
+# print(search(array, 46))
 
-array = [i for i in range(1,1000,5)]
-print(array)
-print(search(array, 46))
+path = r'C:\Users\Administrator\Desktop\aa\0094-0019-14.jpg'
+a = os.path.basename(path)
+print(a)
