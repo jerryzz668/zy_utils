@@ -8,8 +8,10 @@ import pandas as pd
 import numpy as np
 import os
 import cv2
+from my_utils import mkdir
 
 def draw_rec_text(csv_path, imgs_path, img_save_path):
+    mkdir(img_save_path)
     data = pd.read_csv(csv_path)
     data = data.iloc[:,[1,3,4,5,6,7,8,9]]
     data = np.array(data)
@@ -48,5 +50,5 @@ def draw_rec_text(csv_path, imgs_path, img_save_path):
 if __name__ == '__main__':
     csv_path = r'C:\Users\Administrator\Desktop\ProductGradeMaterialChecks.csv'  # path to csv
     imgs_path = r'C:\Users\Administrator\Desktop\aa'  # path to imgs
-    img_save_path = r'C:\Users\Administrator\Desktop\aaa'  # path to saved folder
+    img_save_path = r'C:\Users\Administrator\Desktop\aaa'  # automatically create a saved folder
     draw_rec_text(csv_path, imgs_path, img_save_path)
