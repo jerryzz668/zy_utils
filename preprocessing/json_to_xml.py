@@ -31,7 +31,7 @@ def link_Node(root, element, text=None):
 def saveXML(root, filename, indent="\t", newl="\n", encoding="utf-8"):
     rawText = ET.tostring(root)
     dom = minidom.parseString(rawText)
-    with open(filename, 'w') as f:
+    with open(filename, 'w', encoding='utf-8') as f:
         dom.writexml(f, "", indent, newl, encoding)
 
 def json_to_instance(json_file_path):
@@ -132,7 +132,6 @@ def generate_xml(json_path, category, xml_save_path):
 def json2xml(json_path_file, xml_save_path, num_worker):
     t = time.time()
     jsonlist = os.listdir(json_path_file)
-
     # thread_pool = ThreadPoolExecutor(max_workers=num_worker)  # 多线程
     # print('Thread Pool is created!')
     # for json in jsonlist:
@@ -141,16 +140,20 @@ def json2xml(json_path_file, xml_save_path, num_worker):
     # thread_pool.shutdown(wait=True)
     for json in jsonlist:  # 单线程
         json_path = os.path.join(json_path_file, json)
+        # 过滤文件夹和图片文件
+        if not os.path.isfile(json_path) or json[json.rindex('.') + 1:] not in ['json']: continue
         generate_xml(json_path, category, xml_save_path)
     print(time.time()-t)
 
 if __name__ == '__main__':
-    category = {'a': '良品', 'aotuhen': '凹凸痕', 'aotuhen1': '凹凸痕1', 'aotuhen2': '凹凸痕2', 'baidian': '白点', 'bianxing': '变形',
-                'daowen': '刀纹', 'diaoqi': '掉漆', 'guashang': '刮伤', 'guoqie': '过切', 'heidian': '黑点', 'jiaxi': '加铣',
-                'keli': '颗粒', 'maoxu': '毛絮', 'pengshang': '碰伤', 'tabian': '塌边', 'xianhen': '线痕', 'yashang': '压伤',
-                'yinglihen': '应力痕', 'yise': '异色', 'yiwu': '异物'}
-    json_path_file = '/Users/zhangyan/Desktop/jsons'
-    xml_save_path = '/Users/zhangyan/Desktop/xml'
+    # category = {'a': '良品', 'aotuhen': '凹凸痕', 'aotuhen1': '凹凸痕1', 'aotuhen2': '凹凸痕2', 'baidian': '白点', 'bianxing': '变形',
+    #             'daowen': '刀纹', 'diaoqi': '掉漆', 'guashang': '刮伤', 'guoqie': '过切', 'heidian': '黑点', 'jiaxi': '加铣',
+    #             'keli': '颗粒', 'maoxu': '毛絮', 'pengshang': '碰伤', 'tabian': '塌边', 'xianhen': '线痕', 'yashang': '压伤',
+    #             'yinglihen': '应力痕', 'yise': '异色', 'yiwu': '异物'}  # json中的label->xml中的汉字标注
+    category = {'liewen': '裂纹', 'bianxing': '变形', 'zhanya': '粘料', 'queliao': '缺料', 'pengshang': '碰伤', 'zangwu': '脏污',
+                'huashang': '划伤'}
+    json_path_file = r'C:\Users\Administrator\Desktop\test_575'  # json file path
+    xml_save_path = r'C:\Users\Administrator\Desktop\xml'  # Automatically create a save_path folder
     json2xml(json_path_file, xml_save_path, 8)
 
 
