@@ -28,5 +28,3 @@ import numpy as np
 # print(search(array, 46))
 
 path = r'C:\Users\Administrator\Desktop\aa\0094-0019-14.jpg'
-a = os.path.basename(path)
-print(a)
