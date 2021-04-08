@@ -1,22 +1,14 @@
 # -*- coding:utf-8 -*-
 # !/usr/bin/env python
 
-import argparse
 import json
-import matplotlib.pyplot as plt
-import skimage.io as io
-import cv2
-from labelme import utils
-from pycocotools.mask import decode
 from pycocotools.mask import encode
-from labelme.utils import shape as shape_labelme
-
 import pycocotools.mask as maskUtils
 import numpy as np
 import glob
 import PIL.Image
 from labelme.utils import shape as shape_labelme
-from labelme import utils
+
 class labelme2coco(object):
     def __init__(self,labelme_json=[],save_json_path='./new.json'):
         '''
@@ -146,4 +138,3 @@ class labelme2coco(object):
 
 labelme_json=glob.glob('/Users/zhangyan/Desktop/val2017/*.json')
 labelme2coco(labelme_json,'/Users/zhangyan/Desktop/instances_train2017.json')
-#labelme2coco(labelme_json,r'D:\work\project\928\mmdetection-master\data\cco\new.json')

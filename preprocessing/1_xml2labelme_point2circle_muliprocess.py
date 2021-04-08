@@ -1,6 +1,7 @@
 import json
 from xml.etree import ElementTree as ET
 import os
+import time
 import pypinyin
 import multiprocessing
 '''
@@ -104,12 +105,11 @@ def main(local_path,save_path,process_num=4):
     pool.close()
     pool.join()
 
-import time
 
 if __name__ == "__main__":
     s = time.time()
-    xml_outputs_path = r'C:\Users\Administrator\Desktop\compare\compare\rending\cemian\outputs'
-    json_save_path = r'C:\Users\Administrator\Desktop\compare\compare\cm_json'
+    xml_outputs_path = r'C:\Users\Administrator\Desktop\241294293294723072\xml'
+    json_save_path = r'C:\Users\Administrator\Desktop\241294293294723072\jsons'
     process_num = 8
     main(xml_outputs_path,json_save_path,process_num)
     print('run time:', time.time()-s)
