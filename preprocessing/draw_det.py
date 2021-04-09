@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 import os
 import cv2
-from my_utils import mkdir
+from zy_utils import mkdir
 
 def draw_rec_text(csv_path, imgs_path, img_save_path):
     mkdir(img_save_path)

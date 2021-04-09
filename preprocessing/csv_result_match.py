@@ -8,7 +8,6 @@ import pandas as pd
 import numpy as np
 import os
 import cv2
-from my_utils import mkdir
 
 
 def csv_to_val(csv_path):
