@@ -27,6 +27,6 @@ import numpy as np
 # print(array)
 # print(search(array, 46))
 
-path = r'C:\Users\Administrator\Desktop\aa\0094-0019-14.jpg'
-a = 1 if 2>1 else 2
-print(a)
+a = "guashangheiduan"
+b = a.split('-')[0]
+print(b)
