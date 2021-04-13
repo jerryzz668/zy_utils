@@ -21,8 +21,11 @@ def val_match(val1, val2):
 
 
 if __name__ == '__main__':
-    csv_path = r'C:\Users\Administrator\Desktop\test.csv'
-    val1 = csv_to_val(csv_path=csv_path)
-    print(val1)
+    csv_path_gt = r'C:\Users\Administrator\Desktop\test.csv'
+    val_gt = csv_to_val(csv_path=csv_path_gt)
+    print(val_gt)
+    csv_path_test = r'C:\Users\Administrator\Desktop\test1.csv'
+    val_test = csv_to_val(csv_path=csv_path_test)
+    print(val_test)
     # val2 = csv_to_val(csv_path=None)
     # val = val_match(val1, val2)
