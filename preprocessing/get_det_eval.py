@@ -1,3 +1,4 @@
+from tools.projects.microsoft_gj.microsoft_gj_global_var import VAL_JSON
 import json
 import numpy as np
 from sklearn.metrics import confusion_matrix
@@ -5,17 +6,11 @@ import matplotlib.pyplot as plt
 import itertools
 import os
 
-'''
-    y_true: 真实样本
-    y_pred: 预测结果
-'''
-
-
 def calculate_inter_area(box1, box2):
     '''
     :param box1: Box对象
     :param box2: Box对象
-    :return: box1与box2的交面积
+    :return: box1与box2的相交面积
     '''
     left_x, left_y = max([box1.x, box2.x]), max([box1.y, box2.y])
     right_x, right_y = min([box1.x + box1.w, box2.x + box2.w]), \
@@ -25,9 +20,8 @@ def calculate_inter_area(box1, box2):
     area = height * width if height > 0 and width > 0 else 0
     return area
 
-
 class Box:
-    # xy是左上角坐标
+    # x,y是左上角坐标
     def __init__(self, x, y, w, h, category=None, confidence=None):
         self.category = category
         self.confidence = confidence
@@ -43,119 +37,80 @@ class Box:
         inter_area = calculate_inter_area(self, box2)
         return inter_area / (self.get_area() + box2.get_area() - inter_area)
 
+def get_det_eval(y_true, y_pred, iou_thres=0.1, confidence_thres=0.25, is_Test=False, out_path=None):
 
-def get_det_eval(y_true, y_pred, hard_thres=0.0, iou_thres=0.1, over_det_thres=0.1,
-                 recall=True, precision=True, is_Test=False, out_path=None):
-    # 实际标注框数目
-    total_gts = 0
-    # 总检测结果数目
-    total_dts = 0
-    # 过检目标
-    over_det = 0
-    # 漏检目标
-    miss_det = 0
-    # 误检目标
-    false_det = 0
+    '''
+    Args:
+        y_true:  ground truth值，格式和y_pred完全一致，只是其score不会被用到，可以随便填一个值。
+        y_pred:  检测模型产生的结果, 是一个3层的list。第1层是图片级别信息的集合；第2层是bbox级别信息的集合；
+        第3层是单个bbox的结果，其格式为[x, y, w, h, score, class_id]。
+        示例：[[], [[x, y, w, h, score, class_id], [x, y, w, h, score, class_id]], [], 
+                [[x, y, w, h, score, class_id]]]。
+        iou_thres:
+        confidence_thres:
+    returns:
+        res: dict of metric results, includes total_gts, total_dts, miss_det, over_det, 
+             miss_det_rate, over_det_rate
+    '''
+    total_gts, total_dts, over_det, miss_det = 0, 0, 0, 0
     # 标记检测结果对应标签
     gt_class = []
     pre_class = []
     # 标记每个缺陷的 id:name
     label_id_name = {}
 
-    # 还要先统计 类别id-类别名称的对应
+    res = dict()
+    new_y_pred = [[] for _ in y_pred]
+    # 先统计 类别id-类别名称的对应
     if is_Test:
-        with open(VAL_JSON, 'rb') as f:
+        with open(VAL_JSON, 'r', encoding='utf-8') as f:
             json_data = json.load(f)
             label_id_name = {i['id']: i['name'] for i in json_data["categories"]}
             print(label_id_name)
-
-    # 统计大于过检阈值的检测框
-    # print("y_pred: ", end="")
-    # print(y_pred)
-    for predict_img in y_pred:
+    for i, predict_img in enumerate(y_pred):
         for predict_box in predict_img:
-            if predict_box[4] >= over_det_thres:
+            if predict_box[4] >= confidence_thres:
+                new_y_pred[i].append(predict_box)
                 total_dts += 1
-
-    #     遍历每一张图片样本
     for img_file in range(len(y_true)):
-        # predict_boxes = y_pred[img_file]
-        #         累加总检测目标
         total_gts += len(y_true[img_file])
         necessary = False
         temp = []
-        #         开启漏失统计
         for obj in y_true[img_file]:
             x, y, w, h = obj[0], obj[1], obj[2], obj[3]
             gt_box = Box(x, y, w, h, obj[5])
-            #             漏检，错检，难样本
-            false_negative, false_label, false_conf, hard, hard_conf = True, True, 0, True, 0
-            for i, predict_img in enumerate(y_pred[img_file]):
+            false_negative = True
+            for i, predict_img in enumerate(new_y_pred[img_file]):
                 predict_box = Box(predict_img[0], predict_img[1],
                                   predict_img[2], predict_img[3],
                                   predict_img[5], predict_img[4])
                 if gt_box.get_iou(predict_box) > iou_thres:
                     if is_Test:
-                        gt_class.append(label_id_name[obj[5]])
-                        pre_class.append(label_id_name[predict_img[5]])
+						gt_class.append(label_id_name[obj[5]])
+						pre_class.append(label_id_name[predict_img[5]])
                     false_negative = False
                     temp.append(i)
-                    if gt_box.category == predict_box.category:
-                        false_label = False
-                        if predict_box.confidence > hard_thres:
-                            hard = False
-                        else:
-                            hard_conf = max(hard_conf, predict_box.confidence)
-                    else:
-                        if predict_box.confidence > false_conf:
-                            w_category = predict_box.category
-                            false_conf = predict_box.confidence
-            if not recall: continue
             if false_negative:
-                # miss_det_dic[obj[5]]+=1
                 miss_det += 1
                 if is_Test:
                     gt_class.append(label_id_name[obj[5]])
                     pre_class.append("z_lou_or_guo")
-            elif false_label:
-                false_det += 1
-            if false_negative or false_label or hard:
-                necessary = True
-        #         开启过检统计
-        if precision:
-            for i, predict_img in enumerate(y_pred[img_file]):
-                predict_box = Box(predict_img[0], predict_img[1],
-                                  predict_img[2], predict_img[3],
-                                  predict_img[5], predict_img[4])
-                if i not in temp and predict_box.confidence > over_det_thres:
-                    #                   过检目标累计
-                    over_det += 1
-                    if is_Test:
+        for i, predict_img in enumerate(new_y_pred[img_file]):
+            if i not in temp:
+                over_det += 1
+                if is_Test:
                         pre_class.append(label_id_name[predict_img[5]])
                         gt_class.append("z_lou_or_guo")
-                    # over_det_dic[predict_box.category]+=1
-                    necessary = True
-        # if necessary:
-        #     instance_to_json()
-    #     print(f'img_id {img_file} has been analyed.')
-    # print(f'total_gt: {total_gts},total_dt: {total_dts}, miss_det: {miss_det}, '
-    #       f'false_det: {false_det}, over_det: {over_det}')
-    # print(f'miss_det_rate: {miss_det / total_gts}, '
-    #       f'over_det_detect: {over_det / total_dts}')
-
-    res = dict()
     res['total_gts'] = total_gts
     res['total_dts'] = total_dts
     res['miss_det'] = miss_det
-    res['false_det'] = false_det
     res['over_det'] = over_det
-    res['miss_det_rate'] = miss_det / total_gts if total_gts else 1
-    res['over_det_rate'] = over_det / total_dts if total_dts else 1
+    res['miss_det_rate'] = miss_det / (total_gts if total_gts else 1)
+    res['over_det_rate'] = over_det / (total_dts if total_dts else 1)
     if is_Test:
         cm, cm_pro = compute_confmx(gt_class, pre_class, out_path)
         return res, cm, cm_pro
     return res
-
 
 def compute_confmx(gt_class, pre_class, out_path=None):
     classes = sorted(list(set(gt_class)), reverse=False)  # 类别排序
@@ -213,3 +168,4 @@ def plot_confusion_matrix(cm, classes, title, title_png, out_path, normalize=Fal
 
 if __name__ == '__main__':
     pass
+
