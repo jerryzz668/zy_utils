@@ -20,3 +20,9 @@ def json_to_instance(json_file_path):
     with open(json_file_path, 'r', encoding='utf-8') as f:
         instance = json.load(f)
     return instance
+
+def filtrate_file(path):
+    list = os.listdir(path)
+    for obj in list:
+        file_path = os.path.join(path, obj)
+        if not os.path.isfile(file_path) or obj[obj.rindex('.') + 1:] not in ['json', 'jpg', 'png']: continue
