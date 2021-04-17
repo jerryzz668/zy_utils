@@ -1,6 +1,3 @@
-# -*- coding:utf-8 -*-
-# !/usr/bin/env python
-
 import json
 from pycocotools.mask import encode
 import pycocotools.mask as maskUtils
@@ -136,5 +133,5 @@ class labelme2coco(object):
         # 保存json文件
         json.dump(self.data_coco, open(self.save_json_path, 'w',encoding='utf-8'), indent=4)  # indent=4 更加美观显示
 
-labelme_json=glob.glob('/Users/zhangyan/Desktop/val2017/*.json')
+labelme_json=glob.glob('/Users/zhangyan/Desktop/xml_to-csv/jsons/*.json')
 labelme2coco(labelme_json,'/Users/zhangyan/Desktop/instances_train2017.json')

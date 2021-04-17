@@ -656,14 +656,14 @@ class Modify_COCO_Cate(object):
         save_coco_dic['annotations']=save_coco_annotations
         self.save_json(save_coco_dic,save_coco_json)
 if __name__ == "__main__":
-    annotation_root_path = '/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/NEWSTART/adcm/cemian'
-    out_coco_root_path = '/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/NEWSTART/adcm/cemian'
+    annotation_root_path = '/Users/zhangyan/Desktop/xml_to-csv'
+    out_coco_root_path = '/Users/zhangyan/Desktop/xml_to-csv'
     # Select_data(annotation_root_path,out_coco_root_path)#过滤xml与img不符合情况
 
-    img_jsons=os.path.join(annotation_root_path,'jsons')
-    process_nums = 8
-    result_write = os.path.join(out_coco_root_path,'2new_a_class_label.txt')
-    xml2json =Xml2Labelme(annotation_root_path,img_jsons,result_write,process_nums)
+    # img_jsons=os.path.join(annotation_root_path,'jsons')
+    # process_nums = 8
+    # result_write = os.path.join(out_coco_root_path,'2new_a_class_label.txt')
+    # xml2json =Xml2Labelme(annotation_root_path,img_jsons,result_write,process_nums)
     # # #
     # cut_label = xml2json.cut_label
     # cut_w,cut_h=2000,2000
@@ -685,9 +685,9 @@ if __name__ == "__main__":
     #
     #
     #2coco
-    # labelme_json=glob.glob('/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/Anew/all/select_gs_dw/gsdw/gsdw/guaijiao/*.json')
-    # coco_path = os.path.join('/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/Anew/all/select_gs_dw/gsdw/gsdw','instances_test_gj2017.json')
-    # labelme2coco(labelme_json,coco_path)
+    labelme_json=glob.glob('/Users/zhangyan/Desktop/xml_to-csv/jsons/*.json')
+    coco_path = os.path.join('/Users/zhangyan/Desktop/xml_to-csv','instances_test2017.json')
+    labelme2coco(labelme_json,coco_path)
     #
     # cz_json= '/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/second_A/2cuts/splite/annotations/instances_train2017.json'
     # save_json_path =os.path.join('/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/second_A/2cuts/splite/annotations','instances_val2017.json')

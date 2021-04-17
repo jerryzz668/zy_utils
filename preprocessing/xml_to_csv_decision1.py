@@ -233,7 +233,7 @@ def _extract_contrast(mask, image, up_scale=100):
 
     return contrast * up_scale
 
-coco_path = "/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/Anew/all/select_gs_dw/gsdw/gsdw/409.json"
+coco_path = '/Users/zhangyan/Desktop/instances_train2017.json'
 coco = json_to_instance(coco_path)
 imgs = coco.get('images')
 cate = coco.get('categories')
@@ -267,8 +267,8 @@ for i in cate:
 # print('brightness:',brightness)
 # gradients = _extract_gradients(mask, image)
 # print('gradients:',gradients)
-imgs_root = '/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/Anew/all/select_gs_dw/gsdw/gsdw/all'
-output_csv_path='/home/lijq/data/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/Anew/all/select_gs_dw/gsdw/gsdw/409.csv'
+imgs_root = '/Users/zhangyan/Desktop/xml_to-csv/imgs'
+output_csv_path='/Users/zhangyan/Desktop/0417.csv'
 
 #XUNHUAN
 import os
@@ -278,49 +278,49 @@ if not os.path.exists(output_csv_path):
 for i in range(len(anno)):
     anno_single = anno[i]
     img_id = anno_single['id']
-    try:
-        img_name = dic_id_img[img_id]
-        class_id = anno_single['category_id']
-        class_name = dic_id_cate[class_id]
-        class_name1 = class_name.split('-')[0]
-        xmin, ymin, bb_width, bb_height = anno_single['bbox']
+# try:
+    img_name = dic_id_img[img_id]
+    class_id = anno_single['category_id']
+    class_name = dic_id_cate[class_id]
+    class_name1 = class_name.split('-')[0]
+    xmin, ymin, bb_width, bb_height = anno_single['bbox']
 
-        xmin, ymin, bb_width, bb_height = int(xmin), int(ymin), int(bb_width), int(bb_height)
-        print(xmin, ymin, bb_width, bb_height)
-        try:
-            score=anno_single['score']
-        except:
-            score=1
-        segm = anno_single['segmentation']
-        mask = decode(segm)
-        print(mask.shape)
-        # length = _extract_length(mask)
-        # width = _extract_width(mask)
-        length,width = _extract_length_width_bydt(mask)
-        pixel_area = anno_single['area']
-        img_p = os.path.join(imgs_root,img_name)
-        image = cv2.imread(img_p)
-        print(xmin, ymin, bb_width, bb_height)
-        print(image.shape)
-        mask_cut = mask[ymin:ymin+bb_height,xmin:xmin+bb_width]
-        print(mask_cut.shape)
-        image_cut = image[ymin:ymin + bb_height,xmin:xmin + bb_width, :]
-        print(image_cut.shape)
-        gradients = _extract_gradients(mask_cut, image_cut)
-        contrast = _extract_contrast(mask_cut, image_cut, up_scale=100)
-        brightness, top_brightness,low_brightness= _extract_brightness(mask_cut, image_cut)
-        '''
-        gradients = _extract_gradients(mask, image)
-        contrast = _extract_contrast(mask, image, up_scale=100)
-        brightness = _extract_brightness(mask, image)
-        '''
-        plevel =anno_single['plevel']
-        describe = anno_single['describe']
-        with open(output_csv_path,'a') as f:
-            f.write('{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}\n'.format(
-                img_name, class_name,class_name1, xmin, ymin, bb_width, bb_height, score, length, width, pixel_area, gradients[0],
-                contrast, brightness, plevel, describe
-            ))
-        print(img_name, class_name,class_name1, xmin, ymin, bb_width, bb_height, score, length, width, pixel_area, gradients[0], contrast, brightness, plevel, describe)
+    xmin, ymin, bb_width, bb_height = int(xmin), int(ymin), int(bb_width), int(bb_height)
+    print(xmin, ymin, bb_width, bb_height)
+    try:
+        score=anno_single['score']
     except:
-        print('skip---')
+        score=1
+    segm = anno_single['segmentation']
+    mask = decode(segm)
+    print(mask.shape)
+    # length = _extract_length(mask)
+    # width = _extract_width(mask)
+    length,width = _extract_length_width_bydt(mask)
+    pixel_area = anno_single['area']
+    img_p = os.path.join(imgs_root,img_name)
+    image = cv2.imread(img_p)
+    print(xmin, ymin, bb_width, bb_height)
+    print(image.shape)
+    mask_cut = mask[ymin:ymin+bb_height,xmin:xmin+bb_width]
+    print(mask_cut.shape)
+    image_cut = image[ymin:ymin + bb_height,xmin:xmin + bb_width, :]
+    print(image_cut.shape)
+    gradients = _extract_gradients(mask_cut, image_cut)
+    contrast = _extract_contrast(mask_cut, image_cut, up_scale=100)
+    brightness, top_brightness,low_brightness= _extract_brightness(mask_cut, image_cut)
+    '''
+    gradients = _extract_gradients(mask, image)
+    contrast = _extract_contrast(mask, image, up_scale=100)
+    brightness = _extract_brightness(mask, image)
+    '''
+    plevel =anno_single['plevel']
+    describe = anno_single['describe']
+    with open(output_csv_path,'a') as f:
+        f.write('{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}\n'.format(
+            img_name, class_name,class_name1, xmin, ymin, bb_width, bb_height, score, length, width, pixel_area, gradients[0],
+            contrast, brightness, plevel, describe
+        ))
+    print(img_name, class_name,class_name1, xmin, ymin, bb_width, bb_height, score, length, width, pixel_area, gradients[0], contrast, brightness, plevel, describe)
+# except:
+    print('img_name---')

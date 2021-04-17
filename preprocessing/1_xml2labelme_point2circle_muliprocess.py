@@ -108,8 +108,8 @@ def main(local_path,save_path,process_num=4):
 
 if __name__ == "__main__":
     s = time.time()
-    xml_outputs_path = r'/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/NEWSTART/adcm/cemian/outputs'
-    json_save_path = r'/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/NEWSTART/adcm/json_ori'
+    xml_outputs_path = '/Users/zhangyan/Desktop/xml_to-csv/outputs'
+    json_save_path = '/Users/zhangyan/Desktop/xml_to-csv/jsons'
     process_num = 8
     main(xml_outputs_path,json_save_path,process_num)
     print('run time:', time.time()-s)
