@@ -38,3 +38,8 @@ def word_to_pinyin(word):
     for i in pinyin(word, style=NORMAL):
         s += i[0].strip()
     return s
+
+def read_txt(path):
+    with open(path, "r") as f:  # 打开文件
+        data = f.read()  # 读取文件
+    return data
