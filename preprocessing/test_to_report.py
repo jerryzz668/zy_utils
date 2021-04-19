@@ -1,9 +1,10 @@
 # @Description:
-# @Author  : zhangyan
-# @Time    : 2021/4/19 下午8:48
+# @Author     : zhangyan
+# @Time       : 2021/4/19 8:48 下午
 
 import numpy as np
 import pandas as pd
+import xlsxwriter
 
 def confusion_mtx_to_report(data):
     loushi = []
@@ -16,12 +17,10 @@ def confusion_mtx_to_report(data):
     for i in range(len(data)):
         loushi.append(data[i][-1])
     loushi.pop()  # 漏检数量
-    print(loushi)
 
     for i in range(len(data)):
         gt_num.append(sum(data[i]))
     gt_num.pop()  # gt数量
-    print(gt_num)
 
     for i in range(len(loushi)):
         loujian_ratio.append(round(loushi[i]/gt_num[i], 2))  # 漏检率
@@ -29,11 +28,9 @@ def confusion_mtx_to_report(data):
 
     guojian = data[-1]
     guojian.pop()  # 过检数量
-    print(guojian)
 
     for i in range(len(guojian)):
         jianchu.append(sum(guojian))  # 检出总量
-    print(jianchu)
 
     for i in range(len(guojian)):
         guojian_ratio.append(round(guojian[i]/sum(guojian), 2))  # 过检率
@@ -42,7 +39,6 @@ def confusion_mtx_to_report(data):
     excel_content = []
     excel_content.extend((gt_num, loushi, loujian_ratio, jianchu, guojian, guojian_ratio))
     return excel_content
-
 
 def content_to_excel(content, save_path):
     excel_data = pd.DataFrame(content)
@@ -68,4 +64,4 @@ if __name__ == '__main__':
     save_path = '/Users/zhangyan/Desktop/A.xlsx'
     content = confusion_mtx_to_report(data)
     content_to_excel(content, save_path)
-    
+
