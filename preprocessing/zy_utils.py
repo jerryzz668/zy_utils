@@ -6,6 +6,7 @@ date: 2021-04-02 17:42
 
 import os
 import json
+from pypinyin import pinyin, NORMAL
 
 def mkdir(save_path):
     if not os.path.exists(save_path):
@@ -26,3 +27,14 @@ def filtrate_file(path):
     for obj in list:
         file_path = os.path.join(path, obj)
         if not os.path.isfile(file_path) or obj[obj.rindex('.') + 1:] not in ['json', 'jpg', 'png']: continue
+
+def word_to_pinyin(word):
+    """
+    @param word:
+    @return:
+    """
+    # pinyin return [[py1],[py2],...,[pyn]]
+    s = ''
+    for i in pinyin(word, style=NORMAL):
+        s += i[0].strip()
+    return s

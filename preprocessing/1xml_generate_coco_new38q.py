@@ -510,7 +510,7 @@ class labelme2coco(object):
         annotations.append(self.annotation(img_shape,points,plevel, describe, label,num,shape_type,annotations,categories))
 
     def data_transfer(self):
-        pool = multiprocessing.Pool(processes=32) # 创建进程个数
+        pool = multiprocessing.Pool(processes=1) # 创建进程个数
         images = []
         #images=multiprocessing.Manager().list()
         annotations = multiprocessing.Manager().list()
@@ -656,8 +656,8 @@ class Modify_COCO_Cate(object):
         save_coco_dic['annotations']=save_coco_annotations
         self.save_json(save_coco_dic,save_coco_json)
 if __name__ == "__main__":
-    annotation_root_path = '/Users/zhangyan/Desktop/xml_to-csv'
-    out_coco_root_path = '/Users/zhangyan/Desktop/xml_to-csv'
+    annotation_root_path = r"C:\Users\Administrator\Desktop\xml_to_csv"
+    out_coco_root_path = r"C:\Users\Administrator\Desktop\xml_to_csv"
     # Select_data(annotation_root_path,out_coco_root_path)#过滤xml与img不符合情况
 
     # img_jsons=os.path.join(annotation_root_path,'jsons')
@@ -685,8 +685,8 @@ if __name__ == "__main__":
     #
     #
     #2coco
-    labelme_json=glob.glob('/Users/zhangyan/Desktop/xml_to-csv/jsons/*.json')
-    coco_path = os.path.join('/Users/zhangyan/Desktop/xml_to-csv','instances_test2017.json')
+    labelme_json=glob.glob(r'C:\Users\Administrator\Desktop\xml_to_csv\jsons\*.json')
+    coco_path = os.path.join(r'C:\Users\Administrator\Desktop','instances_test2017.json')
     labelme2coco(labelme_json,coco_path)
     #
     # cz_json= '/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/second_A/2cuts/splite/annotations/instances_train2017.json'

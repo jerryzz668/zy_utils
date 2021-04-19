@@ -27,7 +27,7 @@ class labelme2coco(object):
 
     def data_transfer(self):
         for num,json_file in enumerate(self.labelme_json):
-            with open(json_file,'r') as fp:
+            with open(json_file,'r', encoding='utf-8') as fp:
                 data = json.load(fp)  # 加载json文件
                 self.images.append(self.image(data,num))
                 for shapes in data['shapes']:
@@ -40,6 +40,7 @@ class labelme2coco(object):
                     w = data['imageWidth']
                     h =data['imageHeight']
                     shape_type =shapes['shape_type']
+                    level = data['level']
                     img_shape = (h,w, 3)
                     #img_shape = (w, h, 3)
                     print('json_file:',json_file)
@@ -76,6 +77,8 @@ class labelme2coco(object):
         annotation['area'] = float(maskUtils.area(segm))#计算mask编码的面积，必须放置在mask转字符串前面，否则计算为0
         segm['counts'] = bytes.decode(segm['counts'])#将字节编码转为字符串编码
         annotation['segmentation']=segm
+        annotation['plevel']= plevel  # 增加
+        annotation['describe']= describe  # 增加
         annotation['iscrowd'] = 0
         annotation['image_id'] = num+1
         annotation['bbox'] = list(map(float,self.getbbox(points,shape_type)))
@@ -133,5 +136,5 @@ class labelme2coco(object):
         # 保存json文件
         json.dump(self.data_coco, open(self.save_json_path, 'w',encoding='utf-8'), indent=4)  # indent=4 更加美观显示
 
-labelme_json=glob.glob('/Users/zhangyan/Desktop/xml_to-csv/jsons/*.json')
-labelme2coco(labelme_json,'/Users/zhangyan/Desktop/instances_train2017.json')
+labelme_json=glob.glob(r"C:\Users\Administrator\Desktop\xml_to_csv\jsons\*.json")
+labelme2coco(labelme_json,r'C:\Users\Administrator\Desktop\instances_train2017.json')

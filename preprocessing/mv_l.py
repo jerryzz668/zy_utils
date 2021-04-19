@@ -1,8 +1,8 @@
 import os
 import shutil
-p = '/Users/zhangyan/Desktop/xml_to-csv/outputs'
-o_p = '/Users/zhangyan/Desktop/xml_to-csv'
-o_p_1 = '/Users/zhangyan/Desktop/img'
+p = r'C:\Users\Administrator\Desktop\imgs\outputs'
+o_p = r'C:\Users\Administrator\Desktop\imgs'
+o_p_1 = r'C:\Users\Administrator\Desktop\img'
 for i in os.listdir(p):
     name = i.split('.xml')[0]
     nn = '{}.jpg'.format(name)
