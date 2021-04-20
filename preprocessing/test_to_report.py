@@ -4,6 +4,10 @@
 
 import numpy as np
 import pandas as pd
+import os
+import random
+import openpyxl as xl
+from openpyxl.drawing.image import Image as XLImage
 
 
 
@@ -623,22 +627,92 @@ def content_to_excel(content, save_path):
     writer.save()
     writer.close()
 
+
+def addimage_to_excel(outputs_path, test_path, save_path, sheet_name, ratio_array):
+    '''
+    ratio_array中设定展示百分之多少的图片
+    '''
+    excel_col = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+                 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL',
+                 'AM',
+                 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ', 'BA', 'BB', 'BC', 'BD',
+                 'BE',
+                 'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM', 'BN', 'BO', 'BP', 'BQ', 'BR', 'BS', 'BT', 'BU', 'BV',
+                 'BW',
+                 'BX', 'BY', 'BZ', 'CA', 'CB', 'CC', 'CD', 'CE', 'CF', 'CG', 'CH', 'CI', 'CJ', 'CK', 'CL', 'CM', 'CN',
+                 'CO',
+                 'CP', 'CQ', 'CR', 'CS', 'CT', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ', 'DA', 'DB', 'DC', 'DD', 'DE', 'DF',
+                 'DG',
+                 'DH', 'DI', 'DJ', 'DK', 'DL', 'DM', 'DN', 'DO', 'DP', 'DQ', 'DR', 'DS', 'DT', 'DU', 'DV', 'DW', 'DX',
+                 'DY',
+                 'DZ']
+    book = xl.load_workbook(save_path)
+
+    # 查找loujian图片
+    img_names = list()
+    for f in os.listdir(os.path.join(outputs_path, 'loujian')):
+        if f.find('.json'):
+            img_names.append(f)
+    number = int(len(img_names) * ratio_array[0])  # 决定展示图片个数
+    if not number:
+        number = 1
+    show_img_names = random.sample(img_names, number)
+
+    # 插入loujian图片
+    sheet = book[sheet_name]
+    # new_sheet = book.create_sheet(title='loujian')
+    col = 0
+    sheet[excel_col[col] + '10'] = '漏检图片'
+    for name in show_img_names:
+        img_name = os.path.join(test_path, name[:-5] + '.jpg')
+        # print(img_name)
+        img = XLImage(img_name)
+        idx = excel_col[col] + '11'
+        sheet.add_image(img, idx)
+        col = col + 2
+
+    # 查找guojian图片
+    img_names = list()
+    for f in os.listdir(os.path.join(outputs_path, 'guojian')):
+        if f.find('.json'):
+            img_names.append(f)
+    number = int(len(img_names) * ratio_array[1])  # 决定插入图片个数
+    if not number:
+        number = 1
+    show_img_names = random.sample(img_names, number)
+
+    # 插入guojian图片
+    col = 9
+    sheet[excel_col[col] + '10'] = '过检图片'
+    for name in show_img_names:
+        img_name = os.path.join(test_path, name[:-5] + '.jpg')
+        # print(img_name)
+        img = XLImage(img_name)
+        idx = excel_col[col] + '11'
+        sheet.add_image(img, idx)
+        col = col + 2
+
+    book.save(save_path)
+
 if __name__ == '__main__':
     imgs_path = r'G:\ttt\test'  # 测试img路径
     csv_path = r'G:\ttt\csv'  # csv路径   和img分开存放
+    gt_json = r'G:\ttt\gt\jsons'  # biaozhu jsons
+    split_result_file = r'G:\ttt\outputs_path'  # split result file
+    save_path = r'C:\Users\Administrator\Desktop\A.xlsx'  # report_path
     xml_path = r'G:\ttt\test\outputs'  # 自动生成
     json_path = r'G:\ttt\test\json'  # 自动生成
     ShiwuHedui(imgs_path,csv_path,xml_path)
     xml2json =Xml2Labelme(imgs_path,json_path,'result',8)
 
     print('分析标注结果生成混淆矩阵')
-    annalyresult = AnnalyResult(r'G:\ttt\gt\jsons',  # biaozhu jsons
+    annalyresult = AnnalyResult(gt_json,
                  json_path,#pre jsons
-                 r'G:\ttt\outputs_path',  # splite result file
+                 split_result_file,
                  '140model_0420testdata')# 混淆矩阵图像名字，不带后缀
     cm = annalyresult.getcm()
-    save_path = r'C:\Users\Administrator\Desktop\A.xlsx'
     content = confusion_mtx_to_report(cm)
     content_to_excel(content, save_path)
+    addimage_to_excel(split_result_file, imgs_path, save_path, 'page_1', [0.1, 0.1])
 
 
