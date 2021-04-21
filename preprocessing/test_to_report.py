@@ -8,6 +8,8 @@ import os
 import random
 import openpyxl as xl
 from openpyxl.drawing.image import Image as XLImage
+import xlrd
+from xlutils.copy import copy
 
 
 
@@ -138,6 +140,8 @@ class ShiwuHedui(object):
         dic_wh = {}
         print('---')
         for i in os.listdir(p):
+            file_path = os.path.join(p, i)
+            if not os.path.isfile(file_path) or i[i.rindex('.') + 1:] not in ['json', 'jpg', 'png']: continue
             i_p = os.path.join(p,i)
             # data = cv2.imread(i_p)
             data = Image.open(i_p)
@@ -370,9 +374,9 @@ class AnnalyResult(object):
         self.main()
         end_time=time.time()
         print('run time:',end_time-start_time)
-        self.cm = self.compute_confmx()
+        self.cm, self.gt_cate = self.compute_confmx()
     def getcm(self):
-        return self.cm
+        return self.cm, self.gt_cate
     def get_points_box(self,points,type='polygon',width=2):
         points = np.array(points)
         if type=='point' and len(points)==1:
@@ -467,7 +471,7 @@ class AnnalyResult(object):
         #
         self.plot_confusion_matrix(cm,classes,'nums')
         self.plot_confusion_matrix(cm_pro,classes,'pro',normalize=True)
-        return cm
+        return cm, classes
         # print('confx',cm)
     def new_json(self,cz,shapes,save_json):
         new_json_dic = {}
@@ -531,11 +535,11 @@ class AnnalyResult(object):
             if i.endswith('.json'):
                 input_json = os.path.join(self.yt_labelme,i)
                 pre_json = os.path.join(self.test_labelme,i)
-                except_json = os.path.join("D:/work/data/microsoft/jalama/sixth/third_cut/test/exception",i)
+                except_json = os.path.join(self.out_path, i)
                 try:
                     self.proce_compute(input_json,pre_json,self.out_path)
                 except:
-                    shutil.move(input_json,except_json)
+                    shutil.copy(input_json,except_json)
                     print('未预测数据',input_json)
     def plot_confusion_matrix(self,cm,classes,title,normalize=False, cmap=plt.cm.Blues):
         #plt.figure()
@@ -620,89 +624,129 @@ def confusion_mtx_to_report(data):
     excel_content.extend((gt_num, loushi, loujian_ratio, jianchu, guojian, guojian_ratio))
     return excel_content
 
-def content_to_excel(content, save_path):
+def content_to_excel(content, save_path, header = False, index=False, row=None, col=None):  # 写入内容， 保存路径, 表头， 表头列， 插入位置行数，插入位置列数
     excel_data = pd.DataFrame(content)
-    writer = pd.ExcelWriter(save_path)		# 写入Excel文件
-    excel_data.to_excel(writer, 'page_1', float_format='%.5f')		# ‘page_1’是写入excel的sheet名
+    writer = pd.ExcelWriter(save_path)  # 写入Excel文件
+    excel_data.to_excel(writer, sheet_name='page_1', header=header, index=index, startrow=row, startcol=col)
     writer.save()
     writer.close()
 
 
-def addimage_to_excel(outputs_path, test_path, save_path, sheet_name, ratio_array):
-    '''
-    ratio_array中设定展示百分之多少的图片
-    '''
-    excel_col = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-                 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL',
-                 'AM',
-                 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ', 'BA', 'BB', 'BC', 'BD',
-                 'BE',
-                 'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM', 'BN', 'BO', 'BP', 'BQ', 'BR', 'BS', 'BT', 'BU', 'BV',
-                 'BW',
-                 'BX', 'BY', 'BZ', 'CA', 'CB', 'CC', 'CD', 'CE', 'CF', 'CG', 'CH', 'CI', 'CJ', 'CK', 'CL', 'CM', 'CN',
-                 'CO',
-                 'CP', 'CQ', 'CR', 'CS', 'CT', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ', 'DA', 'DB', 'DC', 'DD', 'DE', 'DF',
-                 'DG',
-                 'DH', 'DI', 'DJ', 'DK', 'DL', 'DM', 'DN', 'DO', 'DP', 'DQ', 'DR', 'DS', 'DT', 'DU', 'DV', 'DW', 'DX',
-                 'DY',
-                 'DZ']
-    book = xl.load_workbook(save_path)
+def write_excel_xlsx_append(file_path, data, row=0, col=0, sheet_name='sheet1'):
+    workbook = xl.load_workbook(file_path)  # 打开工作簿
+    # new_workbook = copy(workbook)  # 将xlrd对象拷贝转化为xlwt对象
+    sheet = workbook[sheet_name]
+    # new_worksheet = workbook.get_sheet(0)  # 获取转化后工作簿中的第一个表格
+    for i in range(0, len(data)):
+        for j in range(0, len(data[i])):
+            sheet.cell(row=(i + row + 1), column=(j + col + 1), value=data[i][j])  # 追加写入数据，注意是从i+row行，j + col列开始写入
+    workbook.save(file_path)  # 保存工作簿
+    print("xls格式表格【追加】写入数据成功！")
 
-    # 查找loujian图片
+
+from openpyxl.drawing.image import Image as XLImage
+
+
+def addimage_to_excel(outputs_path, test_img_path, excel_save_path, sheet_name, position_array, ratio_array):
+    '''
+    sheet_name应用这一函数插入图片的sheet名
+    position_array插入图片的开始位置，[行数, 列数]，从1开始索引
+    ratio_array中设定展示[漏检, 过检]百分之多少的图片
+    '''
+    COL = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+           'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM',
+           'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ', 'BA', 'BB', 'BC', 'BD', 'BE',
+           'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM', 'BN', 'BO', 'BP', 'BQ', 'BR', 'BS', 'BT', 'BU', 'BV', 'BW',
+           'BX', 'BY', 'BZ', 'CA', 'CB', 'CC', 'CD', 'CE', 'CF', 'CG', 'CH', 'CI', 'CJ', 'CK', 'CL', 'CM', 'CN', 'CO',
+           'CP', 'CQ', 'CR', 'CS', 'CT', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ', 'DA', 'DB', 'DC', 'DD', 'DE', 'DF', 'DG',
+           'DH', 'DI', 'DJ', 'DK', 'DL', 'DM', 'DN', 'DO', 'DP', 'DQ', 'DR', 'DS', 'DT', 'DU', 'DV', 'DW', 'DX', 'DY',
+           'DZ']
+    book = xl.load_workbook(excel_save_path)
+    sheet = book[sheet_name]
+    # new_sheet = book.create_sheet(title='loujian')
+
+    # 查找漏检图片 outputs_path/loujian
     img_names = list()
     for f in os.listdir(os.path.join(outputs_path, 'loujian')):
         if f.find('.json'):
             img_names.append(f)
-    number = int(len(img_names) * ratio_array[0])  # 决定展示图片个数
+    # 决定展示图片数量
+    number = 0
+    if img_names:
+        number = int(len(img_names) * ratio_array[0]) + 1
+        show_img_names = random.sample(img_names, number)
+    # 插入漏检图片
+    row = position_array[0]
+    col_idx = position_array[1] - 1
+    sheet[COL[col_idx] + str(row)] = '漏检图片:'  # COL[col_idx] + str(row) 是 A1, B2, C1...
     if not number:
-        number = 1
-    show_img_names = random.sample(img_names, number)
+        sheet[COL[col_idx] + str(row + 1)] = '无漏检图片'
+    else:
+        for name in show_img_names:
+            img_name = os.path.join(test_img_path, name[:-5] + '.jpg')
+            # print(img_name)
+            img = XLImage(img_name)
+            # print(COL[col_idx] + str(row + 1))
+            sheet.add_image(img, (COL[col_idx] + str(row + 1)))
+            col_idx = col_idx + 2
 
-    # 插入loujian图片
-    sheet = book[sheet_name]
-    # new_sheet = book.create_sheet(title='loujian')
-    col = 0
-    sheet[excel_col[col] + '10'] = '漏检图片'
-    for name in show_img_names:
-        img_name = os.path.join(test_path, name[:-5] + '.jpg')
-        # print(img_name)
-        img = XLImage(img_name)
-        idx = excel_col[col] + '11'
-        sheet.add_image(img, idx)
-        col = col + 2
-
-    # 查找guojian图片
+    # 查找过检图片 outputs_path/guojian
     img_names = list()
     for f in os.listdir(os.path.join(outputs_path, 'guojian')):
         if f.find('.json'):
             img_names.append(f)
-    number = int(len(img_names) * ratio_array[1])  # 决定插入图片个数
+    # 决定展示图片数量
+    number = 0
+    if img_names:
+        number = int(len(img_names) * ratio_array[0]) + 1
+        show_img_names = random.sample(img_names, number)
+        # 插入过检图片
+    col_idx = position_array[1] - 1 + 9  # row不变，col相对于漏检图开始位置+9
+    sheet[COL[col_idx] + str(row)] = '过检图片:'
     if not number:
-        number = 1
-    show_img_names = random.sample(img_names, number)
+        sheet[COL[col_idx] + str(row + 1)] = '无过检图片'
+    else:
+        for name in show_img_names:
+            img_name = os.path.join(test_img_path, name[:-5] + '.jpg')
+            # print(img_name)
+            img = XLImage(img_name)
+            sheet.add_image(img, COL[col_idx] + str(row + 1))
+            col_idx = col_idx + 2
 
-    # 插入guojian图片
-    col = 9
-    sheet[excel_col[col] + '10'] = '过检图片'
-    for name in show_img_names:
-        img_name = os.path.join(test_path, name[:-5] + '.jpg')
-        # print(img_name)
-        img = XLImage(img_name)
-        idx = excel_col[col] + '11'
-        sheet.add_image(img, idx)
-        col = col + 2
+    book.save(excel_save_path)
 
-    book.save(save_path)
 
 if __name__ == '__main__':
-    imgs_path = r'G:\ttt\test'  # 测试img路径
-    csv_path = r'G:\ttt\csv'  # csv路径   和img分开存放
-    gt_json = r'G:\ttt\gt\jsons'  # biaozhu jsons
-    split_result_file = r'G:\ttt\outputs_path'  # split result file
+    table_header = [['产品代号', 'C件'],
+                    ['光学面', '大面(13~16/1~16)'],
+                    ['模型版本号', 'xxx_20210419'],
+                    ['测试机版本号', 'xxx'],
+                    ['测试通过条件', '刮伤漏检率<5%'],
+                    ['', '黑点漏检率<2%'],
+                    ['', '异物漏检率<1%'],
+                    ['', ''],
+                    ['', ''],
+                    ['测试结果:', ''],
+                    ['', '']]
+
+    header_li = [['指标'],
+                 ['gt数量'],
+                 ['漏检数'],
+                 ['漏检率'],
+                 ['检出数'],
+                 ['过检数'],
+                 ['过检率'],
+                 ]
+
+    imgs_path = r'G:\ljq\test'  # 测试img路径
+    csv_path = r'G:\ljq\csv'  # csv路径   和img分开存放
+    gt_json = r'G:\ljq\gt\jsons'  # biaozhu jsons
     save_path = r'C:\Users\Administrator\Desktop\A.xlsx'  # report_path
-    xml_path = r'G:\ttt\test\outputs'  # 自动生成
-    json_path = r'G:\ttt\test\json'  # 自动生成
-    ShiwuHedui(imgs_path,csv_path,xml_path)
+
+    split_result_file = os.path.join(os.path.dirname(imgs_path), 'outputs_path')  # split result file
+    xml_path = os.path.join(imgs_path, 'outputs')  # 自动生成 测试结果生成的xml
+    json_path = os.path.join(imgs_path, 'jsons')  # 自动生成 xml转成的json
+    ShiwuHedui(imgs_path,csv_path,xml_path)  # csv_to_xml
     xml2json =Xml2Labelme(imgs_path,json_path,'result',8)
 
     print('分析标注结果生成混淆矩阵')
@@ -710,9 +754,13 @@ if __name__ == '__main__':
                  json_path,#pre jsons
                  split_result_file,
                  '140model_0420testdata')# 混淆矩阵图像名字，不带后缀
-    cm = annalyresult.getcm()
+    cm, gt_cate = annalyresult.getcm()
+    print(gt_cate)
     content = confusion_mtx_to_report(cm)
-    content_to_excel(content, save_path)
-    addimage_to_excel(split_result_file, imgs_path, save_path, 'page_1', [0.1, 0.1])
+    content_to_excel(content, save_path, header=gt_cate[0:-1], index=False, row=11, col=1)  # 写入内容， 保存路径, 表头， 表头列， 插入位置行数，插入位置列数
+    write_excel_xlsx_append(save_path, table_header, 0, 0, sheet_name='page_1')
+    write_excel_xlsx_append(save_path, header_li, 11, 0, sheet_name='page_1')
+    addimage_to_excel(split_result_file, imgs_path, save_path, 'page_1', [20, 1], [0.1, 0.1])  # 插图：漏检and过检
+
 
 

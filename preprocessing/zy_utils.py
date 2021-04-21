@@ -45,9 +45,10 @@ def read_txt(path):
         data = f.read()  # 读取文件
     return data
 
-def content_to_excel(content, save_path):
+def content_to_excel(content, save_path, header = False, index=False, row=None, col=None):  # 写入内容， 保存路径, 表头， 表头列， 插入位置行数，插入位置列数
     excel_data = pd.DataFrame(content)
     writer = pd.ExcelWriter(save_path)		# 写入Excel文件
-    excel_data.to_excel(writer, 'page_1', float_format='%.5f')		# ‘page_1’是写入excel的sheet名
+    # excel_data.to_excel(writer, 'page_1', float_format='%.5f')		# ‘page_1’是写入excel的sheet名
+    excel_data.to_excel(writer, sheet_name='page_1', header=header, index=index, startrow=row, startcol=col)
     writer.save()
     writer.close()

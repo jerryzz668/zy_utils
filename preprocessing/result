@@ -68,3 +68,358 @@
 拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
 汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
 类别数量：7
+拼音-汉字-字典：{'guashang': 'guashang', 'baisezaodian': 'baisezaodian', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise': 'yise', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'heidian': 'heidian', 'pengshang': 'pengshang', 'guashang': 'guashang', 'yise': 'yise', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'aokeng': 'aokeng', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise1': 'yise1', 'yise2': 'yise2', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'aokeng': 'aokeng', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'aokeng': 'aokeng', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'aokeng': 'aokeng', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aokeng': 'aokeng', 'baidian': 'baidian', 'guashang': 'guashang', 'aotuhen': 'aotuhen', 'heidian': 'heidian', 'daowen': 'daowen', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'aokeng': 'aokeng', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'yise2': 'yise2', 'pengshang': 'pengshang', 'aokeng': 'aokeng', 'shahenyin': 'shahenyin', 'yise1': 'yise1', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'daowen': 'daowen', 'baidian': 'baidian', 'aokeng': 'aokeng', 'guashang': 'guashang', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'aokeng': 'aokeng', 'guashang': 'guashang', 'daowen': 'daowen', 'heidian': 'heidian', 'pengshang': 'pengshang', 'mianhua': 'mianhua', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'aokeng': 'aokeng', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'shahenyin': 'shahenyin', 'yise1': 'yise1', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'daowen': 'daowen', 'aokeng': 'aokeng', 'baidian': 'baidian', 'guashang': 'guashang', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'daowen': 'daowen', 'baidian': 'baidian', 'aokeng': 'aokeng', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'yise2': 'yise2', 'pengshang': 'pengshang', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'baidian': 'baidian', 'aotuhen': 'aotuhen', 'guashang': 'guashang', 'heidian': 'heidian', 'aokeng': 'aokeng', 'daowen': 'daowen', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'mianhua': 'mianhua', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'yise2': 'yise2', 'pengshang': 'pengshang', 'aokeng': 'aokeng', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'daowen': 'daowen', 'baidian': 'baidian', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'pengshang': 'pengshang', 'mianhua': 'mianhua', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'shahenyin': 'shahenyin', 'yise1': 'yise1', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'daowen': 'daowen', 'baidian': 'baidian', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'yise2': 'yise2', 'pengshang': 'pengshang', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'daowen': 'daowen', 'baidian': 'baidian', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'yise2': 'yise2', 'pengshang': 'pengshang', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'baidian': 'baidian', 'daowen': 'daowen', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'mianhua': 'mianhua', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'daowen': 'daowen', 'baidian': 'baidian', 'aokeng': 'aokeng', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'daowen': 'daowen', 'aokeng': 'aokeng', 'baidian': 'baidian', 'guashang': 'guashang', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aokeng': 'aokeng', 'baidian': 'baidian', 'aotuhen': 'aotuhen', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'shahenyin': 'shahenyin', 'yise1': 'yise1', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'aokeng': 'aokeng', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'aokeng': 'aokeng', 'shahenyin': 'shahenyin', 'yise1': 'yise1', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aokeng': 'aokeng', 'baidian': 'baidian', 'aotuhen': 'aotuhen', 'guashang': 'guashang', 'daowen': 'daowen', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'shahenyin': 'shahenyin', 'yise1': 'yise1', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'yise2': 'yise2', 'aokeng': 'aokeng', 'pengshang': 'pengshang', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'aokeng': 'aokeng', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'guashang': 'guashang', 'daowen': 'daowen', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aokeng': 'aokeng', 'baidian': 'baidian', 'aotuhen': 'aotuhen', 'guashang': 'guashang', 'daowen': 'daowen', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'aokeng': 'aokeng', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aokeng': 'aokeng', 'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aokeng': 'aokeng', 'baidian': 'baidian', 'guashang': 'guashang', 'aotuhen': 'aotuhen', 'daowen': 'daowen', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'aokeng': 'aokeng', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'aokeng': 'aokeng', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'daowen': 'daowen', 'aokeng': 'aokeng', 'baidian': 'baidian', 'guashang': 'guashang', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise2': 'yise2', 'mianhua': 'mianhua', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'aokeng': 'aokeng', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'shahenyin': 'shahenyin', 'yise1': 'yise1', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'aokeng': 'aokeng', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'shahenyin': 'shahenyin', 'yise1': 'yise1', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'aokeng': 'aokeng', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'yise2': 'yise2', 'pengshang': 'pengshang', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'aokeng': 'aokeng', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'shahenyin': 'shahenyin', 'yise1': 'yise1', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aotuhen': 'aotuhen', 'baidian': 'baidian', 'aokeng': 'aokeng', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'aokeng': 'aokeng', 'aotuhen': 'aotuhen', 'baidian': 'baidian', 'daowen': 'daowen', 'guashang': 'guashang', 'heidian': 'heidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'yise2': 'yise2', 'shahenyin': 'shahenyin', 'yise1': 'yise1', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'heidian': 'heidian', 'pengshang': 'pengshang', 'guashang': 'guashang', 'yise': 'yise', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'guashang': 'guashang', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise': 'yise', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'guashang': 'guashang', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise': 'yise', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'heidian': 'heidian', 'guashang': 'guashang', 'pengshang': 'pengshang', 'yise': 'yise', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'pengshang': 'pengshang', 'shahenyin': 'shahenyin', 'yise': 'yise', 'baisezaodian': 'baisezaodian', 'heidian': 'heidian', 'guashang': 'guashang', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'pengshang': 'pengshang', 'shahenyin': 'shahenyin', 'yise': 'yise', 'heidian': 'heidian', 'guashang': 'guashang', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'pengshang': 'pengshang', 'heidian': 'heidian', 'yise': 'yise', 'shahenyin': 'shahenyin', 'guashang': 'guashang', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'guashang': 'guashang', 'pengshang': 'pengshang', 'baisezaodian': 'baisezaodian', 'heidian': 'heidian', 'yise': 'yise', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'pengshang': 'pengshang', 'heidian': 'heidian', 'yise': 'yise', 'shahenyin': 'shahenyin', 'guashang': 'guashang', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'heidian': 'heidian', 'pengshang': 'pengshang', 'shahenyin': 'shahenyin', 'yise': 'yise', 'guashang': 'guashang', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'guashang': 'guashang', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise': 'yise', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise': 'yise', 'guashang': 'guashang', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'guashang': 'guashang', 'pengshang': 'pengshang', 'yise': 'yise', 'shahenyin': 'shahenyin', 'heidian': 'heidian', 'baisezaodian': 'baisezaodian', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise': 'yise', 'guashang': 'guashang', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise': 'yise', 'guashang': 'guashang', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'baisezaodian': 'baisezaodian', 'heidian': 'heidian', 'pengshang': 'pengshang', 'yise': 'yise', 'guashang': 'guashang', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
