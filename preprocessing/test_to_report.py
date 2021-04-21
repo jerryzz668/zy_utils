@@ -634,9 +634,7 @@ def content_to_excel(content, save_path, header = False, index=False, row=None, 
 
 def write_excel_xlsx_append(file_path, data, row=0, col=0, sheet_name='sheet1'):
     workbook = xl.load_workbook(file_path)  # 打开工作簿
-    # new_workbook = copy(workbook)  # 将xlrd对象拷贝转化为xlwt对象
     sheet = workbook[sheet_name]
-    # new_worksheet = workbook.get_sheet(0)  # 获取转化后工作簿中的第一个表格
     for i in range(0, len(data)):
         for j in range(0, len(data[i])):
             sheet.cell(row=(i + row + 1), column=(j + col + 1), value=data[i][j])  # 追加写入数据，注意是从i+row行，j + col列开始写入
