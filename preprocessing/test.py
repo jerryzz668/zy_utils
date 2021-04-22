@@ -54,22 +54,5 @@ import xlwt
 import os
 import openpyxl
 
-
-# xlsx追加写入内容
-# value_list=[[],[],[]]会更快，减少了excel文件的打开保存
-def write_excel_xlsx_append(path, sheet_name='page_1', value_list=[[]]):
-    if len(value_list) != 0:
-        workbook = openpyxl.load_workbook(path)
-        for line in value_list:
-            sheet = workbook[sheet_name]
-            sheet.append(line)
-        workbook.save(path)  # 保存工作簿
-        print(f"表格 {path}【追加】写入数据成功！")
-    pass
-
-book_name_xls = r'C:\Users\Administrator\Desktop\A.xlsx'
-value1 = [["张三", "男", "19", "杭州", "研发工程师", 123, 234],
-          ["李四", "男", "22", "北京", "医生", 2352],
-          ["王五", "女", "33", "珠海", "出租车司机"]]
-
-write_excel_xlsx_append(book_name_xls, value1, 3, 3)
+gt_cate: [['aokeng', 'baidian', 'guashang-baiduan', 'guashang-baizhang', 'guashang-heiduan', 'guashang-heizhang',
+          'heidian', 'maoxu', 'pengshang-bian', 'pengshang-zhang', 'shahenyin', 'tabian-an', 'tabian-liang', 'yise-bai', 'yise-hei', 'yise-liang', 'z_lou_or_guo']]

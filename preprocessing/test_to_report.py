@@ -474,17 +474,20 @@ class AnnalyResult(object):
         return cm, classes
         # print('confx',cm)
     def new_json(self,cz,shapes,save_json):
+
         new_json_dic = {}
         new_json_dic['flags']=cz['flags']
         new_json_dic['imageData']=cz['imageData']
-        new_json_dic['imageDepth']=cz['imageDepth']
-        new_json_dic['imageLabeled']=cz['imageLabeled']
+        # print(cz['imageDepth'])
+        # if cz.get('imageDepth') != None:
+        new_json_dic['imageDepth']=3 #cz['imageDepth']
+        new_json_dic['imageLabeled']='' #cz['imageLabeled']
         new_json_dic['imagePath']=cz['imagePath']
         new_json_dic['imageHeight']=cz['imageHeight']
         new_json_dic['imageWidth']=cz['imageWidth']
         new_json_dic['shapes']=shapes
-        new_json_dic['time_Labeled']=cz['time_Labeled']
-        new_json_dic['version']=cz['version']
+        new_json_dic['time_Labeled']=''#cz['time_Labeled']
+        new_json_dic['version']=''#cz['version']
         if len(shapes)!=0:
             self.save_json(new_json_dic,save_json)
 
@@ -525,6 +528,8 @@ class AnnalyResult(object):
         loujian_json = os.path.join(loujian_path,json_name)
         jiandui_json = os.path.join(jiandui_path,json_name)
         merge_gt_pre_json = os.path.join(merge_gt_pre_path,json_name)
+        print('=====', len(guojian_shapes), len(loujian_shapes), len(jiandui_shapes), len(gt_shapes),
+              len(merge_gt_pre_shapes))
         self.new_json(gt_anno_data,guojian_shapes,guojian_json)
         self.new_json(gt_anno_data,loujian_shapes,loujian_json)
         self.new_json(gt_anno_data,jiandui_shapes,jiandui_json)
@@ -584,62 +589,73 @@ class AnnalyResult(object):
 
 
 
-
+# confusion_mtx_to_report
 def confusion_mtx_to_report(data):
     """
     @param data: confusion_mtx
-    @return: gt_num, loushi, loujian_ratio, jianchu, guojian, guojian_ratio
+    @return: gt_num, loushi, loujian_ratio, jianchu, guojian, model_guojian_ratio, xianchang_guojian_ratio
     """
     loushi = []
     gt_num = []
     loujian_ratio = []
     guojian = []
     jianchu = []
-    guojian_ratio = []
+    model_guojian_ratio = []
+    xianchang_guojian_ratio = []
 
+    # 漏检数量
     for i in range(len(data)):
         loushi.append(data[i][-1])
-    loushi.pop()  # 漏检数量
+    loushi.pop()
 
+    # gt数量
     for i in range(len(data)):
         gt_num.append(sum(data[i]))
-    gt_num.pop()  # gt数量
+    gt_num.pop()
 
+    # 漏检率
     for i in range(len(loushi)):
-        loujian_ratio.append(round(loushi[i]/gt_num[i], 2))  # 漏检率
+        loujian_ratio.append(round(loushi[i]/gt_num[i], 2))
     print(loujian_ratio)
 
+    # 每个类别过检数量
     guojian = data[-1]
-    # guojian.pop()  # 过检数量
     guojian = guojian[0:-1]
 
-    for i in range(len(guojian)):
-        jianchu.append(sum(guojian))  # 检出总量
+    # 每个类别检出总量
+    jianchu = np.sum(data, axis=0)
+    jianchu = jianchu[0:-1]
 
+    # 模型过检率
+    for i in range(len(jianchu)):
+        model_guojian_ratio.append(round(guojian[i]/jianchu[i], 2))
+
+    # 现场过检率
     for i in range(len(guojian)):
-        guojian_ratio.append(round(guojian[i]/sum(guojian), 2))  # 过检率
-    print(guojian_ratio)
+        xianchang_guojian_ratio.append(round(guojian[i]/gt_num[i], 2))
+    print(xianchang_guojian_ratio)
 
     excel_content = []
-    excel_content.extend((gt_num, loushi, loujian_ratio, jianchu, guojian, guojian_ratio))
+    excel_content.extend((gt_num, loushi, loujian_ratio, jianchu, guojian, model_guojian_ratio, xianchang_guojian_ratio))
     return excel_content
 
-def content_to_excel(content, save_path, header = False, index=False, row=None, col=None):  # 写入内容， 保存路径, 表头， 表头列， 插入位置行数，插入位置列数
+# 写入内容， 保存路径, 路径下sheet， 表头， 表头列， 插入位置行数，插入位置列数
+def content_to_excel(content, save_path, sheet_name = None, header = False, index=False, row=None, col=None):
     excel_data = pd.DataFrame(content)
     writer = pd.ExcelWriter(save_path)  # 写入Excel文件
-    excel_data.to_excel(writer, sheet_name='page_1', header=header, index=index, startrow=row, startcol=col)
+    excel_data.to_excel(writer, sheet_name=sheet_name, header=header, index=index, startrow=row, startcol=col)
     writer.save()
     writer.close()
 
 
-def write_excel_xlsx_append(file_path, data, row=0, col=0, sheet_name='sheet1'):
+def write_excel_xlsx_append(file_path, data_name, data, row=0, col=0, sheet_name='sheet1'):
     workbook = xl.load_workbook(file_path)  # 打开工作簿
     sheet = workbook[sheet_name]
     for i in range(0, len(data)):
         for j in range(0, len(data[i])):
             sheet.cell(row=(i + row + 1), column=(j + col + 1), value=data[i][j])  # 追加写入数据，注意是从i+row行，j + col列开始写入
     workbook.save(file_path)  # 保存工作簿
-    print("xls格式表格【追加】写入数据成功！")
+    print("xlsx格式表格【追加】写入{}成功！".format(data_name))
 
 
 from openpyxl.drawing.image import Image as XLImage
@@ -714,11 +730,11 @@ def addimage_to_excel(outputs_path, test_img_path, excel_save_path, sheet_name, 
     book.save(excel_save_path)
 
 
-if __name__ == '__main__':
+def test_to_reports(sub_file, save_path, sheet):
     table_header = [['产品代号', 'C件'],
                     ['光学面', '大面(13~16/1~16)'],
-                    ['模型版本号', 'xxx_20210419'],
-                    ['测试机版本号', 'xxx'],
+                    ['模型版本号', 'htc_20210419'],
+                    ['测试集版本号', 'ceshi_20210419'],
                     ['测试通过条件', '刮伤漏检率<5%'],
                     ['', '黑点漏检率<2%'],
                     ['', '异物漏检率<1%'],
@@ -727,38 +743,73 @@ if __name__ == '__main__':
                     ['测试结果:', ''],
                     ['', '']]
 
-    header_li = [['指标'],
+    header_zhibiao = [['指标'],
                  ['gt数量'],
                  ['漏检数'],
                  ['漏检率'],
                  ['检出数'],
                  ['过检数'],
-                 ['过检率'],
-                 ]
+                 ['模型过检率'],
+                 ['现场过检率']]
 
-    imgs_path = r'G:\ljq\test'  # 测试img路径
-    csv_path = r'G:\ljq\csv'  # csv路径   和img分开存放
-    gt_json = r'G:\ljq\gt\jsons'  # biaozhu jsons
-    save_path = r'C:\Users\Administrator\Desktop\A.xlsx'  # report_path
+    imgs_path = os.path.join(sub_file, 'img')  # 测试img路径
+    csv_path = os.path.join(sub_file, 'csv')  # csv路径   和img分开存放
+    gt_json = os.path.join(sub_file, 'gt')  # biaozhu jsons
 
     split_result_file = os.path.join(os.path.dirname(imgs_path), 'outputs_path')  # split result file
     xml_path = os.path.join(imgs_path, 'outputs')  # 自动生成 测试结果生成的xml
     json_path = os.path.join(imgs_path, 'jsons')  # 自动生成 xml转成的json
-    ShiwuHedui(imgs_path,csv_path,xml_path)  # csv_to_xml
-    xml2json =Xml2Labelme(imgs_path,json_path,'result',8)
+    ShiwuHedui(imgs_path, csv_path, xml_path)  # csv_to_xml
+    xml2json = Xml2Labelme(imgs_path, json_path, 'result', 8)
 
     print('分析标注结果生成混淆矩阵')
     annalyresult = AnnalyResult(gt_json,
-                 json_path,#pre jsons
-                 split_result_file,
-                 '140model_0420testdata')# 混淆矩阵图像名字，不带后缀
+                                json_path,  # pre jsons
+                                split_result_file,
+                                '140model_0420testdata')  # 混淆矩阵图像名字，不带后缀
     cm, gt_cate = annalyresult.getcm()
-    print(gt_cate)
+    print('gt_cate:', gt_cate)
     content = confusion_mtx_to_report(cm)
-    content_to_excel(content, save_path, header=gt_cate[0:-1], index=False, row=11, col=1)  # 写入内容， 保存路径, 表头， 表头列， 插入位置行数，插入位置列数
-    write_excel_xlsx_append(save_path, table_header, 0, 0, sheet_name='page_1')
-    write_excel_xlsx_append(save_path, header_li, 11, 0, sheet_name='page_1')
-    addimage_to_excel(split_result_file, imgs_path, save_path, 'page_1', [20, 1], [0.1, 0.1])  # 插图：漏检and过检
+
+    write_excel_xlsx_append(save_path, 'table_header', table_header, 0, 0, sheet_name=sheet)  # 写入表头
+    write_excel_xlsx_append(save_path, 'zhibiao_header', header_zhibiao, 11, 0, sheet_name=sheet)  # 写入指标
+    write_excel_xlsx_append(save_path, 'biaoqian_header', [gt_cate[0:-1]], 11, 1, sheet_name=sheet)  # 写入标签
+    write_excel_xlsx_append(save_path, 'content', content, 12, 1, sheet_name=sheet)  # 写入content
+    addimage_to_excel(split_result_file, imgs_path, save_path, sheet, [22, 1], [0.1, 0.1])  # 插图：漏检and过检
+
+def create_empty_sheet(test_file_path, excel_save_path):
+    wb = xl.Workbook()
+    file_list = os.listdir(test_file_path)
+    for file in file_list:
+        ws = wb.create_sheet(file, 0)  #插入到最开始的位置(从0开始计算)
+    wb.save(excel_save_path)
+
+if __name__ == '__main__':
+    """
+    @attention：test_file_path格式！！！
+    
+    test_file_path
+        |--- 1号面
+        |--- 2号面
+          。
+          。
+          。
+        |--- 16号面
+            |--- csv
+            |--- gt
+            |--- img
+    """
+
+    test_file_path = 'G:\weiruan_report'
+    excel_save_path = r'C:\Users\Administrator\Desktop\A.xlsx'
+
+    create_empty_sheet(test_file_path, excel_save_path)
+
+    file_list = os.listdir(test_file_path)
+    for file in file_list:
+        sub_file = os.path.join(test_file_path, file)
+        test_to_reports(sub_file, excel_save_path, sheet=file)
+
 
 
 
