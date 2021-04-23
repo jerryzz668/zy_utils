@@ -140,8 +140,8 @@ class ShiwuHedui(object):
         dic_wh = {}
         print('---')
         for i in os.listdir(p):
-            file_path = os.path.join(p, i)
-            if not os.path.isfile(file_path) or i[i.rindex('.') + 1:] not in ['json', 'jpg', 'png']: continue
+            i_p = os.path.join(p, i)
+            if not os.path.isfile(i_p) or i[i.rindex('.') + 1:] not in ['json', 'jpg', 'png']: continue
             i_p = os.path.join(p,i)
             # data = cv2.imread(i_p)
             data = Image.open(i_p)
