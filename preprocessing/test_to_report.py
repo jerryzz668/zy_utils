@@ -659,31 +659,83 @@ def write_excel_xlsx_append(file_path, data_name, data, row=0, col=0, sheet_name
 
 
 from openpyxl.drawing.image import Image as XLImage
+import json
+import numpy as np
+from openpyxl.drawing.image import Image as XLImage
 
+def json_to_instance(json_file_path):
+    '''
+    :param json_file_path: json文件路径
+    :return: json instance
+    '''
+    with open(json_file_path, 'r', encoding='utf-8') as f:
+        instance = json.load(f)
+    return instance
+def cut_images(outputs_path, imgs_path, max_number=-1):
+    '''
+    @param max_number: 最大切图数量
+    @return: NULL
+    '''
+    cut_images_helper(outputs_path, imgs_path, max_number, "loujian")
+    cut_images_helper(outputs_path, imgs_path, max_number, "guojian")
+    print("\n图片裁剪成功！")
+def cut_images_helper(outputs_path, imgs_path, max_number, special_name):
+    cuts_dir = os.path.join(outputs_path, special_name + "_cuts")
+    if not os.path.exists(cuts_dir):
+        os.mkdir(cuts_dir)
+    result_dir = os.path.join(outputs_path, special_name)
+    count = 0
+    for f in os.listdir(result_dir):
+        if f.find('.json'):
+            json_content = json_to_instance(os.path.join(result_dir, f))
+            shapes = json_content['shapes']
+            for i in range(len(shapes)):
+                # 实现上限
+                if max_number != -1:
+                    if count < max_number:
+                        count = count + 1
+                        print(count)
+                    else:
+                        break
+                # 获取坐标
+                shape = shapes[i]
+                a = np.array(shape['points'])
+                min_w, min_h = a.min(0)
+                max_w, max_h = a.max(0)
+                # 为显示清楚，padding20像素
+                print(os.path.join(imgs_path, f[:-5] + '.jpg'))
+                img = cv2.imread(os.path.join(imgs_path, f[:-5] + '.jpg'))
+                h, w = img.shape[0], img.shape[1]
+                minw = int(np.floor(min_w - 20 if (min_w - 20) > 0 else 0))
+                maxw = int(np.ceil(max_w + 20 if (max_w + 20) < w else w))
+                minh = int(np.floor(min_h - 20 if (min_h - 20) > 0 else 0))
+                maxh = int(np.ceil(max_h + 20 if (max_h + 20) < h else h))
+                # 裁剪图片
+                cropped = img[minh:maxh, minw:maxw]
+                cropped_name = os.path.join(cuts_dir, f[:-5] + '-' + str(i+1) + '-' + shape['label'] + '.jpg')
+                print(cropped_name)
+                cv2.imwrite(cropped_name, cropped)
 
-def addimage_to_excel(outputs_path, test_img_path, excel_save_path, sheet_name, position_array, ratio_array):
+def add_images_to_excel(outputs_path, imgs_path, excel_save_path, sheet_name, position_array, ratio_array):
     '''
-    sheet_name应用这一函数插入图片的sheet名
-    position_array插入图片的开始位置，[行数, 列数]，从1开始索引
-    ratio_array中设定展示[漏检, 过检]百分之多少的图片
+    @param sheet_name: 插入图片的sheet名
+    @param position_array: 插入图片的起始位置 [行数, 列数]
+    @param ratio_array: 插入[漏检, 过检]图片数量的百分比
+    @return: NULL
     '''
-    COL = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
-           'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM',
-           'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ', 'BA', 'BB', 'BC', 'BD', 'BE',
-           'BF', 'BG', 'BH', 'BI', 'BJ', 'BK', 'BL', 'BM', 'BN', 'BO', 'BP', 'BQ', 'BR', 'BS', 'BT', 'BU', 'BV', 'BW',
-           'BX', 'BY', 'BZ', 'CA', 'CB', 'CC', 'CD', 'CE', 'CF', 'CG', 'CH', 'CI', 'CJ', 'CK', 'CL', 'CM', 'CN', 'CO',
-           'CP', 'CQ', 'CR', 'CS', 'CT', 'CU', 'CV', 'CW', 'CX', 'CY', 'CZ', 'DA', 'DB', 'DC', 'DD', 'DE', 'DF', 'DG',
-           'DH', 'DI', 'DJ', 'DK', 'DL', 'DM', 'DN', 'DO', 'DP', 'DQ', 'DR', 'DS', 'DT', 'DU', 'DV', 'DW', 'DX', 'DY',
-           'DZ']
+    ALPHABET = [chr(i) for i in range(65, 91)]
+    COL = ALPHABET
+    for CHR in ALPHABET:
+        CHR_LIST = list(CHR) * 26
+        EXT = [CHR_LIST[i] + ALPHABET[i] for i in range(len(CHR_LIST))]
+        COL = COL + EXT
     book = xl.load_workbook(excel_save_path)
     sheet = book[sheet_name]
     # new_sheet = book.create_sheet(title='loujian')
 
-    # 查找漏检图片 outputs_path/loujian
-    img_names = list()
-    for f in os.listdir(os.path.join(outputs_path, 'loujian')):
-        if f.find('.json'):
-            img_names.append(f)
+    # 查找漏检图片 outputs_path/loujian_cuts
+    cuts_dir = os.path.join(outputs_path, 'loujian_cuts')
+    img_names = list(os.listdir(cuts_dir))
     # 决定展示图片数量
     number = 0
     if img_names:
@@ -697,37 +749,52 @@ def addimage_to_excel(outputs_path, test_img_path, excel_save_path, sheet_name, 
         sheet[COL[col_idx] + str(row + 1)] = '无漏检图片'
     else:
         for name in show_img_names:
-            img_name = os.path.join(test_img_path, name[:-5] + '.jpg')
+            img_name = os.path.join(cuts_dir, name)
             # print(img_name)
             img = XLImage(img_name)
-            # print(COL[col_idx] + str(row + 1))
+            # 根据图片宽度自适应排布
+            gap = 2
+            if img.width >= 140:
+                gap = 3
+                if img.width >= 200:
+                    w, h = img.width, img.height
+                    img.width = 200  # 限定最大宽度
+                    img.height = img.width * h / w
             sheet.add_image(img, (COL[col_idx] + str(row + 1)))
-            col_idx = col_idx + 2
+            col_idx = col_idx + gap
 
-    # 查找过检图片 outputs_path/guojian
-    img_names = list()
-    for f in os.listdir(os.path.join(outputs_path, 'guojian')):
-        if f.find('.json'):
-            img_names.append(f)
+    # 查找过检图片 outputs_path/guojian_cuts
+    cuts_dir = os.path.join(outputs_path, 'guojian_cuts')
+    img_names = list(os.listdir(cuts_dir))
     # 决定展示图片数量
     number = 0
     if img_names:
-        number = int(len(img_names) * ratio_array[0]) + 1
+        number = int(len(img_names) * ratio_array[1]) + 1
         show_img_names = random.sample(img_names, number)
-        # 插入过检图片
-    col_idx = position_array[1] - 1 + 9  # row不变，col相对于漏检图开始位置+9
+    # 插入过检图片
+    if not col_idx:
+        col_idx = col_idx + 7
     sheet[COL[col_idx] + str(row)] = '过检图片:'
     if not number:
         sheet[COL[col_idx] + str(row + 1)] = '无过检图片'
     else:
         for name in show_img_names:
-            img_name = os.path.join(test_img_path, name[:-5] + '.jpg')
+            img_name = os.path.join(cuts_dir, name)
             # print(img_name)
             img = XLImage(img_name)
+            # 根据图片宽度自适应排布
+            gap = 2
+            if img.width >= 140:
+                gap = 3
+                if img.width >= 200:
+                    w, h = img.width, img.height
+                    img.width = 200
+                    img.height = img.width * h / w
             sheet.add_image(img, COL[col_idx] + str(row + 1))
-            col_idx = col_idx + 2
+            col_idx = col_idx + gap
 
     book.save(excel_save_path)
+    print("\n图片插入excel成功！")
 
 
 def test_to_reports(sub_file, save_path, sheet):
@@ -775,7 +842,9 @@ def test_to_reports(sub_file, save_path, sheet):
     write_excel_xlsx_append(save_path, 'zhibiao_header', header_zhibiao, 11, 0, sheet_name=sheet)  # 写入指标
     write_excel_xlsx_append(save_path, 'biaoqian_header', [gt_cate[0:-1]], 11, 1, sheet_name=sheet)  # 写入标签
     write_excel_xlsx_append(save_path, 'content', content, 12, 1, sheet_name=sheet)  # 写入content
-    addimage_to_excel(split_result_file, imgs_path, save_path, sheet, [22, 1], [0.1, 0.1])  # 插图：漏检and过检
+
+    cut_images(split_result_file, imgs_path, 100)
+    add_images_to_excel(split_result_file, imgs_path, save_path, sheet, [22, 1], [0.1, 0.04])  # 插图：漏检and过检
 
 def create_empty_sheet(test_file_path, excel_save_path):
     wb = xl.Workbook()
