@@ -69,3 +69,9 @@ def create_empty_excel(save_path, sheet):
     wb = xl.Workbook()
     ws = wb.create_sheet(sheet, 0)
     wb.save(save_path)
+
+# 读取excel中的sheet
+def read_excel(excel_path, sheet_name):
+    book = xl.load_workbook(excel_path)
+    sheet = book[sheet_name]
+    return sheet

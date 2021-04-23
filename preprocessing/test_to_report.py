@@ -716,7 +716,7 @@ def cut_images_helper(outputs_path, imgs_path, max_number, special_name):
                 print(cropped_name)
                 cv2.imwrite(cropped_name, cropped)
 
-def add_images_to_excel(outputs_path, imgs_path, excel_save_path, sheet_name, position_array, ratio_array):
+def add_images_to_excel(outputs_path, excel_save_path, sheet_name, position_array, ratio_array):
     '''
     @param sheet_name: 插入图片的sheet名
     @param position_array: 插入图片的起始位置 [行数, 列数]
@@ -727,7 +727,7 @@ def add_images_to_excel(outputs_path, imgs_path, excel_save_path, sheet_name, po
     COL = ALPHABET
     for CHR in ALPHABET:
         CHR_LIST = list(CHR) * 26
-        EXT = [CHR_LIST[i] + ALPHABET[i] for i in range(len(CHR_LIST))]
+        EXT = [i + j for i, j in zip(CHR_LIST, ALPHABET)]
         COL = COL + EXT
     book = xl.load_workbook(excel_save_path)
     sheet = book[sheet_name]
@@ -749,18 +749,16 @@ def add_images_to_excel(outputs_path, imgs_path, excel_save_path, sheet_name, po
         sheet[COL[col_idx] + str(row + 1)] = '无漏检图片'
     else:
         for name in show_img_names:
+            sheet[COL[col_idx] + str(row + 1)] = name
             img_name = os.path.join(cuts_dir, name)
-            # print(img_name)
             img = XLImage(img_name)
             # 根据图片宽度自适应排布
-            gap = 2
-            if img.width >= 140:
-                gap = 3
-                if img.width >= 200:
-                    w, h = img.width, img.height
-                    img.width = 200  # 限定最大宽度
-                    img.height = img.width * h / w
-            sheet.add_image(img, (COL[col_idx] + str(row + 1)))
+            w, h = img.width, img.height
+            gap = 2 if w < 140 else 3
+            fixed_width = 120 if w < 140 else 180  # 限定最大宽度
+            img.width = fixed_width
+            img.height = img.width * h / w
+            sheet.add_image(img, (COL[col_idx] + str(row + 2)))
             col_idx = col_idx + gap
 
     # 查找过检图片 outputs_path/guojian_cuts
@@ -779,18 +777,16 @@ def add_images_to_excel(outputs_path, imgs_path, excel_save_path, sheet_name, po
         sheet[COL[col_idx] + str(row + 1)] = '无过检图片'
     else:
         for name in show_img_names:
+            sheet[COL[col_idx] + str(row + 1)] = name
             img_name = os.path.join(cuts_dir, name)
-            # print(img_name)
             img = XLImage(img_name)
             # 根据图片宽度自适应排布
-            gap = 2
-            if img.width >= 140:
-                gap = 3
-                if img.width >= 200:
-                    w, h = img.width, img.height
-                    img.width = 200
-                    img.height = img.width * h / w
-            sheet.add_image(img, COL[col_idx] + str(row + 1))
+            w, h = img.width, img.height
+            gap = 2 if w < 140 else 3
+            fixed_width = 120 if w < 140 else 180  # 限定最大宽度
+            img.width = fixed_width
+            img.height = img.width * h / w
+            sheet.add_image(img, (COL[col_idx] + str(row + 2)))
             col_idx = col_idx + gap
 
     book.save(excel_save_path)
@@ -799,7 +795,7 @@ def add_images_to_excel(outputs_path, imgs_path, excel_save_path, sheet_name, po
 
 def test_to_reports(sub_file, save_path, sheet):
     table_header = [['产品代号', 'C件'],
-                    ['光学面', '大面(13~16/1~16)'],
+                    ['光学面', sheet],
                     ['模型版本号', 'htc_20210419'],
                     ['测试集版本号', 'ceshi_20210419'],
                     ['测试通过条件', '刮伤漏检率<5%'],
@@ -844,7 +840,7 @@ def test_to_reports(sub_file, save_path, sheet):
     write_excel_xlsx_append(save_path, 'content', content, 12, 1, sheet_name=sheet)  # 写入content
 
     cut_images(split_result_file, imgs_path, 100)
-    add_images_to_excel(split_result_file, imgs_path, save_path, sheet, [22, 1], [0.1, 0.04])  # 插图：漏检and过检
+    add_images_to_excel(split_result_file, save_path, sheet, [22, 1], [0.1, 0.04])  # 插图：漏检and过检
 
 def create_empty_sheet(test_file_path, excel_save_path):
     wb = xl.Workbook()

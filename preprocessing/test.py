@@ -12,6 +12,7 @@ import glob
 import numpy as np
 import pypinyin
 import xlwt
+from zy_utils import *
 
 # def search(array, num):
 #     low, high = 0, len(array)-1
@@ -53,6 +54,15 @@ import xlwt
 
 import os
 import openpyxl
+from openpyxl.styles import Font, Alignment
 
-gt_cate: [['aokeng', 'baidian', 'guashang-baiduan', 'guashang-baizhang', 'guashang-heiduan', 'guashang-heizhang',
-          'heidian', 'maoxu', 'pengshang-bian', 'pengshang-zhang', 'shahenyin', 'tabian-an', 'tabian-liang', 'yise-bai', 'yise-hei', 'yise-liang', 'z_lou_or_guo']]
+font = Font(name='宋体', size=11, color='FF000000', bold=True, italic=False)
+align = Alignment(horizontal='center', vertical='center', wrap_text=False)
+
+excel_path = r'C:\Users\Administrator\Desktop\A.xlsx'
+
+book = xl.load_workbook(excel_path)
+sheet = book['ljq']
+sheet['A1'].font = font
+sheet['A1'].align = align
+book.save(excel_path)
