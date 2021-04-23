@@ -121,10 +121,10 @@ class Dic2xml(object):
 #     xml_save_path = r'C:\Users\xie5817026\PycharmProjects\pythonProject1\0104\xml'
 #     Dic2xml(dic, xml_save_path)
 class ShiwuHedui(object):
-    def __init__(self, sub_file, source_p, csv_p, xml_p):
+    def __init__(self, source_p, csv_p, xml_p):
 
         #图像位置
-        dic_wh = self.w_h(sub_file)#图像存放位置#获取所有图像的wh字典
+        dic_wh = self.w_h(source_p)#图像存放位置#获取所有图像的wh字典
         if not os.path.exists(xml_p):
             os.makedirs(xml_p)
         for imgs_name in os.listdir(source_p):
@@ -822,7 +822,7 @@ def test_to_reports(sub_file, save_path, sheet):
     split_result_file = os.path.join(os.path.dirname(imgs_path), 'outputs_path')  # split result file
     xml_path = os.path.join(imgs_path, 'outputs')  # 自动生成 测试结果生成的xml
     json_path = os.path.join(imgs_path, 'jsons')  # 自动生成 xml转成的json
-    ShiwuHedui(sub_file, imgs_path, csv_path, xml_path)  # csv_to_xml
+    ShiwuHedui(imgs_path, csv_path, xml_path)  # csv_to_xml
     xml2json = Xml2Labelme(imgs_path, json_path, 'result', 8)
 
     print('分析标注结果生成混淆矩阵')
