@@ -233,7 +233,7 @@ def _extract_contrast(mask, image, up_scale=100):
 
     return contrast * up_scale
 
-coco_path = '/Users/zhangyan/Desktop/instances_train2017.json'
+coco_path = r'E:\project\Datasets\gs_ys\ys_yz\instances_coco.json'
 coco = json_to_instance(coco_path)
 imgs = coco.get('images')
 cate = coco.get('categories')
@@ -249,26 +249,8 @@ dic_id_cate = {}
 for i in cate:
     dic_id_cate[i['id']]=i['name']
 
-# segm = anno[0].get('segmentation')
-# mask = decode(segm)
-# print(mask.shape)
-# image = cv2.imread('/home/lijq/PycharmProjects/micro-i-tools/1/887_4168_2.jpg')
-# print(image.shape)
-# print(mask)
-
-# csv需要获取img_name, class_name, xmin, ymin, bb_width, bb_height, score, length, width, pixel_area, gradients, contrast, brightness, plevel, describe
-
-# length = _extract_length(mask)
-# width = _extract_width(mask)
-# print('length,width',length,width)
-# contrast = _extract_contrast(mask, image, up_scale=100)
-# print('contrast:',contrast)
-# brightness = _extract_brightness(mask, image)
-# print('brightness:',brightness)
-# gradients = _extract_gradients(mask, image)
-# print('gradients:',gradients)
-imgs_root = '/Users/zhangyan/Desktop/xml_to-csv/imgs'
-output_csv_path='/Users/zhangyan/Desktop/0417.csv'
+imgs_root = r'E:\project\Datasets\gs_ys\ys_yz'
+output_csv_path = r'E:\project\Datasets\gs_ys\results.csv'
 
 #XUNHUAN
 import os
@@ -277,8 +259,7 @@ if not os.path.exists(output_csv_path):
         f.write('img_name,class_name,class_name1,xmin,ymin,bb_width,bb_height,score,length,width,pixel_area,gradients,contrast,brightness,plevel,describe\n')
 for i in range(len(anno)):
     anno_single = anno[i]
-    img_id = anno_single['id']
-# try:
+    img_id = anno_single['image_id']
     img_name = dic_id_img[img_id]
     class_id = anno_single['category_id']
     class_name = dic_id_cate[class_id]
@@ -299,8 +280,11 @@ for i in range(len(anno)):
     length,width = _extract_length_width_bydt(mask)
     pixel_area = anno_single['area']
     img_p = os.path.join(imgs_root,img_name)
+    print('img_p: ',img_p)
     image = cv2.imread(img_p)
     print(xmin, ymin, bb_width, bb_height)
+    print(type(image))
+    print(image)
     print(image.shape)
     mask_cut = mask[ymin:ymin+bb_height,xmin:xmin+bb_width]
     print(mask_cut.shape)
@@ -316,7 +300,7 @@ for i in range(len(anno)):
     '''
     plevel =anno_single['plevel']
     describe = anno_single['describe']
-    with open(output_csv_path,'a') as f:
+    with open(output_csv_path, 'a') as f:
         f.write('{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}\n'.format(
             img_name, class_name,class_name1, xmin, ymin, bb_width, bb_height, score, length, width, pixel_area, gradients[0],
             contrast, brightness, plevel, describe

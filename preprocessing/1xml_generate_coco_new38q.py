@@ -71,18 +71,23 @@ class Xml2Labelme(object):
         return type
     def transform_xml_2labelme(self,xml_path,save_json,image_name,class_py_ch_dic):
         transform_shapes_dic = {'polygon':'polygon','line':'linestrip','bndbox':'rectangle','point':'circle','ellipse':'circle'}
+        # print('xml_path-->', xml_path)
         tree = ET.parse(xml_path)
         root_node = tree.getroot()
+        print('root_node0:', root_node[0].tag)
+        print('root_node1:', root_node[1].tag)
+        print('root_node2:', root_node[2].tag)
+        print('root_node3:', root_node[3].tag)
         imagePath = '{}.jpg'.format(image_name)
         xmlPath = root_node[0].text.split('tmp')[-1]
-        print('class_py_ch_dic--',xmlPath)
-        imageWidth =int(root_node[3][0].text) #json_obj['imageWidth']=0
-        imageHeight = int(root_node[3][1].text)#json_obj['imageHeight']=0
-        imageDepth = int(root_node[3][2].text)#null
-        imageLabeled = root_node[2] .text
-        time_Labeled = ''#root_node[2].text
+        print('class_py_ch_dic<--xmlPath ', xmlPath)
+        imageWidth =int(root_node[4][0].text) #json_obj['imageWidth']=0
+        imageHeight = int(root_node[4][1].text)#json_obj['imageHeight']=0
+        imageDepth = int(root_node[4][2].text)#null
+        imageLabeled = root_node[3].text
+        time_Labeled = ''   #root_node[2].text
         shapes = []
-        #print('root_node[1][0]',root_node[1][0])
+        # print('root_node[1][0]',root_node[1][0])
         for i in root_node[1][0]:
             dic_instance = {}
             dic_instance['label']=self.pinyin(i[0].text)
@@ -129,13 +134,13 @@ class Xml2Labelme(object):
                 #print('无照片严重程度')
                 a=0
             try:
-                dic_instance['plevel'] = self.pinyin(i[5].text) #i[5].text#'mlevel'
+                dic_instance['plevel'] = self.pinyin(i[4].text) #i[5].text#'mlevel'
             except:
                 #print('无缺陷严重程度')
                 dic_instance['plevel'] ='0'
                 a=0
             try:
-                dic_instance['describe'] = self.pinyin(i[6].text)#i[6].text#'describe'
+                dic_instance['describe'] = self.pinyin(i[5].text)#i[6].text#'describe'
             except:
                 dic_instance['describe'] = 'no'
                 a=0
@@ -161,11 +166,15 @@ class Xml2Labelme(object):
     def main_share(self,local_path,save_path,process_num=4):
         pool = multiprocessing.Pool(processes=process_num) # 创建进程个数
         class_py_ch_dic=multiprocessing.Manager().dict()
+        print('-->class_py_ch_dic: ',class_py_ch_dic)
         for i in os.listdir(local_path):
             xml_path = os.path.join(local_path,i)#xml_path
             image_name = i.split('.xml')[0]
             json_path = os.path.join(save_path,'{}.json'.format(image_name))
-            print('json_path',json_path)
+            # print('xml_path==',xml_path)
+            # print('json_path==',json_path)
+            # print('image_name==',image_name)
+            # print('class_py_ch_dic==',class_py_ch_dic)
             pool.apply_async(self.transform_xml_2labelme,args=(xml_path,json_path,image_name,class_py_ch_dic))
         pool.close()
         pool.join()
@@ -510,7 +519,7 @@ class labelme2coco(object):
         annotations.append(self.annotation(img_shape,points,plevel, describe, label,num,shape_type,annotations,categories))
 
     def data_transfer(self):
-        pool = multiprocessing.Pool(processes=1) # 创建进程个数
+        pool = multiprocessing.Pool(processes=32) # 创建进程个数
         images = []
         #images=multiprocessing.Manager().list()
         annotations = multiprocessing.Manager().list()
@@ -656,9 +665,9 @@ class Modify_COCO_Cate(object):
         save_coco_dic['annotations']=save_coco_annotations
         self.save_json(save_coco_dic,save_coco_json)
 if __name__ == "__main__":
-    annotation_root_path = r"C:\Users\Administrator\Desktop\gt"
-    out_coco_root_path = r"C:\Users\Administrator\Desktop\gt"
-    # Select_data(annotation_root_path,out_coco_root_path)#过滤xml与img不符合情况
+    annotation_root_path = 'E:\project\Datasets\gs_ys\ys_yz'
+    out_coco_root_path = 'E:\project\Datasets\gs_ys\ys_yz'
+    #Select_data(annotation_root_path,out_coco_root_path)#过滤xml与img不符合情况
 
     img_jsons=os.path.join(annotation_root_path,'jsons')
     process_nums = 8
@@ -675,8 +684,9 @@ if __name__ == "__main__":
     # utils_wy = UtilsMicroI(img_jsons,out_path_result_cut,result_write,expect_annotations_file)
     # #2coco
     # labelme_json=glob.glob('{}/*.json'.format(cut_labelme.out_path_result_cut))
-    # coco_path = os.path.join(out_coco_root_path,'instances_coco.json')
-    # labelme2coco(labelme_json,coco_path)
+    labelme_json = glob.glob('{}/jsons/*.json'.format(out_coco_root_path))
+    coco_path = os.path.join(out_coco_root_path,'instances_coco.json')
+    labelme2coco(labelme_json,coco_path)
     #
     #
     # cz_json= r'D:\work\data\microsoft\jalama\second_data_merge_3\coco\annotations\instances_val2017.json'
@@ -685,12 +695,13 @@ if __name__ == "__main__":
     #
     #
     #2coco
-    # labelme_json=glob.glob(r'C:\Users\Administrator\Desktop\xml_to_csv\jsons\*.json')
-    # coco_path = os.path.join(r'C:\Users\Administrator\Desktop','instances_test2017.json')
-    # labelme2coco(labelme_json,coco_path)
-    #
-    # cz_json= '/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/second_A/2cuts/splite/annotations/instances_train2017.json'
-    # save_json_path =os.path.join('/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/second_A/2cuts/splite/annotations','instances_val2017.json')
+    # labelme_json=glob.glob('/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/NEWSTART/adcm/coco/cococm/train2017/*.json')
+    # coco_path = os.path.join('/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/AD_join/A_datasets/coco/instances','instances_train_before.json')
+    # # labelme2coco(labelme_json,coco_path)
+    # #
+    # cz_json= '/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/AD_join/A_datasets/coco/instances/cz.json'
+    # # coco_path='/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/NEWSTART/adcm/coco/cococm/annotations/val20171.json'
+    # save_json_path =os.path.join('/media/lijq/f373fb19-ec6a-4a1c-96e5-3f2013f3f5c6/AD_join/A_datasets/coco/instances','instances_train2017.json')
     # Modify_COCO_Cate(cz_json,coco_path,save_json_path)
 
 
