@@ -849,6 +849,28 @@ def create_empty_sheet(test_file_path, excel_save_path):
         ws = wb.create_sheet(file, 0)  #插入到最开始的位置(从0开始计算)
     wb.save(excel_save_path)
 
+from openpyxl.styles import Font, Alignment
+
+def beautify_excel(excel_path):
+    font = Font(name='宋体', size=11, color='FF000000', bold=True, italic=False)
+    align = Alignment(horizontal='center', vertical='center', wrap_text=False)
+
+    book = xl.load_workbook(excel_path)  # 加载excel
+    sheet_names = book.sheetnames  # 获取所有的sheet名称
+    sheet_names.remove('Sheet')
+
+    for sheet in sheet_names:
+        for row in book['{}'.format(sheet)]['A1:A5']:
+            for cell in row:
+                cell.font = font
+                cell.alignment = align
+
+        for row in book['{}'.format(sheet)]['A12:Z19']:
+            for cell in row:
+                cell.alignment = align
+
+    book.save(excel_path)
+
 if __name__ == '__main__':
     """
     @attention：test_file_path格式！！！
@@ -875,6 +897,6 @@ if __name__ == '__main__':
         sub_file = os.path.join(test_file_path, file)
         test_to_reports(sub_file, excel_save_path, sheet=file)
 
-
+    beautify_excel(excel_save_path)
 
 

@@ -9,6 +9,7 @@ import json
 import pandas as pd
 import openpyxl as xl
 from pypinyin import pinyin, NORMAL
+from openpyxl.styles import Font, Alignment
 
 def mkdir(save_path):
     if not os.path.exists(save_path):
@@ -75,3 +76,24 @@ def read_excel(excel_path, sheet_name):
     book = xl.load_workbook(excel_path)
     sheet = book[sheet_name]
     return sheet
+
+# 美化excel
+def beautify_excel(excel_path):
+    font = Font(name='宋体', size=11, color='FF000000', bold=True, italic=False)
+    align = Alignment(horizontal='center', vertical='center', wrap_text=False)
+
+    book = xl.load_workbook(excel_path)  # 加载excel
+    sheet_names = book.sheetnames  # 获取所有的sheet名称
+    sheet_names.remove('Sheet')
+
+    for sheet in sheet_names:
+        for row in book['{}'.format(sheet)]['A1:A5']:
+            for cell in row:
+                cell.font = font
+                cell.alignment = align
+
+        for row in book['{}'.format(sheet)]['A12:Z19']:
+            for cell in row:
+                cell.alignment = align
+
+    book.save(excel_path)
