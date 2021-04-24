@@ -427,17 +427,24 @@ class AnnalyResult(object):
         result_l = []
         for j in require:
             result_flag = 0
+            re_flag = True
             gt_points = j['points']
             for k in part:
                 pre_points = k['points']
                 bbox_gt = self.get_points_box(gt_points,j['shape_type'])
                 bbox_re = self.get_points_box(pre_points,k['shape_type'])
                 iou=self.compute_iou(bbox_gt,bbox_re)
-                if iou<iou_thr:#<iou_thr:
-                    #print('iou:',iou),#过检和漏检与gt的iou都为0
-                    result_flag+=1
-                    #print('r',result_flag,len(part))
-            if result_flag==len(part):#iou为0的数量与所有预测标注的数量是否相等，若相等表明缺陷漏检，若为0的记录小于0则表明缺陷未漏检。
+
+                if iou > iou_thr:
+                    re_flag = False
+                    break
+                # if iou<iou_thr:  # <iou_thr:
+                #     # print('iou:',iou),#过检和漏检与gt的iou都为0
+                #     result_flag+=1
+
+            # if result_flag==len(part):#iou为0的数量与所有预测标注的数量是否相等，若相等表明缺陷漏检，若为0的记录小于0则表明缺陷未漏检。
+            if re_flag:
+                print('result_lll')
                 if f_l_flag=='loujian':#loushi
                     self.gt_class.append(j['label'])
                     self.pre_class.append('z_lou_or_guo')
@@ -488,6 +495,7 @@ class AnnalyResult(object):
         new_json_dic['shapes']=shapes
         new_json_dic['time_Labeled']=''#cz['time_Labeled']
         new_json_dic['version']=''#cz['version']
+        print('shapes: ', len(shapes))
         if len(shapes)!=0:
             self.save_json(new_json_dic,save_json)
 
@@ -506,9 +514,11 @@ class AnnalyResult(object):
         merge_gt_pre_shapes.extend(guojian_shapes)
         loujian_shapes = []
         try:
-            loujian_shapes = self.l_g_ls(gt_shapes,pre_shapes,0.01,'loujian')
+            loujian_shapes = self.l_g_ls(gt_shapes,pre_shapes,0.2,'loujian')
+            print('try_loujian:', loujian_shapes)
         except:
             loujian_shapes.extend(gt_shapes)
+            print('except_loujian:', loujian_shapes)
         print('---',len(guojian_shapes),len(loujian_shapes),len(jiandui_shapes),len(gt_shapes),len(merge_gt_pre_shapes))
         guojian_path = os.path.join(save_path,'guojian')
         loujian_path = os.path.join(save_path,'loujian')
@@ -887,7 +897,7 @@ if __name__ == '__main__':
             |--- img
     """
 
-    test_file_path = 'G:\weiruan_report'
+    test_file_path = r"G:\report"
     excel_save_path = r'C:\Users\Administrator\Desktop\A.xlsx'
 
     create_empty_sheet(test_file_path, excel_save_path)
