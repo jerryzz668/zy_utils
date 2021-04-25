@@ -9,7 +9,7 @@ import openpyxl as xl
 # ---------------------------class7----------------------start
 # 实物csv和实物图可视化，给他实物图和实物csv生成对应的xml标注和标注合并图，显示的时候注意类别映射字典。调用：#csv_p = r'C:\Users\xie5817026\PycharmProjects\pythonProject1\0104\ProductGradeMaterialCheck.csv'
 # img_p ='D:\work\data\microsoft\jalama\data\heduiji\merge_all",ShiwuHedui(img_p,csv_p),生成'D:\work\data\microsoft\jalama\data\heduiji\merge_all\outputs",'D:\work\data\microsoft\jalama\data\heduiji\merge_all\r_imgs"
-import pandas as ps
+import pandas as pd
 from PIL import Image
 
 
@@ -108,7 +108,7 @@ class Dic2xml(object):
 #     xml_save_path = r'C:\Users\xie5817026\PycharmProjects\pythonProject1\0104\xml'
 #     Dic2xml(dic, xml_save_path)
 class ShiwuHedui(object):
-    def __init__(self, source_p, csv_p, xml_p):
+    def __init__(self, source_p, csv_p, xml_p, score_list):
 
         # 图像位置
         dic_wh = self.w_h(source_p)  # 图像存放位置#获取所有图像的wh字典
@@ -120,9 +120,10 @@ class ShiwuHedui(object):
                 xml_name = imgs_name.replace('jpg', 'xml')
                 csv_pp = os.path.join(csv_p, csv_name)
                 xml_save_path = os.path.join(xml_p, xml_name)
-                img_dic_c = self.read_csv(csv_pp, dic_wh, imgs_name)  # csv格式 #读取一张图像csv
-                print('img_dic_c', img_dic_c)
-                Dic2xml(img_dic_c, xml_save_path)
+                for i in range(len(score_list)):
+                    img_dic_c = self.read_csv(csv_pp, dic_wh, imgs_name, score_list[i])  # csv格式 #读取一张图像csv
+                    # print('img_dic_c', img_dic_c)
+                    Dic2xml(img_dic_c, os.path.join(xml_save_path, 'confidence_{}'.format(score_list[i])))
 
     def w_h(self, p):
         dic_wh = {}
@@ -137,11 +138,12 @@ class ShiwuHedui(object):
             print(data.size)
         return dic_wh
 
-    def read_csv(self, csv_path, dic_wh, img_name):
-        r = ps.read_csv(csv_path,
+    def read_csv(self, csv_path, dic_wh, img_name, score_threshold):
+        r = pd.read_csv(csv_path,
                         usecols=['photo_id', 'product_id', 'channel_id', 'class_name', 'xmin', 'ymin', 'bb_width',
                                  'bb_height'])
         # r = ps.read_csv(csv_path,usecols=['任务号','工件号','图号','缺陷','PointX','PointY','Width','Height'])
+        r = self.filtrate_score(r, score_threshold)
         imgs_dic = {}
         x_min = r['xmin']
         y_min = r['ymin']
@@ -171,6 +173,16 @@ class ShiwuHedui(object):
         print(img_dic_c)
         return img_dic_c
 
+    def filtrate_score(self, r, score_threshold):
+        """
+        @param r: csv原始数据
+        @param score_threshold: 0.1， 0.2， 0.5
+        @return: 排序筛选阈值以上的dataframe
+        """
+        sorted_r = r.sort_values('score', ascending=False)
+        for i in range(len(sorted_r)):
+            if sorted_r.iloc[i, -1] < score_threshold:
+                return sorted_r.iloc[0:i,:]
 
 # ---------------------------class7----------------------end
 
@@ -190,8 +202,8 @@ import cv2
 
 
 class Xml2Labelme(object):
-    def __init__(self, annotation_root_path, jsons_path, result_write, process_num=8):
-        self.xml_outputs_path = os.path.join(annotation_root_path, 'outputs')
+    def __init__(self, annotation_root_path, jsons_path, result_write, score, process_num=8):
+        self.xml_outputs_path = os.path.join(annotation_root_path, 'outputs', 'confidence_{}'.format(score))
         if not os.path.exists(jsons_path):
             os.makedirs(jsons_path)
         self.jsons_path = jsons_path
@@ -811,7 +823,7 @@ def add_images_to_excel(outputs_path, excel_save_path, sheet_name, position_arra
     print("\n图片插入excel成功！")
 
 
-def test_to_reports(sub_file, save_path, sheet):
+def test_to_reports(sub_file, save_path, sheet, score_list):
     table_header = [['产品代号', 'C件'],
                     ['光学面', sheet],
                     ['模型版本号', 'htc_20210419'],
@@ -840,8 +852,9 @@ def test_to_reports(sub_file, save_path, sheet):
     split_result_file = os.path.join(os.path.dirname(imgs_path), 'outputs_path')  # split result file
     xml_path = os.path.join(imgs_path, 'outputs')  # 自动生成 测试结果生成的xml
     json_path = os.path.join(imgs_path, 'jsons')  # 自动生成 xml转成的json
-    ShiwuHedui(imgs_path, csv_path, xml_path)  # csv_to_xml
-    xml2json = Xml2Labelme(imgs_path, json_path, 'result', 8)
+    ShiwuHedui(imgs_path, csv_path, xml_path, score_list)  # csv_to_xml
+    for score in score_list:
+        xml2json = Xml2Labelme(imgs_path, os.path.join(json_path, 'confidence_{}'.format(score)), 'result', score, 8)
 
     print('分析标注结果生成混淆矩阵')
     annalyresult = AnnalyResult(gt_json,
@@ -896,7 +909,7 @@ def beautify_excel(excel_path):
 if __name__ == '__main__':
     """
     @attention：test_file_path格式！！！
-    
+
     test_file_path
         |--- 1号面
         |--- 2号面
@@ -910,6 +923,7 @@ if __name__ == '__main__':
     """
 
     test_file_path = r"G:\weiruan_report"
+    score_list = [0.1, 0.5]
     excel_save_path = r'C:\Users\Administrator\Desktop\A.xlsx'
 
     create_empty_sheet(test_file_path, excel_save_path)
@@ -917,6 +931,6 @@ if __name__ == '__main__':
     file_list = os.listdir(test_file_path)
     for file in file_list:
         sub_file = os.path.join(test_file_path, file)
-        test_to_reports(sub_file, excel_save_path, sheet=file)
+        test_to_reports(sub_file, excel_save_path, sheet=file, score_list=score_list)
 
     beautify_excel(excel_save_path)
