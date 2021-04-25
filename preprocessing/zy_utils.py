@@ -10,6 +10,7 @@ import pandas as pd
 import openpyxl as xl
 from pypinyin import pinyin, NORMAL
 from openpyxl.styles import Font, Alignment
+import xml.etree.ElementTree as ET
 
 def mkdir(save_path):
     if not os.path.exists(save_path):
@@ -97,3 +98,82 @@ def beautify_excel(excel_path):
                 cell.alignment = align
 
     book.save(excel_path)
+
+# 创建节点
+def create_Node(element, text=None):
+    elem = ET.Element(element)
+    elem.text = text
+    return elem
+
+# 链接节点到根节点
+def link_Node(root, element, text=None):
+    """
+    @param root: element的父节点
+    @param element: 创建的element子节点
+    @param text: element节点内容
+    @return: 创建的子节点
+    """
+    if text != None:
+        text = str(text)
+    element = create_Node(element, text)
+    root.append(element)
+    return element
+
+def compute_iou(bbox1, bbox2):
+    """
+    compute iou
+    """
+    bbox1xmin = bbox1[0]
+    bbox1ymin = bbox1[1]
+    bbox1xmax = bbox1[2]
+    bbox1ymax = bbox1[3]
+    bbox2xmin = bbox2[0]
+    bbox2ymin = bbox2[1]
+    bbox2xmax = bbox2[2]
+    bbox2ymax = bbox2[3]
+
+    area1 = (bbox1ymax - bbox1ymin) * (bbox1xmax - bbox1xmin)
+    area2 = (bbox2ymax - bbox2ymin) * (bbox2xmax - bbox2xmin)
+
+    bboxxmin = max(bbox1xmin, bbox2xmin)
+    bboxxmax = min(bbox1xmax, bbox2xmax)
+    bboxymin = max(bbox1ymin, bbox2ymin)
+    bboxymax = min(bbox1ymax, bbox2ymax)
+    if bboxxmin >= bboxxmax:
+        return 0
+    if bboxymin >= bboxymax:
+        return 0
+
+    area = (bboxymax - bboxymin) * (bboxxmax - bboxxmin)
+    iou = area / (area1 + area2 - area)
+    return iou
+
+class Box:
+    # x, y是左上角坐标
+    def __init__(self, x, y, w, h, category=None, confidence=None):
+        self.category = category
+        self.confidence = confidence
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+
+    def get_area(self):
+        return self.w * self.h
+
+    def get_iou(self, box2):
+        inter_area = calculate_inter_area(self, box2)
+        return inter_area/(self.get_area()+box2.get_area()-inter_area)
+
+def calculate_inter_area(box1, box2):
+    '''
+    :param box1: Box对象
+    :param box2: Box对象
+    :return: box1与box2的交面积
+    '''
+    left_x, left_y = max([box1.x, box2.x]), max([box1.y, box2.y])
+    right_x, right_y = min([box1.x + box1.w, box2.x + box2.w]), min([box1.y + box1.h, box2.y + box2.h])
+    height = right_y - left_y
+    width = right_x - left_x
+    area = height * width if height>0 and width>0 else 0
+    return area
