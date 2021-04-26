@@ -43,3 +43,23 @@
 拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'yise')
 汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'yise')
 类别数量：6
+拼音-汉字-字典：{'guashang': 'guashang', 'heidian': 'heidian', 'daowen': 'daowen', 'yise2': 'yise2', 'baidian': 'baidian', 'mianhua': 'mianhua', 'pengshang': 'pengshang', 'aotuhen': 'aotuhen', 'aokeng': 'aokeng', 'yise1': 'yise1', 'shahenyin': 'shahenyin', 'yiwu': 'yiwu'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'shahenyin': 8, 'yise1': 9, 'yise2': 10, 'yiwu': 11}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'shahenyin', 'yise1', 'yise2', 'yiwu')
+类别数量：12
+拼音-汉字-字典：{'heidian': 'heidian', 'baidian': 'baidian', 'yise2': 'yise2', 'guashang': 'guashang', 'mianhua': 'mianhua', 'daowen': 'daowen', 'pengshang': 'pengshang', 'yise1': 'yise1', 'aokeng': 'aokeng', 'aotuhen': 'aotuhen'}
+拼音-index：{'aokeng': 0, 'aotuhen': 1, 'baidian': 2, 'daowen': 3, 'guashang': 4, 'heidian': 5, 'mianhua': 6, 'pengshang': 7, 'yise1': 8, 'yise2': 9}
+拼音：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'yise1', 'yise2')
+汉字：('aokeng', 'aotuhen', 'baidian', 'daowen', 'guashang', 'heidian', 'mianhua', 'pengshang', 'yise1', 'yise2')
+类别数量：10
+拼音-汉字-字典：{'yise': 'yise', 'pengshang': 'pengshang', 'heidian': 'heidian', 'guashang': 'guashang', 'baisezaodian': 'baisezaodian', 'shahenyin': 'shahenyin', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'shahenyin': 5, 'yise': 6}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'shahenyin', 'yise')
+类别数量：7
+拼音-汉字-字典：{'pengshang': 'pengshang', 'guashang': 'guashang', 'yise': 'yise', 'baisezaodian': 'baisezaodian', 'heidian': 'heidian', 'aokeng': 'aokeng'}
+拼音-index：{'aokeng': 0, 'baisezaodian': 1, 'guashang': 2, 'heidian': 3, 'pengshang': 4, 'yise': 5}
+拼音：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'yise')
+汉字：('aokeng', 'baisezaodian', 'guashang', 'heidian', 'pengshang', 'yise')
+类别数量：6

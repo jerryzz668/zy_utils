@@ -866,7 +866,7 @@ def test_to_reports(sub_file, save_path, sheet, score_list):
     # 不同score写入指标的位置
     dic_writing_position = {}
     for i in range(len(score_list)):
-        dic_writing_position[i] = [11+30*i, 0]
+        dic_writing_position[i] = [32+53*i, 0]
 
     imgs_path = os.path.join(sub_file, 'img')  # 测试img路径
     csv_path = os.path.join(sub_file, 'csv')  # csv路径   和img分开存放
@@ -877,6 +877,7 @@ def test_to_reports(sub_file, save_path, sheet, score_list):
     json_path = os.path.join(imgs_path, 'jsons')  # 自动生成 xml转成的json
 
     for i, score in enumerate(score_list):
+        confidence = [['confidence', score]]
         ShiwuHedui(imgs_path, csv_path, os.path.join(xml_path, 'confidence_{}'.format(score)), score)  # csv_to_xml
         xml2json = Xml2Labelme(imgs_path, os.path.join(json_path, 'confidence_{}'.format(score)), 'result', score, 8)
 
@@ -890,6 +891,7 @@ def test_to_reports(sub_file, save_path, sheet, score_list):
         content = confusion_mtx_to_report(cm)
         if i == 0:
             write_excel_xlsx_append(save_path, 'table_header', table_header, 0, 0, sheet_name=sheet)  # 写入表头
+        write_excel_xlsx_append(save_path, 'confidence', confidence, dic_writing_position[i][0]-20, dic_writing_position[i][1], sheet_name=sheet)  # 写入confidence
         write_excel_xlsx_append(save_path, 'zhibiao_header', header_zhibiao, dic_writing_position[i][0], dic_writing_position[i][1], sheet_name=sheet)  # 写入指标
         write_excel_xlsx_append(save_path, 'biaoqian_header', [gt_cate[0:-1]], dic_writing_position[i][0], dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入标签
         write_excel_xlsx_append(save_path, 'content', content, dic_writing_position[i][0]+1, dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入content
