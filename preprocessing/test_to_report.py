@@ -108,7 +108,7 @@ class Dic2xml(object):
 #     xml_save_path = r'C:\Users\xie5817026\PycharmProjects\pythonProject1\0104\xml'
 #     Dic2xml(dic, xml_save_path)
 class ShiwuHedui(object):
-    def __init__(self, source_p, csv_p, xml_p, score_list):
+    def __init__(self, source_p, csv_p, xml_p, score):
 
         # 图像位置
         dic_wh = self.w_h(source_p)  # 图像存放位置#获取所有图像的wh字典
@@ -120,10 +120,9 @@ class ShiwuHedui(object):
                 xml_name = imgs_name.replace('jpg', 'xml')
                 csv_pp = os.path.join(csv_p, csv_name)
                 xml_save_path = os.path.join(xml_p, xml_name)
-                for i in range(len(score_list)):
-                    img_dic_c = self.read_csv(csv_pp, dic_wh, imgs_name, score_list[i])  # csv格式 #读取一张图像csv
-                    # print('img_dic_c', img_dic_c)
-                    Dic2xml(img_dic_c, os.path.join(xml_save_path, 'confidence_{}'.format(score_list[i])))
+                img_dic_c = self.read_csv(csv_pp, dic_wh, imgs_name, score)  # csv格式 #读取一张图像csv
+                # print('img_dic_c', img_dic_c)
+                Dic2xml(img_dic_c, xml_save_path)
 
     def w_h(self, p):
         dic_wh = {}
@@ -139,17 +138,31 @@ class ShiwuHedui(object):
         return dic_wh
 
     def read_csv(self, csv_path, dic_wh, img_name, score_threshold):
+        print('csv_path: ', csv_path)
         r = pd.read_csv(csv_path,
                         usecols=['photo_id', 'product_id', 'channel_id', 'class_name', 'xmin', 'ymin', 'bb_width',
-                                 'bb_height'])
+                                 'bb_height', 'score'])
+        print('r', r)
         # r = ps.read_csv(csv_path,usecols=['任务号','工件号','图号','缺陷','PointX','PointY','Width','Height'])
         r = self.filtrate_score(r, score_threshold)
+        print('filtrate_r:', r)
         imgs_dic = {}
         x_min = r['xmin']
         y_min = r['ymin']
         w = r['bb_width']
         h = r['bb_height']
         label = r['class_name']
+        print(x_min)
+
+        x_min = np.array(x_min)
+        y_min = np.array(y_min)
+        w = np.array(w)
+        h = np.array(h)
+        label = np.array(label)
+
+        print('x_min:', x_min)
+        # print('y_min:', y_min)
+        # print(label)
 
         for i in range(len(label)):
             img_name = img_name  # '{}-{}-{}.jpg'.format(task_ids[i],gongjian_ids[i],img_ids[i])
@@ -180,9 +193,11 @@ class ShiwuHedui(object):
         @return: 排序筛选阈值以上的dataframe
         """
         sorted_r = r.sort_values('score', ascending=False)
+        assert sorted_r.iloc[0, -1] >= score_threshold, 'confidence过高，请重新输入(｡ì _ í｡)'
         for i in range(len(sorted_r)):
             if sorted_r.iloc[i, -1] < score_threshold:
                 return sorted_r.iloc[0:i,:]
+        return sorted_r
 
 # ---------------------------class7----------------------end
 
@@ -368,6 +383,9 @@ import shutil
 
 class AnnalyResult(object):
     def __init__(self, yt_labelme, test_labelme, out_path, title_png):
+        print('yt_labelme:',yt_labelme)
+        print('test_labelme:',test_labelme)
+        print('out_path:',out_path)
         self.yt_labelme = yt_labelme
         self.test_labelme = test_labelme
         self.out_path = out_path
@@ -845,6 +863,11 @@ def test_to_reports(sub_file, save_path, sheet, score_list):
                       ['模型过检率'],
                       ['现场过检率']]
 
+    # 不同score写入指标的位置
+    dic_writing_position = {}
+    for i in range(len(score_list)):
+        dic_writing_position[i] = [11+30*i, 0]
+
     imgs_path = os.path.join(sub_file, 'img')  # 测试img路径
     csv_path = os.path.join(sub_file, 'csv')  # csv路径   和img分开存放
     gt_json = os.path.join(sub_file, 'gt')  # biaozhu jsons
@@ -852,26 +875,27 @@ def test_to_reports(sub_file, save_path, sheet, score_list):
     split_result_file = os.path.join(os.path.dirname(imgs_path), 'outputs_path')  # split result file
     xml_path = os.path.join(imgs_path, 'outputs')  # 自动生成 测试结果生成的xml
     json_path = os.path.join(imgs_path, 'jsons')  # 自动生成 xml转成的json
-    ShiwuHedui(imgs_path, csv_path, xml_path, score_list)  # csv_to_xml
-    for score in score_list:
+
+    for i, score in enumerate(score_list):
+        ShiwuHedui(imgs_path, csv_path, os.path.join(xml_path, 'confidence_{}'.format(score)), score)  # csv_to_xml
         xml2json = Xml2Labelme(imgs_path, os.path.join(json_path, 'confidence_{}'.format(score)), 'result', score, 8)
 
-    print('分析标注结果生成混淆矩阵')
-    annalyresult = AnnalyResult(gt_json,
-                                json_path,  # pre jsons
-                                split_result_file,
-                                '140model_0420testdata')  # 混淆矩阵图像名字，不带后缀
-    cm, gt_cate = annalyresult.getcm()
-    print('gt_cate:', gt_cate)
-    content = confusion_mtx_to_report(cm)
+        print('分析标注结果生成混淆矩阵')
+        annalyresult = AnnalyResult(gt_json,
+                                    os.path.join(json_path, 'confidence_{}'.format(score)),  # pre jsons
+                                    os.path.join(split_result_file, 'confidence_{}'.format(score)),
+                                    'confusion_mtx_confidence_{}'.format(score))  # 混淆矩阵图像名字，不带后缀
+        cm, gt_cate = annalyresult.getcm()
+        print('gt_cate:', gt_cate)
+        content = confusion_mtx_to_report(cm)
+        if i == 0:
+            write_excel_xlsx_append(save_path, 'table_header', table_header, 0, 0, sheet_name=sheet)  # 写入表头
+        write_excel_xlsx_append(save_path, 'zhibiao_header', header_zhibiao, dic_writing_position[i][0], dic_writing_position[i][1], sheet_name=sheet)  # 写入指标
+        write_excel_xlsx_append(save_path, 'biaoqian_header', [gt_cate[0:-1]], dic_writing_position[i][0], dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入标签
+        write_excel_xlsx_append(save_path, 'content', content, dic_writing_position[i][0]+1, dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入content
 
-    write_excel_xlsx_append(save_path, 'table_header', table_header, 0, 0, sheet_name=sheet)  # 写入表头
-    write_excel_xlsx_append(save_path, 'zhibiao_header', header_zhibiao, 11, 0, sheet_name=sheet)  # 写入指标
-    write_excel_xlsx_append(save_path, 'biaoqian_header', [gt_cate[0:-1]], 11, 1, sheet_name=sheet)  # 写入标签
-    write_excel_xlsx_append(save_path, 'content', content, 12, 1, sheet_name=sheet)  # 写入content
-
-    cut_images(split_result_file, imgs_path, 100)
-    add_images_to_excel(split_result_file, save_path, sheet, [22, 1], [0.1, 0.04])  # 插图：漏检and过检
+        # cut_images(split_result_file, imgs_path, 100)
+        # add_images_to_excel(split_result_file, save_path, sheet, [22, 1], [0.1, 0.04])  # 插图：漏检and过检
 
 
 def create_empty_sheet(test_file_path, excel_save_path):
@@ -923,7 +947,7 @@ if __name__ == '__main__':
     """
 
     test_file_path = r"G:\weiruan_report"
-    score_list = [0.1, 0.5]
+    score_list = [0.01, 0.1]
     excel_save_path = r'C:\Users\Administrator\Desktop\A.xlsx'
 
     create_empty_sheet(test_file_path, excel_save_path)

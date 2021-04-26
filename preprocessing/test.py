@@ -52,18 +52,3 @@ import pandas as pd
 
 # a = '阿姨那种'
 # b = pypinyin(a)
-
-class ShiwuHedui(object):
-    def __init__(self, score):
-
-        # 图像位置
-        self.num = score
-        self.logg(self.num)
-
-    def logg(self,num):
-        print(num)
-
-
-if __name__ == '__main__':
-    for i in range(10):
-        ShiwuHedui(i)
