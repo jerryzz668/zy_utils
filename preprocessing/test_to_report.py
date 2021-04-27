@@ -764,68 +764,86 @@ def cut_images_helper(outputs_path, imgs_path, max_number, special_name):
                 cv2.imwrite(cropped_name, cropped)
 
 
-def add_images_to_excel(outputs_path, excel_save_path, sheet_name, position_array, ratio_array):
+ALPHABET = [chr(i) for i in range(65, 91)]
+COL = ALPHABET
+for CHR in ALPHABET:
+    CHR_LIST = list(CHR) * 26
+    EXT = [i + j for i, j in zip(CHR_LIST, ALPHABET)]
+    COL = COL + EXT
+
+
+def add_cmtx_images(outputs_path, excel_save_path, info, row=0, col=0, sheet_name='sheet1'):
     '''
-    @param sheet_name: 插入图片的sheet名
-    @param position_array: 插入图片的起始位置 [行数, 列数]
+    @param info: 传入的所需文本信息
+    @return: NULL
+    '''
+    book = xl.load_workbook(excel_save_path)
+    sheet = book[sheet_name]
+    img_name = os.path.join(outputs_path, "confusion_mtx_confidence_" + str(info) + "_nums.png")  # info = score
+    img = XLImage(img_name)
+    w, h = img.width, img.height
+    img.height = 320
+    img.width = img.height * w / h
+    sheet.add_image(img, (COL[col] + str(row + 2)))
+    book.save(excel_save_path)
+    print("插入混淆矩阵图成功！")
+
+
+def add_louguojian_images(outputs_path, excel_save_path, ratio_array, row=0, col=0, sheet_name='sheet1'):
+    '''
     @param ratio_array: 插入[漏检, 过检]图片数量的百分比
     @return: NULL
     '''
-    ALPHABET = [chr(i) for i in range(65, 91)]
-    COL = ALPHABET
-    for CHR in ALPHABET:
-        CHR_LIST = list(CHR) * 26
-        EXT = [i + j for i, j in zip(CHR_LIST, ALPHABET)]
-        COL = COL + EXT
     book = xl.load_workbook(excel_save_path)
     sheet = book[sheet_name]
-    # new_sheet = book.create_sheet(title='loujian')
 
-    # 查找漏检图片 outputs_path/loujian_cuts
+    # 查找漏检图片 outputs_path/confidence_x/loujian_cuts
     cuts_dir = os.path.join(outputs_path, 'loujian_cuts')
     img_names = list(os.listdir(cuts_dir))
     # 决定展示图片数量
-    number = 0
     if img_names:
         number = int(len(img_names) * ratio_array[0]) + 1
         show_img_names = random.sample(img_names, number)
     # 插入漏检图片
-    row = position_array[0]
-    col_idx = position_array[1] - 1
-    sheet[COL[col_idx] + str(row)] = '漏检图片:'  # COL[col_idx] + str(row) 是 A1, B2, C1...
-    if not number:
-        sheet[COL[col_idx] + str(row + 1)] = '无漏检图片'
+    sheet[COL[col] + str(row+1)] = '漏检图片:'  # COL[col] + str(row+1) 是 A1, B2, C1...
+    if not img_names:
+        sheet[COL[col] + str(row+2)] = '无漏检图片'
     else:
         for name in show_img_names:
-            sheet[COL[col_idx] + str(row + 1)] = name
+            sheet[COL[col] + str(row+2)] = name
             img_name = os.path.join(cuts_dir, name)
             img = XLImage(img_name)
-            # 根据图片宽度自适应排布
+            # 根据图片宽度自适应排布，列宽70，行高18.82
+
+
             w, h = img.width, img.height
             gap = 2 if w < 140 else 3
-            fixed_width = 120 if w < 140 else 180  # 限定最大宽度
+            fixed_width = 110 if w < 140 else 165  # 尽量使用等宽
             img.width = fixed_width
             img.height = img.width * h / w
-            sheet.add_image(img, (COL[col_idx] + str(row + 2)))
-            col_idx = col_idx + gap
+            fixed_height =  375  # 保证在20行内装下，需限定最大高度
+            if img.height > fixed_height:
+                img.height = fixed_height
+                img.width = img.height * w / h
+            sheet.add_image(img, (COL[col] + str(row+3)))
+            col = col + gap
 
-    # 查找过检图片 outputs_path/guojian_cuts
+    # 查找过检图片 outputs_path/confidence_x/guojian_cuts
     cuts_dir = os.path.join(outputs_path, 'guojian_cuts')
     img_names = list(os.listdir(cuts_dir))
     # 决定展示图片数量
-    number = 0
     if img_names:
         number = int(len(img_names) * ratio_array[1]) + 1
         show_img_names = random.sample(img_names, number)
     # 插入过检图片
-    if not col_idx:
-        col_idx = col_idx + 7
-    sheet[COL[col_idx] + str(row)] = '过检图片:'
-    if not number:
-        sheet[COL[col_idx] + str(row + 1)] = '无过检图片'
+    if not col:
+        col = col + 7
+    sheet[COL[col] + str(row+1)] = '过检图片:'
+    if not img_names:
+        sheet[COL[col] + str(row+2)] = '无过检图片'
     else:
         for name in show_img_names:
-            sheet[COL[col_idx] + str(row + 1)] = name
+            sheet[COL[col] + str(row+2)] = name
             img_name = os.path.join(cuts_dir, name)
             img = XLImage(img_name)
             # 根据图片宽度自适应排布
@@ -834,11 +852,11 @@ def add_images_to_excel(outputs_path, excel_save_path, sheet_name, position_arra
             fixed_width = 120 if w < 140 else 180  # 限定最大宽度
             img.width = fixed_width
             img.height = img.width * h / w
-            sheet.add_image(img, (COL[col_idx] + str(row + 2)))
-            col_idx = col_idx + gap
+            sheet.add_image(img, (COL[col] + str(row+3)))
+            col = col + gap
 
     book.save(excel_save_path)
-    print("\n图片插入excel成功！")
+    print("插入漏检过检图成功！")
 
 
 def test_to_reports(sub_file, save_path, sheet, score_list):
@@ -891,13 +909,15 @@ def test_to_reports(sub_file, save_path, sheet, score_list):
         content = confusion_mtx_to_report(cm)
         if i == 0:
             write_excel_xlsx_append(save_path, 'table_header', table_header, 0, 0, sheet_name=sheet)  # 写入表头
+
         write_excel_xlsx_append(save_path, 'confidence', confidence, dic_writing_position[i][0]-20, dic_writing_position[i][1], sheet_name=sheet)  # 写入confidence
+        cut_images(os.path.join(split_result_file, "confidence_" + str(score)), imgs_path, 40)
+        add_cmtx_images(os.path.join(split_result_file, "confidence_" + str(score)), save_path, score,
+                        dic_writing_position[i][0]-19, dic_writing_position[i][1], sheet_name=sheet)  # 插图：混淆矩阵
         write_excel_xlsx_append(save_path, 'zhibiao_header', header_zhibiao, dic_writing_position[i][0], dic_writing_position[i][1], sheet_name=sheet)  # 写入指标
         write_excel_xlsx_append(save_path, 'biaoqian_header', [gt_cate[0:-1]], dic_writing_position[i][0], dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入标签
         write_excel_xlsx_append(save_path, 'content', content, dic_writing_position[i][0]+1, dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入content
-
-        # cut_images(split_result_file, imgs_path, 100)
-        # add_images_to_excel(split_result_file, save_path, sheet, [22, 1], [0.1, 0.04])  # 插图：漏检and过检
+        add_louguojian_images(os.path.join(split_result_file, "confidence_" + str(score)), save_path, [0.1, 0.09], dic_writing_position[i][0]+10, dic_writing_position[i][1], sheet_name=sheet)  # 插图：漏检and过检
 
 
 def create_empty_sheet(test_file_path, excel_save_path):
