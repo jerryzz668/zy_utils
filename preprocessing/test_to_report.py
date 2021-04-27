@@ -859,7 +859,7 @@ def add_louguojian_images(outputs_path, excel_save_path, ratio_array, row=0, col
     print("插入漏检过检图成功！")
 
 
-def test_to_reports(sub_file, save_path, sheet, score_list):
+def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv):
     table_header = [['产品代号', 'C件'],
                     ['光学面', sheet],
                     ['模型版本号', 'htc_20210419'],
@@ -887,17 +887,20 @@ def test_to_reports(sub_file, save_path, sheet, score_list):
         dic_writing_position[i] = [32+53*i, 0]
 
     imgs_path = os.path.join(sub_file, 'img')  # 测试img路径
-    csv_path = os.path.join(sub_file, 'csv')  # csv路径   和img分开存放
+
+    optical_surface_name = os.path.basename(sub_file)
+    csv_path = os.path.join(model_test_csv, optical_surface_name, 'csv')  # csv路径   和img分开存放
+
     gt_json = os.path.join(sub_file, 'gt')  # biaozhu jsons
 
-    split_result_file = os.path.join(os.path.dirname(imgs_path), 'outputs_path')  # split result file
-    xml_path = os.path.join(imgs_path, 'outputs')  # 自动生成 测试结果生成的xml
-    json_path = os.path.join(imgs_path, 'jsons')  # 自动生成 xml转成的json
+    split_result_file = os.path.join(os.path.dirname(csv_path), 'outputs_path')  # split result file
+    xml_path = os.path.join(os.path.dirname(csv_path), 'outputs')  # 自动生成 测试结果生成的xml
+    json_path = os.path.join(os.path.dirname(csv_path), 'jsons')  # 自动生成 xml转成的json
 
     for i, score in enumerate(score_list):
         confidence = [['confidence', score]]
         ShiwuHedui(imgs_path, csv_path, os.path.join(xml_path, 'confidence_{}'.format(score)), score)  # csv_to_xml
-        xml2json = Xml2Labelme(imgs_path, os.path.join(json_path, 'confidence_{}'.format(score)), 'result', score, 8)
+        xml2json = Xml2Labelme(os.path.dirname(csv_path), os.path.join(json_path, 'confidence_{}'.format(score)), 'result', score, 8)
 
         print('分析标注结果生成混淆矩阵')
         annalyresult = AnnalyResult(gt_json,
@@ -969,9 +972,20 @@ def beautify_excel_table(excel_path):
 
 if __name__ == '__main__':
     """
-    @attention：test_file_path格式！！！
+    @attention：img_gt_path 和 model_test_csv格式！！！
+    两个路径下的==光学面文件夹名字==必须相同~~~
 
-    test_file_path
+    img_gt_path:
+        |--- 1号面
+        |--- 2号面
+          。
+          。
+          。
+        |--- 16号面
+            |--- gt
+            |--- img
+    
+    model_test_csv:
         |--- 1号面
         |--- 2号面
           。
@@ -979,19 +993,19 @@ if __name__ == '__main__':
           。
         |--- 16号面
             |--- csv
-            |--- gt
-            |--- img
     """
 
-    test_file_path = r"G:\weiruan_report"
+    img_gt_path = r"G:\weiruan_report"
+    model_test_csv = r"G:\csv_all"
     score_list = [0.01, 0.1]
+
     excel_save_path = r'C:\Users\Administrator\Desktop\A.xlsx'
 
-    create_empty_sheet(test_file_path, excel_save_path)
+    create_empty_sheet(img_gt_path, excel_save_path)
 
-    file_list = os.listdir(test_file_path)
+    file_list = os.listdir(img_gt_path)
     for file in file_list:
-        sub_file = os.path.join(test_file_path, file)
-        test_to_reports(sub_file, excel_save_path, sheet=file, score_list=score_list)
+        sub_file = os.path.join(img_gt_path, file)
+        test_to_reports(sub_file, excel_save_path, file, score_list, model_test_csv)
 
     beautify_excel_table(excel_save_path)
