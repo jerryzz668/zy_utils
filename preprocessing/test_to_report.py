@@ -759,7 +759,7 @@ def cut_images_helper(outputs_path, imgs_path, max_number, special_name):
                 maxh = int(np.ceil(max_h + 20 if (max_h + 20) < h else h))
                 # 裁剪图片
                 cropped = img[minh:maxh, minw:maxw]
-                cropped_name = os.path.join(cuts_dir, f[:-5] + '-' + str(i + 1) + '-' + shape['label'] + '.jpg')
+                cropped_name = os.path.join(cuts_dir, shape['label'] + '-' + f[:-5] + '-' + str(i + 1) + '.jpg')
                 print(cropped_name)
                 cv2.imwrite(cropped_name, cropped)
 
@@ -918,7 +918,7 @@ def test_to_reports(sub_file, save_path, sheet, score_list):
         write_excel_xlsx_append(save_path, 'biaoqian_header', [gt_cate[0:-1]], dic_writing_position[i][0], dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入标签
         write_excel_xlsx_append(save_path, 'content', content, dic_writing_position[i][0]+1, dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入content
         add_louguojian_images(os.path.join(split_result_file, "confidence_" + str(score)), save_path, [0.1, 0.09], dic_writing_position[i][0]+10, dic_writing_position[i][1], sheet_name=sheet)  # 插图：漏检and过检
-
+        beautify_excel_content(i, dic_writing_position, save_path)
 
 def create_empty_sheet(test_file_path, excel_save_path):
     wb = xl.Workbook()
@@ -930,8 +930,23 @@ def create_empty_sheet(test_file_path, excel_save_path):
 
 from openpyxl.styles import Font, Alignment
 
+# 美化表格内容
+def beautify_excel_content(i, dic_writing_position, excel_path):
+    align = Alignment(horizontal='center', vertical='center', wrap_text=False)
 
-def beautify_excel(excel_path):
+    book = xl.load_workbook(excel_path)  # 加载excel
+    sheet_names = book.sheetnames  # 获取所有的sheet名称
+    sheet_names.remove('Sheet')
+
+    for sheet in sheet_names:
+        for row in book['{}'.format(sheet)]['A{}:Z{}'.format(dic_writing_position[i][0]+1, dic_writing_position[i][0]+9)]:
+            for cell in row:
+                cell.alignment = align
+
+    book.save(excel_path)
+
+# 美化表头
+def beautify_excel_table(excel_path):
     font = Font(name='宋体', size=11, color='FF000000', bold=True, italic=False)
     align = Alignment(horizontal='center', vertical='center', wrap_text=False)
 
@@ -979,4 +994,4 @@ if __name__ == '__main__':
         sub_file = os.path.join(test_file_path, file)
         test_to_reports(sub_file, excel_save_path, sheet=file, score_list=score_list)
 
-    beautify_excel(excel_save_path)
+    beautify_excel_table(excel_save_path)
