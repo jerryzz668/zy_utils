@@ -382,7 +382,7 @@ import shutil
 
 
 class AnnalyResult(object):
-    def __init__(self, yt_labelme, test_labelme, out_path, title_png):
+    def __init__(self, yt_labelme, test_labelme, out_path, title_png, align, dic_align):
         print('yt_labelme:',yt_labelme)
         print('test_labelme:',test_labelme)
         print('out_path:',out_path)
@@ -396,7 +396,7 @@ class AnnalyResult(object):
         self.main()
         end_time = time.time()
         print('run time:', end_time - start_time)
-        self.cm, self.gt_cate = self.compute_confmx()
+        self.cm, self.gt_cate = self.compute_confmx(align, dic_align)
 
     def getcm(self):
         return self.cm, self.gt_cate
@@ -500,8 +500,20 @@ class AnnalyResult(object):
                         self.pre_class.append(k['label'])
         return jd
 
-    def compute_confmx(self):
+    def label_align(self, dic_align, pre_class):
+        '''
+        @param dic_align: 按照该字典对齐 key:pre_class,val:gt
+        @param pre_class: 需进行对齐的预测类别
+        @return: 标签对齐后的pre_class
+        '''
+        for i in range(len(pre_class)):
+            pre_class[i] = dic_align[pre_class[i]]
+        return pre_class
+
+    def compute_confmx(self, align, dic_align):
         classes = sorted(list(set(self.gt_class)), reverse=False)  # 类别排序
+        if align:
+            self.pre_class = self.label_align(dic_align, self.pre_class)
         cm = confusion_matrix(self.gt_class, self.pre_class, classes)  # 根据类别生成矩阵，此处不需要转置
         cm_pro = (cm.T / np.sum(cm, 1)).T
         # print('cm',cm)
@@ -859,7 +871,7 @@ def add_louguojian_images(outputs_path, excel_save_path, ratio_array, row=0, col
     print("插入漏检过检图成功！")
 
 
-def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv):
+def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv, align, dic_align):
     table_header = [['产品代号', 'C件'],
                     ['光学面', sheet],
                     ['模型版本号', 'htc_20210419'],
@@ -906,7 +918,8 @@ def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv):
         annalyresult = AnnalyResult(gt_json,
                                     os.path.join(json_path, 'confidence_{}'.format(score)),  # pre jsons
                                     os.path.join(split_result_file, 'confidence_{}'.format(score)),
-                                    'confusion_mtx_confidence_{}'.format(score))  # 混淆矩阵图像名字，不带后缀
+                                    'confusion_mtx_confidence_{}'.format(score),
+                                    align, dic_align)  # 混淆矩阵图像名字，不带后缀
         cm, gt_cate = annalyresult.getcm()
         print('gt_cate:', gt_cate)
         content = confusion_mtx_to_report(cm)
@@ -995,9 +1008,11 @@ if __name__ == '__main__':
             |--- csv
     """
 
-    img_gt_path = r"G:\weiruan_report"
-    model_test_csv = r"G:\csv_all"
-    score_list = [0.01, 0.1]
+    img_gt_path = r"G:\weiruan_report"  # 输入img和gt_json路径
+    model_test_csv = r"G:\csv_all"  # 输入csv路径
+    score_list = [0.01, 0.1]  # confidence设置，可随意设置几个
+    align = False  # 是否进行标签对齐
+    dic_align = {}  # 进行对齐的字典，key:pre_class,val:gt_class
 
     excel_save_path = r'C:\Users\Administrator\Desktop\A.xlsx'
 
@@ -1006,6 +1021,6 @@ if __name__ == '__main__':
     file_list = os.listdir(img_gt_path)
     for file in file_list:
         sub_file = os.path.join(img_gt_path, file)
-        test_to_reports(sub_file, excel_save_path, file, score_list, model_test_csv)
+        test_to_reports(sub_file, excel_save_path, file, score_list, model_test_csv, align, dic_align)
 
     beautify_excel_table(excel_save_path)
