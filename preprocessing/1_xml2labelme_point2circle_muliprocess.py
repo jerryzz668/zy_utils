@@ -108,8 +108,8 @@ def main(local_path,save_path,process_num=4):
 
 if __name__ == "__main__":
     s = time.time()
-    xml_outputs_path = r"C:\Users\Administrator\Desktop\gt\outputs"
-    json_save_path = r"C:\Users\Administrator\Desktop\gt\jsons"
+    xml_outputs_path = r"G:\BaiduNetdiskDownload\D件-0429\侧面\outputs"
+    json_save_path = r"G:\BaiduNetdiskDownload\D件-0429\侧面\defects"
     process_num = 8
     main(xml_outputs_path,json_save_path,process_num)
     print('run time:', time.time()-s)

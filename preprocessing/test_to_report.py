@@ -815,6 +815,7 @@ def add_louguojian_images(outputs_path, excel_save_path, ratio_array, row=0, col
     # 决定展示图片数量
     if img_names:
         number = int(len(img_names) * ratio_array[0]) + 1
+        number = number if number < len(img_names) else len(img_names)
         show_img_names = random.sample(img_names, number)
     # 插入漏检图片
     sheet[COL[col] + str(row+1)] = '漏检图片:'  # COL[col] + str(row+1) 是 A1, B2, C1...
@@ -846,6 +847,7 @@ def add_louguojian_images(outputs_path, excel_save_path, ratio_array, row=0, col
     # 决定展示图片数量
     if img_names:
         number = int(len(img_names) * ratio_array[1]) + 1
+        number = number if number < len(img_names) else len(img_names)
         show_img_names = random.sample(img_names, number)
     # 插入过检图片
     if not col:
