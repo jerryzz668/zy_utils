@@ -193,7 +193,7 @@ class ShiwuHedui(object):
         @return: 排序筛选阈值以上的dataframe
         """
         sorted_r = r.sort_values('score', ascending=False)
-        assert sorted_r.iloc[0, -1] >= score_threshold, 'confidence过高，请重新输入(｡ì _ í｡)'
+        # assert sorted_r.iloc[0, -1] >= score_threshold, 'confidence过高，请重新输入(｡ì _ í｡)'
         for i in range(len(sorted_r)):
             if sorted_r.iloc[i, -1] < score_threshold:
                 return sorted_r.iloc[0:i,:]
