@@ -949,13 +949,13 @@ def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv, alig
             write_excel_xlsx_append(save_path, 'table_header', table_header, 0, 0, sheet_name=sheet)  # 写入表头
 
         write_excel_xlsx_append(save_path, 'confidence', confidence, dic_writing_position[i][0]-20, dic_writing_position[i][1], sheet_name=sheet)  # 写入confidence
-        # cut_images(os.path.join(split_result_file, "confidence_" + str(score)), imgs_path, 40)
+        cut_images(os.path.join(split_result_file, "confidence_" + str(score)), imgs_path, 40)
         add_cmtx_images(os.path.join(split_result_file, "confidence_" + str(score)), save_path, score,
                         dic_writing_position[i][0]-19, dic_writing_position[i][1], sheet_name=sheet)  # 插图：混淆矩阵
         write_excel_xlsx_append(save_path, 'zhibiao_header', header_zhibiao, dic_writing_position[i][0], dic_writing_position[i][1], sheet_name=sheet)  # 写入指标
         write_excel_xlsx_append(save_path, 'biaoqian_header', [gt_cate[0:-1]], dic_writing_position[i][0], dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入标签
         write_excel_xlsx_append(save_path, 'content', content, dic_writing_position[i][0]+1, dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入content
-        # add_louguojian_images(os.path.join(split_result_file, "confidence_" + str(score)), save_path, [0.1, 0.09], dic_writing_position[i][0]+10, dic_writing_position[i][1], sheet_name=sheet)  # 插图：漏检and过检
+        add_louguojian_images(os.path.join(split_result_file, "confidence_" + str(score)), save_path, [0.1, 0.09], dic_writing_position[i][0]+10, dic_writing_position[i][1], sheet_name=sheet)  # 插图：漏检and过检
         beautify_excel_content(i, dic_writing_position, save_path)
 
 def create_empty_sheet(test_file_path, excel_save_path):
