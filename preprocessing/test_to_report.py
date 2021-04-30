@@ -640,16 +640,34 @@ class AnnalyResult(object):
         # plt.savefig(save_p, transparent=True, dpi=800)
         plt.savefig(save_p, transparent=True, dpi=300)
         # plt.show()
+import glob
 
+def get_gt(gt_path):
+    gt_num = []
+    jsons = glob.glob(os.path.join(gt_path, '*.json'))
+    dic = {}
+    for i in jsons:
+        ret_dic = json_to_instance(i)
+        shapes = ret_dic['shapes']
+        for j in shapes:
+            if j['label'] not in dic:
+                dic[j['label']] = 1
+            else:
+                dic[j['label']] += 1
+    a = sorted(dic.items(),key=lambda x:x[0],reverse=False)
+    print(a)
+    for cls, num in a:
+        gt_num.append(num)
+    return gt_num
 
 # confusion_mtx_to_report
-def confusion_mtx_to_report(data):
+def confusion_mtx_to_report(data, gt_num):
     """
     @param data: confusion_mtx
     @return: gt_num, loushi, loujian_ratio, jianchu, guojian, model_guojian_ratio, xianchang_guojian_ratio
     """
     loushi = []
-    gt_num = []
+
     loujian_ratio = []
     guojian = []
     jianchu = []
@@ -661,10 +679,10 @@ def confusion_mtx_to_report(data):
         loushi.append(data[i][-1])
     loushi.pop()
 
-    # gt数量
-    for i in range(len(data)):
-        gt_num.append(sum(data[i]))
-    gt_num.pop()
+    # gt数量gt_num
+    # for i in range(len(data)):
+    #     gt_num.append(sum(data[i]))
+    # gt_num.pop()
 
     # 漏检率
     for i in range(len(loushi)):
@@ -890,7 +908,7 @@ def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv, alig
                       ['gt数量'],
                       ['漏检数'],
                       ['漏检率'],
-                      ['检出数'],
+                      ['预测数'],
                       ['过检数'],
                       ['模型过检率'],
                       ['现场过检率']]
@@ -911,6 +929,8 @@ def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv, alig
     xml_path = os.path.join(os.path.dirname(csv_path), 'outputs')  # 自动生成 测试结果生成的xml
     json_path = os.path.join(os.path.dirname(csv_path), 'jsons')  # 自动生成 xml转成的json
 
+    gt_num = get_gt(gt_json)
+
     for i, score in enumerate(score_list):
         confidence = [['confidence', score]]
         ShiwuHedui(imgs_path, csv_path, os.path.join(xml_path, 'confidence_{}'.format(score)), score)  # csv_to_xml
@@ -924,18 +944,18 @@ def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv, alig
                                     align, dic_align)  # 混淆矩阵图像名字，不带后缀
         cm, gt_cate = annalyresult.getcm()
         print('gt_cate:', gt_cate)
-        content = confusion_mtx_to_report(cm)
+        content = confusion_mtx_to_report(cm,gt_num)
         if i == 0:
             write_excel_xlsx_append(save_path, 'table_header', table_header, 0, 0, sheet_name=sheet)  # 写入表头
 
         write_excel_xlsx_append(save_path, 'confidence', confidence, dic_writing_position[i][0]-20, dic_writing_position[i][1], sheet_name=sheet)  # 写入confidence
-        cut_images(os.path.join(split_result_file, "confidence_" + str(score)), imgs_path, 40)
+        # cut_images(os.path.join(split_result_file, "confidence_" + str(score)), imgs_path, 40)
         add_cmtx_images(os.path.join(split_result_file, "confidence_" + str(score)), save_path, score,
                         dic_writing_position[i][0]-19, dic_writing_position[i][1], sheet_name=sheet)  # 插图：混淆矩阵
         write_excel_xlsx_append(save_path, 'zhibiao_header', header_zhibiao, dic_writing_position[i][0], dic_writing_position[i][1], sheet_name=sheet)  # 写入指标
         write_excel_xlsx_append(save_path, 'biaoqian_header', [gt_cate[0:-1]], dic_writing_position[i][0], dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入标签
         write_excel_xlsx_append(save_path, 'content', content, dic_writing_position[i][0]+1, dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入content
-        add_louguojian_images(os.path.join(split_result_file, "confidence_" + str(score)), save_path, [0.1, 0.09], dic_writing_position[i][0]+10, dic_writing_position[i][1], sheet_name=sheet)  # 插图：漏检and过检
+        # add_louguojian_images(os.path.join(split_result_file, "confidence_" + str(score)), save_path, [0.1, 0.09], dic_writing_position[i][0]+10, dic_writing_position[i][1], sheet_name=sheet)  # 插图：漏检and过检
         beautify_excel_content(i, dic_writing_position, save_path)
 
 def create_empty_sheet(test_file_path, excel_save_path):

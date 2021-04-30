@@ -8,8 +8,9 @@ def parse_para(input_json):
     return ret_dic
 
 def main():
-    jsons = glob.glob(r'G:\report\damian-v\img\jsons\*.json')
+    jsons = glob.glob(r'G:\weiruan_report\hongxing\gt\*.json')
     dic = {}
+    gt_num =[]
     for i in jsons:
         ret_dic = parse_para(i)
         shapes = ret_dic['shapes']
@@ -18,10 +19,13 @@ def main():
                 dic[j['label']] = 1
             else:
                 dic[j['label']] += 1
-    a = sorted(dic.items(),key=lambda x:x[1],reverse=True)
+    a = sorted(dic.items(),key=lambda x:x[0],reverse=False)
     print(dic.keys())
     print(a)
+    for cls, num in a:
+        gt_num.append(num)
     print(len(a))
+    print(gt_num)
 
 if __name__ == '__main__':
     main()
