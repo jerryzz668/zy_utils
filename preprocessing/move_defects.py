@@ -55,7 +55,7 @@ def move_json_file(json_path, label_list, json_save_path):
 if __name__ == '__main__':
     # label_list = ['heidian', 'guashang', 'daowen', 'yise', 'baisezaodian', 'pengshang', 'aotuhen', 'aokeng', 'huanxingdaowen']
     # label_list = ['loushi_guashang1', 'hard_guashang1', 'cuowu_guashang_guashang1', 'cuowu_guashang1_guashang', 'cuowu_guashang1_heidian']
-    label_list = ['aokeng']
-    json_path = '/Users/zhangyan/Desktop/dataset1_2000/train/jsons'
-    json_save_path = '/Users/zhangyan/Desktop/defects'
+    label_list = ['shahenyin', 'guashang']
+    json_path = '/home/adt/data/data/Djian/cemian_crop_qingxi/val_cemian_crop/select/crop'
+    json_save_path = '/home/adt/data/data/Djian/yolo_shahenyin_guashang/images/val'
     move_json_file(json_path, label_list, json_save_path)
