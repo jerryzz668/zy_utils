@@ -31,10 +31,10 @@ def cut_defect(json_file_path, defect_list, json_out_path):
     instance['shapes'] = shape_list
     instance_to_json(instance, json_out_path)
 
-defect_list         = ["shahenyin"]
+defect_list         = ["shahenyin",'guashang']
 
-json_path           = '/home/adt/data/data/Djian/yolo_shahenyin_guashang/images/val/shahenyin/'
-json_o_path         = '/home/adt/data/data/Djian/yolo_shahenyin_guashang/images/val/only_shy/'
+json_path           = '/home/adt/data/data/Djian/yolo_gs_shy/images/have_auged/'
+json_o_path         = '/home/adt/data/data/Djian/yolo_gs_shy/images/2leiaug/'
 
 if not os.path.exists(json_o_path):
     os.makedirs(json_o_path)
