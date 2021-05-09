@@ -128,8 +128,8 @@ if __name__ == '__main__':
     # yolo_strategy
     def img_boxes_query(img_file_path):
         # cls_id_name_dict = {0: 'aokeng', 1:'aotuhen', 2:'baisezaodian',3: 'daowen', 4:'guashang', 5:'guashang1', 6:'heidian',7: 'pengshang', 8:'yise'}
-        cls_id_name_dict = {0: 'guashang1'}
-        txt_folder_path = '/Users/zhangyan/Desktop/labels'
+        cls_id_name_dict = {0: 'heidian'}
+        txt_folder_path = r'C:\Users\Administrator\Desktop\labels'
         txt_file = img_file_path[img_file_path.rindex(os.sep)+1:img_file_path.rindex('.')] + '.txt'
         txt_file_path = os.path.join(txt_folder_path, txt_file)
         img = Image.open(img_file_path)
@@ -151,7 +151,7 @@ if __name__ == '__main__':
             # 一个Box代表一个检测目标的xywh、label、confidence
             boxes.append(Box(cx-w/2, cy-h/2, w, h, cls_name, confidence))
         return boxes
-    precision_recall_visualize(target_folder_path='/Users/zhangyan/Desktop/gs/images/train',
+    precision_recall_visualize(target_folder_path=r'C:\Users\Administrator\Desktop\heidian_crop_split\images\train',
                                # 自定义的query方法
                                img_boxes_query=img_boxes_query,
                                # 保存在图片文件夹下的特定目录名
