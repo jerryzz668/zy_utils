@@ -1,8 +1,8 @@
 import os
 import shutil
-p = r'/home/adt/data/data/Djian/yolo_gs_shy/images/train'
-o_p = r'/home/adt/data/data/Djian/cemian_crop_qingxi/train_cemian_crop/select/crop'
-o_p_1 = r'/home/adt/data/data/Djian/yolo_gs_shy/images/train'
+p = r'C:\Users\Administrator\Desktop\heidian_crop_split(1)\heidian_crop_split\val\黑点-不确定'
+o_p = r'C:\Users\Administrator\Desktop\heidian_crop_split\images\val'
+o_p_1 = r'C:\Users\Administrator\Desktop\heidian_crop_split(1)\heidian_crop_split\val\黑点-不确定'
 for i in os.listdir(p):
     name = i.split('.jpg')[0]
     nn = '{}.json'.format(name)
