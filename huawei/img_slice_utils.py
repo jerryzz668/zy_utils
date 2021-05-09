@@ -53,7 +53,7 @@ def aug_crop_strategy(img, instance, size, additional_info):
     # 过检增强倍数
     precision_aug = 0
     # 漏失增强倍数
-    recall_aug = 1
+    recall_aug = 2
     # 错误、难样本增强倍数
     hard_aug = 0
     crop_strategies = []

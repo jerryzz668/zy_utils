@@ -54,9 +54,9 @@ def delete_json(img_folder_path: str):
 
 if __name__ == '__main__':
     # 填入yolo folder path
-    yolo_to_labelme(yolo_folder_path=r'C:\Users\Administrator\Desktop\heidian_crop_split\labels\train',
+    yolo_to_labelme(yolo_folder_path=r'C:\Users\Administrator\Desktop\heidian_crop_split\labels\val',
                    # 填入image folder path
-                   img_folder_path=r'C:\Users\Administrator\Desktop\heidian_crop_split\images\train',
+                   img_folder_path=r'C:\Users\Administrator\Desktop\heidian_crop_split\images\val',
                    # 填入yolo文件中目标标签的name
                     item_name=['heidian'],
-                   json_path=r'C:\Users\Administrator\Desktop\heidian_crop_split\images\train')
+                   json_path=r'C:\Users\Administrator\Desktop\heidian_crop_split\labels\val')

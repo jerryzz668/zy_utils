@@ -157,13 +157,13 @@ if __name__ == '__main__':
         pad = (1120 - w)//2
         return [[[0, h, 0, w], [0, 0, pad, pad]]]
     # 截图并保存
-    imgs_crop_and_fill(img_folder_path=r'C:\Users\Administrator\Desktop\heidian_crop_split\images\train\PR',
+    imgs_crop_and_fill(img_folder_path=r'C:\Users\Administrator\Desktop\2fenlei_heidian_crop_split\train\黑点-圆\PR',
                        # 自定义的截图策略
                        crop_strategy=aug_crop_strategy,
                        # 截图尺寸
                        img_size=32,
                        # 截图输出路径
-                       output_path=r'C:\Users\Administrator\Desktop\crop',
+                       output_path=r'C:\Users\Administrator\Desktop\2fenlei_heidian\train\heidian',
                        # 自动滤去不含检测目标的截图框
                        empty_check=False,
                        # 多线程数
