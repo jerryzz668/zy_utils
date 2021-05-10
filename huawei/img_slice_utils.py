@@ -1,5 +1,5 @@
 import random
-from utils import *
+from preprocessing.utils import *
 
 
 def get_crop_num(img_size, crop_size, overlap):
