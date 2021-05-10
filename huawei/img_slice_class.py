@@ -374,8 +374,8 @@ if __name__ == '__main__':
     #                    empty_check=True,
     #                    # 被截断的检测目标的面积比阈值，低于阈值将不计入截图框中
     #                    iou_thres=0.5)
-    imgs_crop_class(imgs_folder_path=r"C:\Users\Administrator\Desktop\2fenlei_heidian_crop_split\train\黑点-圆\PR",
-                    output_path=r"C:\Users\Administrator\Desktop\2fenlei_heidian\train\heidian",
+    imgs_crop_class(imgs_folder_path=r"/home/adt/Desktop/json",
+                    output_path=r"/home/adt/Desktop/json/crop",
                     crop_namber=2,
                     rd=True,
                     crop_size=64

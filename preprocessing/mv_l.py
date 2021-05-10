@@ -1,11 +1,11 @@
 import os
 import shutil
-p = r'C:\Users\Administrator\Desktop\heidian_crop_split(1)\heidian_crop_split\val\黑点-不确定'
-o_p = r'C:\Users\Administrator\Desktop\heidian_crop_split\images\val'
-o_p_1 = r'C:\Users\Administrator\Desktop\heidian_crop_split(1)\heidian_crop_split\val\黑点-不确定'
+p = r'/home/adt/Desktop/json'
+o_p = r'/home/adt/Desktop/16'
+o_p_1 = r'/home/adt/Desktop/json'
 for i in os.listdir(p):
-    name = i.split('.jpg')[0]
-    nn = '{}.json'.format(name)
+    name = i.split('.json')[0]
+    nn = '{}.jpg'.format(name)
 
     try:
         shutil.copy(os.path.join(o_p,nn),o_p_1)

@@ -33,9 +33,11 @@ def yolo_to_labelme(yolo_folder_path: str, img_folder_path: str, item_name: str,
             items = f.readlines()
         height = instance['imageHeight']
         width = instance['imageWidth']
+        print(items)
         for item in items:
             item = item.strip('\n')
-            item = [eval(it) for it in item.split(' ')]
+            print(item.split(' '))
+            item = [eval(it) for it in item.split(' ') if it != '']
             obj = {'label': item_name[item[0]]}
             obj['shape_type'] = 'rectangle'
             obj['points'] = [[(item[1] - item[3] / 2) * width, (item[2] - item[4] / 2) * height], 
@@ -54,9 +56,9 @@ def delete_json(img_folder_path: str):
 
 if __name__ == '__main__':
     # 填入yolo folder path
-    yolo_to_labelme(yolo_folder_path=r'C:\Users\Administrator\Desktop\heidian_crop_split\labels\val',
+    yolo_to_labelme(yolo_folder_path=r'/home/adt/Desktop/cm_hd/txt',
                    # 填入image folder path
-                   img_folder_path=r'C:\Users\Administrator\Desktop\heidian_crop_split\images\val',
+                   img_folder_path=r'/home/adt/Desktop/cm_hd/16',
                    # 填入yolo文件中目标标签的name
-                    item_name=['heidian'],
-                   json_path=r'C:\Users\Administrator\Desktop\heidian_crop_split\labels\val')
+                   item_name=['heidian'],
+                   json_path=r'/home/adt/Desktop/cm_hd/16')
