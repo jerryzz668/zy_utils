@@ -10,17 +10,9 @@ import cv2
 import shutil
 import glob
 import json
-# from zy_utils import *
+from zy_utils import *
 import pandas as pd
 
-def json_to_instance(json_file_path):
-    '''
-    :param json_file_path: json文件路径
-    :return: json instance
-    '''
-    with open(json_file_path, 'r', encoding='utf-8') as f:
-        instance = json.load(f)
-    return instance
 
 
 # def search(array, num):

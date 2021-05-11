@@ -12,6 +12,9 @@ from pypinyin import pinyin, NORMAL
 from openpyxl.styles import Font, Alignment
 import xml.etree.ElementTree as ET
 
+
+IMG_TYPES = ['jpg', 'png']
+
 def mkdir(save_path):
     if not os.path.exists(save_path):
         os.makedirs(save_path)
