@@ -9,11 +9,19 @@ import time
 import cv2
 import shutil
 import glob
-import numpy as np
-import pypinyin
-import xlwt
-from zy_utils import *
+import json
+# from zy_utils import *
 import pandas as pd
+
+def json_to_instance(json_file_path):
+    '''
+    :param json_file_path: json文件路径
+    :return: json instance
+    '''
+    with open(json_file_path, 'r', encoding='utf-8') as f:
+        instance = json.load(f)
+    return instance
+
 
 # def search(array, num):
 #     low, high = 0, len(array)-1
@@ -52,3 +60,16 @@ import pandas as pd
 
 # a = '阿姨那种'
 # b = pypinyin(a)
+
+
+input_dir = '/home/adt/Desktop/A_daowen_select/daowen_jiao_modify'
+output_path = '/home/adt/Desktop/A_daowen_select/empty_jsons'
+json_list = os.listdir(input_dir)
+for json_name in json_list:
+    print(json_name)
+    instance = json_to_instance(os.path.join(input_dir,json_name))
+    shapes = instance.get('shapes')
+    if shapes == []:
+        shutil.move(os.path.join(input_dir,json_name), output_path)
+
+    # print(instance)
