@@ -31,6 +31,8 @@ import pandas as pd
 # print(array)
 # print(search(array, 46))
 #
+
+# 挑选不同面 dm/cm/gj
 # import os
 # import shutil
 # p = r'G:\BaiduNetdiskDownload\微软D件\D件-0413\D2-2021-04-12\大面\outputs'
@@ -53,15 +55,15 @@ import pandas as pd
 # a = '阿姨那种'
 # b = pypinyin(a)
 
-
-input_dir = '/home/adt/Desktop/A_daowen_select/daowen_jiao_modify'
-output_path = '/home/adt/Desktop/A_daowen_select/empty_jsons'
-json_list = os.listdir(input_dir)
-for json_name in json_list:
-    print(json_name)
-    instance = json_to_instance(os.path.join(input_dir,json_name))
-    shapes = instance.get('shapes')
-    if shapes == []:
-        shutil.move(os.path.join(input_dir,json_name), output_path)
-
-    # print(instance)
+# # 如果json为空，移除
+# input_dir = '/home/adt/Desktop/A_daowen_select/daowen_jiao_modify'
+# output_path = '/home/adt/Desktop/A_daowen_select/empty_jsons'
+# json_list = os.listdir(input_dir)
+# for json_name in json_list:
+#     print(json_name)
+#     instance = json_to_instance(os.path.join(input_dir,json_name))
+#     shapes = instance.get('shapes')
+#     if shapes == []:
+#         shutil.move(os.path.join(input_dir,json_name), output_path)
+#
+#     # print(instance)
