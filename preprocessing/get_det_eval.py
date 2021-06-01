@@ -1,4 +1,3 @@
-from tools.projects.microsoft_gj.microsoft_gj_global_var import VAL_JSON
 import json
 import numpy as np
 from sklearn.metrics import confusion_matrix
