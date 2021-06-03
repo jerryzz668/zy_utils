@@ -8,6 +8,7 @@ import numpy as np
 import math
 import argparse
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 parser = argparse.ArgumentParser()
 parser.add_argument('--test_dir', default='', type=str, help='image file which need to be test')
 parser.add_argument('--gt_dir', default='', type=str, help='image groundtruth file')
