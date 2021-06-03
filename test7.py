@@ -81,25 +81,15 @@ def ssim(HR,Results):
 
     sxsy = np.sqrt(sx_sqr) * np.sqrt(sy_sqr)
     c = (2 * sxsy + C2) / (sx_sqr + sy_sqr + C2)
-
-
     s = (sxy + C3) / (sxsy + C3)
 
     ssim = l * c * s
 
-
     return np.mean(ssim)
-
-# HR = plt.imread('/Users/zhangyan/Desktop/test_result8-23/gt/0.jpg')
-# Results=plt.imread('/Users/zhangyan/Desktop/test_result8-23/test_result8-21/0.jpg')
-# HR = cv2.imread('/Users/zhangyan/Desktop/test_result8-23/gt/0.jpg')
-# Results = cv2.imread('/Users/zhangyan/Desktop/test_result8-23/test_result8-21/0.jpg')
-# print(np.mean(ssim(HR,Results)))
 
 
 def main():
     for i in range(0, 1400):
-
 
         t1 = cv2.imread(deblur + "/" + results_lp[i])
         print(deblur + "/" + results_lp[i])
@@ -108,11 +98,9 @@ def main():
         t2 = cv2.resize(t2, (360, 240))
         print(true + "/" + test[i])
 
-
         ssimMetric = np.mean(ssim(t1,t2))
         average_SSIM.append(ssimMetric)
         print("第{}张SSIM为:   ".format(i) + str(ssimMetric))
-
 
 main()
 print('测试SSIM的平均值为：')

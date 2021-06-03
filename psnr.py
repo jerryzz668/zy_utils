@@ -12,13 +12,12 @@ from skimage.measure import compare_ssim as ssim
 
 average=[]
 average_SSIM=[]
-path_test = "/home/zj-1/Documents/ReMAEN-master/comparison_experiment/GCANet/Rain1400_gt"
-test = os.listdir( path_test )
-path_lp = "/home/zj-1/Documents/ReMAEN-master/comparison_experiment/GCANet/Rain1400_test"
-results_lp = os.listdir( path_lp )
 
 deblur="/home/zj-1/Documents/ReMAEN-master/comparison_experiment/GCANet/Rain1400_test"
+results_lp = os.listdir(deblur)
 true="/home/zj-1/Documents/ReMAEN-master/comparison_experiment/GCANet/Rain1400_gt"
+test = os.listdir(true)
+
 
 def PSNR(img1, img2):
 	mse = np.mean( (img1/255. - img2/255.) ** 2 )

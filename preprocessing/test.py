@@ -67,3 +67,10 @@ import pandas as pd
 #         shutil.move(os.path.join(input_dir,json_name), output_path)
 #
 #     # print(instance)
+
+input_dir = '/home/jerry/Desktop/Rain100L/train/input'
+file_list = os.listdir(input_dir)
+for file in file_list:
+    new_name = file.split('-')[-1].split('x')[0] + '.png'
+    # print(new_name)
+    os.renames(os.path.join(input_dir, file), os.path.join(input_dir, new_name))
