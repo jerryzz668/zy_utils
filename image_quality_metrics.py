@@ -6,8 +6,6 @@ import os
 import cv2
 import numpy as np
 import math
-from scipy.ndimage import gaussian_filter
-from numpy.lib.stride_tricks import as_strided as ast
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -15,7 +13,7 @@ parser.add_argument('--test_dir', default='', type=str, help='image file which n
 parser.add_argument('--gt_dir', default='', type=str, help='image groundtruth file')
 args = parser.parse_args()
 
-
+# calc psnr
 def psnr(img1, img2):
     mse = np.mean( (img1 - img2) ** 2 )
     if mse == 0:
@@ -23,47 +21,77 @@ def psnr(img1, img2):
     PIXEL_MAX = 255.0
     return 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
 
+# calc
+def correlation(img,kernal):
+    kernal_heigh = kernal.shape[0]
+    kernal_width = kernal.shape[1]
+    cor_heigh = img.shape[0] - kernal_heigh + 1
+    cor_width = img.shape[1] - kernal_width + 1
+    result = np.zeros((cor_heigh, cor_width), dtype=np.float64)
+    for i in range(cor_heigh):
+        for j in range(cor_width):
+            result[i][j] = (img[i:i + kernal_heigh, j:j + kernal_width] * kernal).sum()
+    return result
 
-def block_view(A, block=(3, 3)):
+def gaussian_2d_kernel(kernel_size=11, sigma=1.5):
+    kernel = np.zeros([kernel_size, kernel_size])
+    center = kernel_size // 2
 
-    shape = (A.shape[0]/ block[0], A.shape[1]/ block[1])+ block
-    strides = (block[0]* A.strides[0], block[1]* A.strides[1])+ A.strides
-    return ast(A, shape= shape, strides= strides)
+    if sigma == 0:
+        sigma = ((kernel_size - 1) * 0.5 - 1) * 0.3 + 0.8
 
+    s = 2 * (sigma ** 2)
+    sum_val = 0
+    for i in range(0, kernel_size):
+        for j in range(0, kernel_size):
+            x = i - center
+            y = j - center
+            kernel[i, j] = np.exp(-(x ** 2 + y ** 2) / s)
+            sum_val += kernel[i, j]
+    sum_val = 1 / sum_val
+    return kernel * sum_val
 
-def ssim(img1, img2, C1=0.01**2, C2=0.03**2):
+def ssim(img1,img2):
 
-    bimg1 = block_view(img1, (4,4))
-    bimg2 = block_view(img2, (4,4))
-    s1  = np.sum(bimg1, (-1, -2))
-    s2  = np.sum(bimg2, (-1, -2))
-    ss  = np.sum(bimg1*bimg1, (-1, -2)) + np.sum(bimg2*bimg2, (-1, -2))
-    s12 = np.sum(bimg1*bimg2, (-1, -2))
+    gaussian_sigma = 1.5
+    K1 = 0.01
+    K2 = 0.03
+    window_size = 11
+    img1 = np.array(img1, dtype=np.float64)
+    img2 = np.array(img2, dtype=np.float64)
+    if not img1.shape == img2.shape:
+        raise ValueError("Input Image must have the same dimensions")
 
-    vari = ss - s1*s1 - s2*s2
-    covar = s12 - s1*s2
+    kernal = gaussian_2d_kernel(window_size, gaussian_sigma)
+    kernal.resize(11,11,3)
 
-    ssim_map = (2*s1*s2 + C1) * (2*covar + C2) / ((s1*s1 + s2*s2 + C1) * (vari + C2))
-    return np.mean(ssim_map)
+    ux = correlation(img1, kernal)
+    uy = correlation(img2, kernal)
+    HR_sqr = img1 ** 2
+    Results_sqr = img2 ** 2
+    dis_mult_ori = img1 * img2
+    uxx = correlation(HR_sqr, kernal)
+    uyy = correlation(Results_sqr, kernal)
+    uxy = correlation(dis_mult_ori, kernal)
+    ux_sqr = ux ** 2
+    uy_sqr = uy ** 2
+    uxuy = ux * uy
+    sx_sqr = np.around(uxx - ux_sqr, decimals=10)
+    sy_sqr = np.around(uyy - uy_sqr, decimals=10)
+    sxy = uxy - uxuy
+    C1 = (K1 * 255) ** 2
+    C2 = (K2 * 255) ** 2
+    C3 = 0.5 * C2
 
-# FIXME there seems to be a problem with this code
-def ssim_exact(img1, img2, sd=1.5, C1=0.01**2, C2=0.03**2):
+    l = (2 * uxuy + C1) / (ux_sqr + uy_sqr + C1)
 
-    mu1 = gaussian_filter(img1, sd)
-    mu2 = gaussian_filter(img2, sd)
-    mu1_sq = mu1 * mu1
-    mu2_sq = mu2 * mu2
-    mu1_mu2 = mu1 * mu2
-    sigma1_sq = gaussian_filter(img1 * img1, sd) - mu1_sq
-    sigma2_sq = gaussian_filter(img2 * img2, sd) - mu2_sq
-    sigma12 = gaussian_filter(img1 * img2, sd) - mu1_mu2
+    sxsy = np.sqrt(sx_sqr) * np.sqrt(sy_sqr)
+    c = (2 * sxsy + C2) / (sx_sqr + sy_sqr + C2)
+    s = (sxy + C3) / (sxsy + C3)
 
-    ssim_num = ((2 * mu1_mu2 + C1) * (2 * sigma12 + C2))
+    ssim = l * c * s
 
-    ssim_den = ((mu1_sq + mu2_sq + C1) * (sigma1_sq + sigma2_sq + C2))
-
-    ssim_map = ssim_num / ssim_den
-    return np.mean(ssim_map)
+    return np.mean(ssim)
 
 
 def calu_psnr_ssim(test_dir, gt_dir):
