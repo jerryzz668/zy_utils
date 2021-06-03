@@ -12,7 +12,7 @@ import glob
 import json
 from zy_utils import *
 import pandas as pd
-
+from tqdm import tqdm
 
 
 # def search(array, num):
@@ -68,9 +68,13 @@ import pandas as pd
 #
 #     # print(instance)
 
-input_dir = '/home/jerry/Desktop/Rain100L/train/input'
-file_list = os.listdir(input_dir)
-for file in file_list:
-    new_name = file.split('-')[-1].split('x')[0] + '.png'
-    # print(new_name)
-    os.renames(os.path.join(input_dir, file), os.path.join(input_dir, new_name))
+# rename
+# input_dir = '/home/jerry/Desktop/Rain100L/train/input'
+# file_list = os.listdir(input_dir)
+# for file in file_list:
+#     new_name = file.split('-')[-1].split('x')[0] + '.png'
+#     # print(new_name)
+#     os.renames(os.path.join(input_dir, file), os.path.join(input_dir, new_name))
+
+for i in tqdm(range(5)):
+    print(i)

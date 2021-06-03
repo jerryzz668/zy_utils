@@ -7,6 +7,7 @@ import cv2
 import numpy as np
 import math
 import argparse
+from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--test_dir', default='', type=str, help='image file which need to be test')
@@ -100,7 +101,7 @@ def calu_psnr_ssim(test_dir, gt_dir):
     test_img_list = os.listdir(test_dir)
     num_img = len(test_img_list)
 
-    for i in range(num_img):
+    for i in tqdm(range(num_img)):
         test_img = cv2.imread(os.path.join(test_dir, test_img_list[i]))
         gt_img = cv2.imread(os.path.join(gt_dir, test_img_list[i]))
 
