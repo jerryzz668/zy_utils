@@ -8,7 +8,6 @@ import numpy as np
 import math
 import argparse
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 parser = argparse.ArgumentParser()
 parser.add_argument('--test_dir', default='', type=str, help='image file which need to be test')
 parser.add_argument('--gt_dir', default='', type=str, help='image groundtruth file')
@@ -111,7 +110,7 @@ def calu_psnr_ssim(test_dir, gt_dir):
         SSIM_value = ssim(test_img, gt_img)
         avg_ssim.append(SSIM_value)
 
-        print("{}的PSNR:".format(test_img_list[i]) + str(PNSR_value),"SSIM:" + str(SSIM_value))
+        print("{}\' PSNR:".format(test_img_list[i]) + str(PNSR_value),"SSIM:" + str(SSIM_value))
 
     print('{} images\' AVG_PSNR:'.format(num_img), np.mean(avg_psnr), 'AVG_SSIM:', np.mean(avg_ssim))
 
