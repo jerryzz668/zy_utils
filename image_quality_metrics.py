@@ -21,7 +21,7 @@ def psnr(img1, img2):
     PIXEL_MAX = 255.0
     return 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
 
-# calc
+# calc ssim
 def correlation(img,kernal):
     kernal_heigh = kernal.shape[0]
     kernal_width = kernal.shape[1]
