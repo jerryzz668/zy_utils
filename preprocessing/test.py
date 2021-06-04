@@ -69,12 +69,10 @@ from tqdm import tqdm
 #     # print(instance)
 
 # rename
-# input_dir = '/home/jerry/Desktop/Rain100L/train/input'
-# file_list = os.listdir(input_dir)
-# for file in file_list:
-#     new_name = file.split('-')[-1].split('x')[0] + '.png'
-#     # print(new_name)
-#     os.renames(os.path.join(input_dir, file), os.path.join(input_dir, new_name))
-
-for i in tqdm(range(5)):
-    print(i)
+input_dir = r'G:\BaiduNetdiskDownload\Rain100H\target'
+file_list = os.listdir(input_dir)
+for file in file_list:
+    # new_name = file.split('-')[-1].split('x')[0] + '.png'
+    new_name = file.split('-')[-1]
+    # print(new_name)
+    os.renames(os.path.join(input_dir, file), os.path.join(input_dir, new_name))
