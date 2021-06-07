@@ -8,7 +8,7 @@ def parse_para(input_json):
     return ret_dic
 
 def main():
-    jsons = glob.glob('/home/adt/data/data/Djian/yolo_gs_shy/images/train/*.json')
+    jsons = glob.glob('/home/jerry/Desktop/tianchi/Track3_helmet/labelme/labelme_json/*.json')
     dic = {}
     for i in jsons:
         ret_dic = parse_para(i)
