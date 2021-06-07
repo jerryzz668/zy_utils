@@ -118,3 +118,4 @@ def calu_psnr_ssim(test_dir, gt_dir):
 
 if __name__ == '__main__':
     calu_psnr_ssim(args.test_dir, args.gt_dir)
+
