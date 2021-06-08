@@ -76,3 +76,5 @@ for file in file_list:
     new_name = file.split('-')[-1]
     # print(new_name)
     os.renames(os.path.join(input_dir, file), os.path.join(input_dir, new_name))
+
+
