@@ -28,9 +28,12 @@ def yolo_to_labelme(yolo_folder_path: str, img_folder_path: str, item_name: str,
 
         instance = create_empty_json_instance(img_file_path)
         instance_to_json(instance, json_out_path)
+        try:
 
-        with open(yolo_file_path, 'r') as f:
-            items = f.readlines()
+            with open(yolo_file_path, 'r') as f:
+                items = f.readlines()
+        except:
+            print('no ci txt_file')
         height = instance['imageHeight']
         width = instance['imageWidth']
         print(items)
@@ -56,9 +59,9 @@ def delete_json(img_folder_path: str):
 
 if __name__ == '__main__':
     # 填入yolo folder path
-    yolo_to_labelme(yolo_folder_path=r'/home/adt/Desktop/cm_hd/txt',
+    yolo_to_labelme(yolo_folder_path=r'/home/jerry/Documents/yolov5-5.0/runs/detect/exp3/labels',
                    # 填入image folder path
-                   img_folder_path=r'/home/adt/Desktop/cm_hd/16',
+                   img_folder_path='/home/jerry/Desktop/tianchi/Track3_helmet/3_test_imagesa',
                    # 填入yolo文件中目标标签的name
-                   item_name=['heidian'],
-                   json_path=r'/home/adt/Desktop/cm_hd/16')
+                   item_name=['ground', 'offground', 'safebelt', 'badge'],
+                   json_path='/home/jerry/Documents/yolov5-5.0/runs/detect/exp3/jsons')

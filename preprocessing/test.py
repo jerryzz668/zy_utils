@@ -69,12 +69,14 @@ from tqdm import tqdm
 #     # print(instance)
 
 # rename
-input_dir = r'G:\BaiduNetdiskDownload\Rain100H\target'
-file_list = os.listdir(input_dir)
-for file in file_list:
-    # new_name = file.split('-')[-1].split('x')[0] + '.png'
-    new_name = file.split('-')[-1]
-    # print(new_name)
-    os.renames(os.path.join(input_dir, file), os.path.join(input_dir, new_name))
+# input_dir = r'G:\BaiduNetdiskDownload\Rain100H\target'
+# file_list = os.listdir(input_dir)
+# for file in file_list:
+#     # new_name = file.split('-')[-1].split('x')[0] + '.png'
+#     new_name = file.split('-')[-1]
+#     # print(new_name)
+#     os.renames(os.path.join(input_dir, file), os.path.join(input_dir, new_name))
 
 
+txt = read_txt('/home/jerry/Documents/yolov5-5.0/runs/detect/exp3/labels/0a52d61f_c53f_4f8e_9984_6f903141b174.txt')
+print(txt)
