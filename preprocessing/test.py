@@ -10,6 +10,9 @@ import cv2
 import shutil
 import glob
 import json
+
+import numpy as np
+
 from zy_utils import *
 import pandas as pd
 from tqdm import tqdm
@@ -77,6 +80,15 @@ from tqdm import tqdm
 #     # print(new_name)
 #     os.renames(os.path.join(input_dir, file), os.path.join(input_dir, new_name))
 
+t1 = np.arange(12)
+t2 = t1.reshape(3,4)
 
-txt = read_txt('/home/jerry/Documents/yolov5-5.0/runs/detect/exp3/labels/0a52d61f_c53f_4f8e_9984_6f903141b174.txt')
-print(txt)
+print(t2)
+t3 = t2.flatten()
+
+print(t3)
+print(type(t3))
+t4 = t3.tolist()
+print(t4)
+print(type(t4))
+

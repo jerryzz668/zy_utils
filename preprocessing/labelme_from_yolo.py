@@ -45,6 +45,7 @@ def yolo_to_labelme(yolo_folder_path: str, img_folder_path: str, item_name: str,
             obj['shape_type'] = 'rectangle'
             obj['points'] = [[(item[1] - item[3] / 2) * width, (item[2] - item[4] / 2) * height], 
                              [(item[1] + item[3] / 2) * width, (item[2] + item[4] / 2) * height]]
+            obj['score'] = item[5]
             instance['shapes'].append(obj)
         instance_to_json(instance, json_out_path)
 
@@ -59,9 +60,9 @@ def delete_json(img_folder_path: str):
 
 if __name__ == '__main__':
     # 填入yolo folder path
-    yolo_to_labelme(yolo_folder_path=r'/home/jerry/Documents/yolov5-5.0/runs/detect/exp3/labels',
+    yolo_to_labelme(yolo_folder_path= '/home/jerry/Documents/yolov5-5.0/runs/detect/exp/labels',
                    # 填入image folder path
-                   img_folder_path='/home/jerry/Desktop/tianchi/Track3_helmet/3_test_imagesa',
+                   img_folder_path= '/home/jerry/Documents/yolov5-5.0/runs/detect/exp',
                    # 填入yolo文件中目标标签的name
                    item_name=['ground', 'offground', 'safebelt', 'badge'],
-                   json_path='/home/jerry/Documents/yolov5-5.0/runs/detect/exp3/jsons')
+                   json_path= '/home/jerry/Documents/yolov5-5.0/runs/detect/exp/jsons')

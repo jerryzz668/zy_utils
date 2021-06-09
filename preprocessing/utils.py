@@ -6,7 +6,7 @@ import numpy as np
 from pypinyin import pinyin, NORMAL
 
 
-IMG_TYPES = ['jpg', 'png']
+IMG_TYPES = ['jpg', 'png', 'JPG', 'PNG']
 
 def create_empty_json_instance(img_file_path: str):
     '''
