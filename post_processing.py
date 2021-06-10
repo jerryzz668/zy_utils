@@ -15,14 +15,14 @@ label_modify = {0: 3, 1: 2, 2: 4, 3: 1}
 show_label = {1: 'guarder', 2: 'safebeltperson', 3: 'offgroundperson'}
 
 # 图片存放的路径
-picture_path = '/home/jerry/Desktop/tianchi/Track3_helmet/3_test_imagesa'
+picture_path = '/home/jerry/Desktop/tianchi/Track3_helmet/3_test_imagesa'  # 不动
 # 模型输出txt结果 yolov5
-path = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp2/labels'
+path = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp3/labels'
 # path = r'E:\weiyi\tianchi\results\test'
 # 测试集图片名字、顺序
-test_json = '/home/jerry/Desktop/tianchi/Track3_helmet/3_testa_user.csv'
+test_json = '/home/jerry/Desktop/tianchi/Track3_helmet/3_testa_user.csv'  # 不动
 # 提交结果保存路径
-results_path = '/home/jerry/Desktop/tianchi/Track3_helmet/results_iou0.48'
+results_path = '/home/jerry/Desktop/tianchi/Track3_helmet/results/results_aug_iou0.48_badge'
 
 df = pd.read_csv(test_json, header=0)
 df = df["image_url"]
@@ -30,7 +30,7 @@ results = []  # 提交结果
 
 
 # 求勋章的iou
-def badge_iou(preson_frame, thing_frame, p=0.9):
+def badge_iou(preson_frame, thing_frame, p=0.95):
     x_min = max(preson_frame[0], thing_frame[0])
     y_min = max(preson_frame[1], thing_frame[1])
     x_max = min(preson_frame[2], thing_frame[2])
