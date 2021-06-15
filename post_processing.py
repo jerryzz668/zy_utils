@@ -17,12 +17,12 @@ show_label = {1: 'guarder', 2: 'safebeltperson', 3: 'offgroundperson'}
 # 图片存放的路径
 picture_path = '/home/jerry/Desktop/tianchi/Track3_helmet/3_test_imagesa'  # 不动
 # 模型输出txt结果 yolov5
-path = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp3/labels'
+path = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp/labels'
 # path = r'E:\weiyi\tianchi\results\test'
 # 测试集图片名字、顺序
 test_json = '/home/jerry/Desktop/tianchi/Track3_helmet/3_testa_user.csv'  # 不动
 # 提交结果保存路径
-results_path = '/home/jerry/Desktop/tianchi/Track3_helmet/results/results_aug_iou0.48_badge'
+results_path = '/home/jerry/Desktop/tianchi/Track3_helmet/results/results_large'
 
 df = pd.read_csv(test_json, header=0)
 df = df["image_url"]
@@ -84,13 +84,13 @@ def add_results(img_id, cate_id, off_gro):
 def generate_json(filename, img_w, img_h, temp_result, save_path):
     temp_shape = []
     for result in temp_result:
-        print(result)
+        # print(result)
         shape = {'label': show_label[result['category_id']] + '-' + str('%.2f' % (result['score'])),
                  'shape_type': 'rectangle'}
         bbox = result['bbox']
         shape['points'] = [[bbox[0], bbox[1]], [bbox[2], bbox[3]]]
         temp_shape.append(shape)
-    print(temp_shape)
+    # print(temp_shape)
     new_json = {'version': "1.0",
                 'shapes': temp_shape,
                 'imageData': None,
@@ -113,9 +113,9 @@ for id_s, one_img_name in enumerate(df):
         # print(one_txt_path)
         img = cv2.imread(pic_pth)
         img_h, img_w, c = img.shape
-        print(img_w, ' ', img_h)
+        # print(img_w, ' ', img_h)
     except:
-        # print('none: ', id_s, ':', one_txt_path)
+        print('none: ', id_s, ':', one_txt_path)
         continue
     one_txt = one_txt[0]
     # 将2、3两类取出来，即先判断是否是人（天上的加上地上的）
