@@ -17,12 +17,12 @@ show_label = {1: 'guarder', 2: 'safebeltperson', 3: 'offgroundperson'}
 # 图片存放的路径
 picture_path = '/home/jerry/Desktop/tianchi/Track3_helmet/3_test_imagesa'  # 不动
 # 模型输出txt结果 yolov5
-path = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp/labels'
+path = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp7/labels'
 # path = r'E:\weiyi\tianchi\results\test'
 # 测试集图片名字、顺序
 test_json = '/home/jerry/Desktop/tianchi/Track3_helmet/3_testa_user.csv'  # 不动
 # 提交结果保存路径
-results_path = '/home/jerry/Desktop/tianchi/Track3_helmet/results/results_large'
+results_path = '/home/jerry/Desktop/tianchi/Track3_helmet/results/result_test_val'
 
 df = pd.read_csv(test_json, header=0)
 df = df["image_url"]

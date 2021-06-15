@@ -1030,13 +1030,13 @@ if __name__ == '__main__':
             |--- csv
     """
 
-    img_gt_path = r"G:\weiruan_report"  # 输入img和gt_json路径
-    model_test_csv = r"G:\csv_all"  # 输入csv路径
+    img_gt_path = '/home/jerry/Desktop/A_20210605'  # 输入img和gt_json路径
+    model_test_csv = '/home/jerry/Desktop/A615_r1'  # 输入csv路径
     score_list = [0.01, 0.1]  # confidence设置，可随意设置几个
     align = False  # 是否进行标签对齐
     dic_align = {}  # 进行对齐的字典，key:pre_class,val:gt_class
 
-    excel_save_path = r'C:\Users\Administrator\Desktop\A.xlsx'
+    excel_save_path = '/home/jerry/Desktop/A.xlsx'
 
     create_empty_sheet(img_gt_path, excel_save_path)
 
