@@ -473,7 +473,6 @@ class AnnalyResult(object):
 
             # if result_flag==len(part):#iou为0的数量与所有预测标注的数量是否相等，若相等表明缺陷漏检，若为0的记录小于0则表明缺陷未漏检。
             if re_flag:
-                print('result_lll')
                 if f_l_flag == 'loujian':  # loushi
                     self.gt_class.append(j['label'])
                     self.pre_class.append('z_lou_or_guo')
@@ -518,7 +517,7 @@ class AnnalyResult(object):
         cm_pro = (cm.T / np.sum(cm, 1)).T
         # print('cm',cm)
         # print('cmp',cm_pro)
-        #
+
         self.plot_confusion_matrix(cm, classes, 'nums')
         self.plot_confusion_matrix(cm_pro, classes, 'pro', normalize=True)
         return cm, classes
@@ -527,7 +526,7 @@ class AnnalyResult(object):
     def new_json(self, cz, shapes, save_json):
 
         new_json_dic = {}
-        new_json_dic['flags'] = cz['flags']
+        # new_json_dic['flags'] = cz['flags']
         new_json_dic['imageData'] = cz['imageData']
         # print(cz['imageDepth'])
         # if cz.get('imageDepth') != None:
@@ -549,9 +548,9 @@ class AnnalyResult(object):
         pre_anno_data = self.parse_para_re(pre_json)
         gt_shapes = gt_anno_data['shapes']
         pre_shapes = pre_anno_data['shapes']
-        jiandui_shapes = []
+
         jiandui_shapes = self.jiandui_ls(gt_shapes, pre_shapes, 0.01)
-        guojian_shapes = []
+
         guojian_shapes = self.l_g_ls(pre_shapes, gt_shapes, 0.01, 'guojian')
         merge_gt_pre_shapes = []
         merge_gt_pre_shapes.extend(gt_shapes)
@@ -669,8 +668,7 @@ def confusion_mtx_to_report(data, gt_num):
     loushi = []
 
     loujian_ratio = []
-    guojian = []
-    jianchu = []
+
     model_guojian_ratio = []
     xianchang_guojian_ratio = []
 
@@ -678,11 +676,6 @@ def confusion_mtx_to_report(data, gt_num):
     for i in range(len(data)):
         loushi.append(data[i][-1])
     loushi.pop()
-
-    # gt数量gt_num
-    # for i in range(len(data)):
-    #     gt_num.append(sum(data[i]))
-    # gt_num.pop()
 
     # 漏检率
     for i in range(len(loushi)):
@@ -1032,7 +1025,7 @@ if __name__ == '__main__':
 
     img_gt_path = '/home/jerry/Desktop/A_20210605'  # 输入img和gt_json路径
     model_test_csv = '/home/jerry/Desktop/A615_r1'  # 输入csv路径
-    score_list = [0.01, 0.1]  # confidence设置，可随意设置几个
+    score_list = [0.01]  # confidence设置，可随意设置几个
     align = False  # 是否进行标签对齐
     dic_align = {}  # 进行对齐的字典，key:pre_class,val:gt_class
 
