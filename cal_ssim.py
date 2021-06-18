@@ -4,6 +4,14 @@ from torch.autograd import Variable
 import numpy as np
 from math import exp
 import math
+import os
+import cv2
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--test_dir', default='result/Urban100', type=str, help='image file which need to be test')
+parser.add_argument('--gt_dir', default='testsets/Urban100', type=str, help='image groundtruth file')
+args = parser.parse_args()
 
 
 def gaussian(window_size, sigma):
@@ -87,3 +95,27 @@ def PSNR(img1, img2):
     #mse=mse/b
     PIXEL_MAX = 1
     return 20 * math.log10(PIXEL_MAX / math.sqrt(mse))
+
+def calu_psnr_ssim(test_dir, gt_dir):
+
+    avg_psnr, avg_ssim = [], []
+    test_img_list = os.listdir(test_dir)
+    num_img = len(test_img_list)
+
+    for i in range(num_img):
+        test_img = cv2.imread(os.path.join(test_dir, test_img_list[i]))
+        gt_img = cv2.imread(os.path.join(gt_dir, test_img_list[i]))
+
+        PNSR_value = PSNR(test_img, gt_img)
+        avg_psnr.append(PNSR_value)
+
+        SSIM_value = ssim(test_img, gt_img)
+        avg_ssim.append(SSIM_value)
+
+        print("{}\' ".format(test_img_list[i]),"SSIM:" + str(SSIM_value))
+
+    print('{} images\' '.format(num_img),  'AVG_SSIM:', np.mean(avg_ssim))
+
+
+if __name__ == '__main__':
+    calu_psnr_ssim(args.test_dir, args.gt_dir)
