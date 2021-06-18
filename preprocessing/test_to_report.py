@@ -4,15 +4,12 @@
 
 import random
 from xml.dom import minidom
-
 import openpyxl as xl
 # ---------------------------class7----------------------start
 # 实物csv和实物图可视化，给他实物图和实物csv生成对应的xml标注和标注合并图，显示的时候注意类别映射字典。调用：#csv_p = r'C:\Users\xie5817026\PycharmProjects\pythonProject1\0104\ProductGradeMaterialCheck.csv'
 # img_p ='D:\work\data\microsoft\jalama\data\heduiji\merge_all",ShiwuHedui(img_p,csv_p),生成'D:\work\data\microsoft\jalama\data\heduiji\merge_all\outputs",'D:\work\data\microsoft\jalama\data\heduiji\merge_all\r_imgs"
 import pandas as pd
 from PIL import Image
-
-
 # @Description:
 # @Author     : zhangyan
 # @Time       : 2021/1/14 3:54 下午
@@ -100,13 +97,6 @@ class Dic2xml(object):
             self.generate_xml(key, value, xml_save_path)
         print(time.time() - t)
 
-
-# if __name__ == '__main__':
-#     dic = {'123.jpg': {'anno': [(132, 243, 355, 467, '刮伤'), (51, 61, 72, 82, '异色')], 'w': 512, 'h': 512},
-#            '456.jpg': {'anno':[(11, 21, 31, 41, '擦伤'), (11, 22, 33, 41, '白点')], 'w': 512, 'h': 512}}
-#
-#     xml_save_path = r'C:\Users\xie5817026\PycharmProjects\pythonProject1\0104\xml'
-#     Dic2xml(dic, xml_save_path)
 class ShiwuHedui(object):
     def __init__(self, source_p, csv_p, xml_p, score):
 
@@ -183,7 +173,7 @@ class ShiwuHedui(object):
                 img_dic_c[i] = one_img_dic
             except:
                 print('--')
-        print(img_dic_c)
+        print('shiwuheduijieguo:',img_dic_c)
         return img_dic_c
 
     def filtrate_score(self, r, score_threshold):
@@ -382,7 +372,7 @@ import shutil
 
 
 class AnnalyResult(object):
-    def __init__(self, yt_labelme, test_labelme, out_path, title_png, align, dic_align):
+    def __init__(self, yt_labelme, test_labelme, out_path, title_png, gt_cls):
         print('yt_labelme:',yt_labelme)
         print('test_labelme:',test_labelme)
         print('out_path:',out_path)
@@ -392,11 +382,12 @@ class AnnalyResult(object):
         self.title_png = title_png
         self.gt_class = []
         self.pre_class = []
+        self.gt_cls = gt_cls
         start_time = time.time()
         self.main()
         end_time = time.time()
         print('run time:', end_time - start_time)
-        self.cm, self.gt_cate = self.compute_confmx(align, dic_align)
+        self.cm, self.gt_cate = self.compute_confmx()
 
     def getcm(self):
         return self.cm, self.gt_cate
@@ -473,6 +464,7 @@ class AnnalyResult(object):
 
             # if result_flag==len(part):#iou为0的数量与所有预测标注的数量是否相等，若相等表明缺陷漏检，若为0的记录小于0则表明缺陷未漏检。
             if re_flag:
+                print('result_lll')
                 if f_l_flag == 'loujian':  # loushi
                     self.gt_class.append(j['label'])
                     self.pre_class.append('z_lou_or_guo')
@@ -509,25 +501,23 @@ class AnnalyResult(object):
             pre_class[i] = dic_align[pre_class[i]]
         return pre_class
 
-    def compute_confmx(self, align, dic_align):
-        classes = sorted(list(set(self.gt_class)), reverse=False)  # 类别排序
-        if align:
-            self.pre_class = self.label_align(dic_align, self.pre_class)
+    def compute_confmx(self):
+        classes = self.gt_cls  # sorted(list(set(self.gt_class)), reverse=False)  # 类别排序
+        # if align:
+        #     self.pre_class = self.label_align(dic_align, self.pre_class)
+
         cm = confusion_matrix(self.gt_class, self.pre_class, classes)  # 根据类别生成矩阵，此处不需要转置
         cm_pro = (cm.T / np.sum(cm, 1)).T
-        # print('cm',cm)
-        # print('cmp',cm_pro)
 
         self.plot_confusion_matrix(cm, classes, 'nums')
         self.plot_confusion_matrix(cm_pro, classes, 'pro', normalize=True)
         return cm, classes
-        # print('confx',cm)
 
     def new_json(self, cz, shapes, save_json):
 
         new_json_dic = {}
-        # new_json_dic['flags'] = cz['flags']
-        new_json_dic['imageData'] = cz['imageData']
+        new_json_dic['flags'] = ''#cz['flags']
+        new_json_dic['imageData'] = 'None'#cz['imageData']
         # print(cz['imageDepth'])
         # if cz.get('imageDepth') != None:
         new_json_dic['imageDepth'] = 3  # cz['imageDepth']
@@ -545,22 +535,27 @@ class AnnalyResult(object):
     def proce_compute(self, input_json, pre_json, save_path):
         gt_anno_data = self.parse_para_re(input_json)
         print('gt_json', input_json)
-        pre_anno_data = self.parse_para_re(pre_json)
         gt_shapes = gt_anno_data['shapes']
-        pre_shapes = pre_anno_data['shapes']
 
-        jiandui_shapes = self.jiandui_ls(gt_shapes, pre_shapes, 0.01)
-
-        guojian_shapes = self.l_g_ls(pre_shapes, gt_shapes, 0.01, 'guojian')
+        jiandui_shapes = []
+        guojian_shapes = []
         merge_gt_pre_shapes = []
-        merge_gt_pre_shapes.extend(gt_shapes)
-        merge_gt_pre_shapes.extend(guojian_shapes)
         loujian_shapes = []
+
         try:
+            pre_anno_data = self.parse_para_re(pre_json)
+            pre_shapes = pre_anno_data['shapes']
+            jiandui_shapes = self.jiandui_ls(gt_shapes, pre_shapes, 0.01)
+            guojian_shapes = self.l_g_ls(pre_shapes, gt_shapes, 0.01, 'guojian')
+            merge_gt_pre_shapes.extend(gt_shapes)
+            merge_gt_pre_shapes.extend(guojian_shapes)
             loujian_shapes = self.l_g_ls(gt_shapes, pre_shapes, 0.01, 'loujian')
             print('try_loujian:', loujian_shapes)
         except:
             loujian_shapes.extend(gt_shapes)
+            for j in gt_shapes:
+                self.gt_class.append(j['label'])
+                self.pre_class.append('z_lou_or_guo')
             print('except_loujian:', loujian_shapes)
         print('---', len(guojian_shapes), len(loujian_shapes), len(jiandui_shapes), len(gt_shapes),
               len(merge_gt_pre_shapes))
@@ -643,6 +638,7 @@ import glob
 
 def get_gt(gt_path):
     gt_num = []
+    gt_cls = []
     jsons = glob.glob(os.path.join(gt_path, '*.json'))
     dic = {}
     for i in jsons:
@@ -654,10 +650,13 @@ def get_gt(gt_path):
             else:
                 dic[j['label']] += 1
     a = sorted(dic.items(),key=lambda x:x[0],reverse=False)
-    print(a)
+    #print(a)
     for cls, num in a:
         gt_num.append(num)
-    return gt_num
+        gt_cls.append(cls)
+    gt_cls.append('z_lou_or_guo')
+    #print('gt_num:',gt_num)
+    return gt_num,gt_cls
 
 # confusion_mtx_to_report
 def confusion_mtx_to_report(data, gt_num):
@@ -668,7 +667,8 @@ def confusion_mtx_to_report(data, gt_num):
     loushi = []
 
     loujian_ratio = []
-
+    guojian = []
+    jianchu = []
     model_guojian_ratio = []
     xianchang_guojian_ratio = []
 
@@ -676,6 +676,11 @@ def confusion_mtx_to_report(data, gt_num):
     for i in range(len(data)):
         loushi.append(data[i][-1])
     loushi.pop()
+
+    # gt数量gt_num
+    # for i in range(len(data)):
+    #     gt_num.append(sum(data[i]))
+    # gt_num.pop()
 
     # 漏检率
     for i in range(len(loushi)):
@@ -884,19 +889,8 @@ def add_louguojian_images(outputs_path, excel_save_path, ratio_array, row=0, col
     print("插入漏检过检图成功！")
 
 
-def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv, align, dic_align):
-    table_header = [['产品代号', 'C件'],
-                    ['光学面', sheet],
-                    ['模型版本号', 'htc_20210419'],
-                    ['测试集版本号', 'ceshi_20210419'],
-                    ['测试通过条件', '刮伤漏检率<5%'],
-                    ['', '黑点漏检率<2%'],
-                    ['', '异物漏检率<1%'],
-                    ['', ''],
-                    ['', ''],
-                    ['测试结果:', ''],
-                    ['', '']]
-
+def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv, ratio_array, table_header):
+    table_header[1][1] = sheet
     header_zhibiao = [['指标'],
                       ['gt数量'],
                       ['漏检数'],
@@ -911,19 +905,19 @@ def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv, alig
     for i in range(len(score_list)):
         dic_writing_position[i] = [32+53*i, 0]
 
-    imgs_path = os.path.join(sub_file, 'img')  # 测试img路径
+    imgs_path = os.path.join(sub_file, 'images')  # 测试img路径
 
     optical_surface_name = os.path.basename(sub_file)
     csv_path = os.path.join(model_test_csv, optical_surface_name, 'csv')  # csv路径   和img分开存放
 
-    gt_json = os.path.join(sub_file, 'gt')  # biaozhu jsons
+    gt_json = os.path.join(sub_file, 'jsons')  # biaozhu jsons
 
     split_result_file = os.path.join(os.path.dirname(csv_path), 'outputs_path')  # split result file
     xml_path = os.path.join(os.path.dirname(csv_path), 'outputs')  # 自动生成 测试结果生成的xml
     json_path = os.path.join(os.path.dirname(csv_path), 'jsons')  # 自动生成 xml转成的json
 
-    gt_num = get_gt(gt_json)
-
+    gt_num,gt_cls = get_gt(gt_json)
+    print('gt_numgt_num',gt_num)
     for i, score in enumerate(score_list):
         confidence = [['confidence', score]]
         ShiwuHedui(imgs_path, csv_path, os.path.join(xml_path, 'confidence_{}'.format(score)), score)  # csv_to_xml
@@ -934,7 +928,7 @@ def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv, alig
                                     os.path.join(json_path, 'confidence_{}'.format(score)),  # pre jsons
                                     os.path.join(split_result_file, 'confidence_{}'.format(score)),
                                     'confusion_mtx_confidence_{}'.format(score),
-                                    align, dic_align)  # 混淆矩阵图像名字，不带后缀
+                                    gt_cls)  # 混淆矩阵图像名字，不带后缀
         cm, gt_cate = annalyresult.getcm()
         print('gt_cate:', gt_cate)
         content = confusion_mtx_to_report(cm,gt_num)
@@ -948,7 +942,7 @@ def test_to_reports(sub_file, save_path, sheet, score_list, model_test_csv, alig
         write_excel_xlsx_append(save_path, 'zhibiao_header', header_zhibiao, dic_writing_position[i][0], dic_writing_position[i][1], sheet_name=sheet)  # 写入指标
         write_excel_xlsx_append(save_path, 'biaoqian_header', [gt_cate[0:-1]], dic_writing_position[i][0], dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入标签
         write_excel_xlsx_append(save_path, 'content', content, dic_writing_position[i][0]+1, dic_writing_position[i][1]+1, sheet_name=sheet)  # 写入content
-        add_louguojian_images(os.path.join(split_result_file, "confidence_" + str(score)), save_path, [0.1, 0.09], dic_writing_position[i][0]+10, dic_writing_position[i][1], sheet_name=sheet)  # 插图：漏检and过检
+        add_louguojian_images(os.path.join(split_result_file, "confidence_" + str(score)), save_path, ratio_array, dic_writing_position[i][0]+10, dic_writing_position[i][1], sheet_name=sheet)  # 插图：漏检and过检
         beautify_excel_content(i, dic_writing_position, save_path)
 
 def create_empty_sheet(test_file_path, excel_save_path):
@@ -997,6 +991,16 @@ def beautify_excel_table(excel_path):
 
     book.save(excel_path)
 
+def test_to_report_function(img_gt_path, excel_save_path, score_list, model_test_csv, ratio_array, table_header):
+
+    create_empty_sheet(img_gt_path, excel_save_path)
+
+    file_list = os.listdir(img_gt_path)
+    for file in file_list:
+        sub_file = os.path.join(img_gt_path, file)
+        test_to_reports(sub_file, excel_save_path, file, score_list, model_test_csv, ratio_array, table_header)
+    beautify_excel_table(excel_save_path)
+
 
 if __name__ == '__main__':
     """
@@ -1010,8 +1014,8 @@ if __name__ == '__main__':
           。
           。
         |--- 16号面
-            |--- gt
-            |--- img
+            |--- jsons
+            |--- images
     
     model_test_csv:
         |--- 1号面
@@ -1023,19 +1027,41 @@ if __name__ == '__main__':
             |--- csv
     """
 
-    img_gt_path = '/home/jerry/Desktop/A_20210605'  # 输入img和gt_json路径
-    model_test_csv = '/home/jerry/Desktop/A615_r1'  # 输入csv路径
-    score_list = [0.01]  # confidence设置，可随意设置几个
-    align = False  # 是否进行标签对齐
-    dic_align = {}  # 进行对齐的字典，key:pre_class,val:gt_class
 
-    excel_save_path = '/home/jerry/Desktop/A.xlsx'
+    optical_surface = '光学面'
+    table_header = [['产品代号', 'D件'],
+                    ['光学面', optical_surface],
+                    ['模型版本号', 'htc_20210419'],
+                    ['测试集版本号', 'ceshi_20210419'],
+                    ['测试通过条件', '刮伤漏检率<5%'],
+                    ['', '黑点漏检率<2%'],
+                    ['', '异物漏检率<1%'],
+                    ['', ''],
+                    ['', ''],
+                    ['测试结果:', ''],
+                    ['', '']]
 
-    create_empty_sheet(img_gt_path, excel_save_path)
+    img_gt_path = '/home/jerry/Documents/test_to_report_data/A_20210605'  # 输入img和gt_json路径
+    model_test_csv = '/home/jerry/Documents/test_to_report_data/A615_r1'  # 输入csv路径
+    score_list = [0.01]  # 输入confidence设置，可随意设置几个
+    ratio_array = [0.1, 0.09]  # 插入[漏检, 过检]图片数量的百分比
 
-    file_list = os.listdir(img_gt_path)
-    for file in file_list:
-        sub_file = os.path.join(img_gt_path, file)
-        test_to_reports(sub_file, excel_save_path, file, score_list, model_test_csv, align, dic_align)
+    excel_save_path = '/home/jerry/Documents/test_to_report_data/A.xlsx'  # 输出report路径
 
-    beautify_excel_table(excel_save_path)
+
+    test_to_report_function(img_gt_path, excel_save_path, score_list, model_test_csv, ratio_array, table_header)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
