@@ -7,6 +7,7 @@ import math
 import os
 import cv2
 import argparse
+import torchvision.transforms as transforms
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--test_dir', default='result/Urban100', type=str, help='image file which need to be test')
@@ -73,20 +74,18 @@ class SSIM(torch.nn.Module):
         return _ssim(img1, img2, window, self.window_size, channel, self.size_average)
 
 def ssim(img1, img2, window_size = 11, size_average = True):
-    # (_, channel, _, _) = img1.size()
-    # window = create_window(window_size, channel)
-    window = create_window(window_size, 3)
+    (_, channel, _, _) = img1.size()
+    window = create_window(window_size, channel)
 
     if img1.is_cuda:
         window = window.cuda(img1.get_device())
     window = window.type_as(img1)
     
-    # return _ssim(img1, img2, window, window_size, channel, size_average)
-    return _ssim(img1, img2, window, window_size, 3, size_average)
+    return _ssim(img1, img2, window, window_size, channel, size_average)
 
 
 def PSNR(img1, img2):
-    # b,_,_,_=img1.shape
+    b,_,_,_=img1.shape
     #mse=0
     #for i in range(b):
     img1=np.clip(img1,0,255)
@@ -103,10 +102,15 @@ def calu_psnr_ssim(test_dir, gt_dir):
     avg_psnr, avg_ssim = [], []
     test_img_list = os.listdir(test_dir)
     num_img = len(test_img_list)
+    transf = transforms.ToTensor()
 
     for i in range(num_img):
         test_img = cv2.imread(os.path.join(test_dir, test_img_list[i]))
+        test_img = np.expand_dims(test_img, axis=0)
+        test_img = transf(test_img)
         gt_img = cv2.imread(os.path.join(gt_dir, test_img_list[i]))
+        gt_img = np.expand_dims(gt_img, axis=0)
+        gt_img = transf(gt_img)
 
         PNSR_value = PSNR(test_img, gt_img)
         avg_psnr.append(PNSR_value)
