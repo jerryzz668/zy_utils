@@ -107,10 +107,11 @@ def calu_psnr_ssim(test_dir, gt_dir):
     for i in range(num_img):
         test_img = cv2.imread(os.path.join(test_dir, test_img_list[i]))
         test_img = np.expand_dims(test_img, axis=0)
-        test_img = transf(test_img)
+        test_img = torch.from_numpy(test_img.transpose((0, 3, 1, 2)))
+
         gt_img = cv2.imread(os.path.join(gt_dir, test_img_list[i]))
         gt_img = np.expand_dims(gt_img, axis=0)
-        gt_img = transf(gt_img)
+        gt_img = torch.from_numpy(gt_img.transpose((0, 3, 1, 2)))
 
         PNSR_value = PSNR(test_img, gt_img)
         avg_psnr.append(PNSR_value)
