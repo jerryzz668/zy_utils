@@ -42,8 +42,8 @@ def modify_xmls(xml_path, save_path):
     print('解析耗时: {}'.format(time.time()-t))
 
 if __name__ == '__main__':
-    xml_path = '/Users/zhangyan/Desktop/xml'  # xml_folder
-    save_path = '/Users/zhangyan/Desktop/xml_save'  # Automatically create a save_path folder
+    xml_path = '/home/jerry/Documents/0425-now_loushi/img/outputs'  # xml_folder
+    save_path = '/home/jerry/Documents/0425-now_loushi/xml_save'  # Automatically create a save_path folder
     modify_xmls(xml_path, save_path)
 
 
