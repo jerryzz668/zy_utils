@@ -40,5 +40,5 @@ def labelme_to_yolo(img_folder_path):
 
 if __name__ == '__main__':
     # 图片文件夹绝对路径
-    labelme_to_yolo(img_folder_path='/home/jerry/Documents/0425-now_loushi/labelme')
+    labelme_to_yolo(img_folder_path='/home/jerry/Documents/0425-now_loushi/labelme_crop')
 
