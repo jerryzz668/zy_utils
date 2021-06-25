@@ -1,5 +1,12 @@
 import json
 import glob
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--json_dir', default='', type=str, help='json file which need to be counted')
+args = parser.parse_args()
+
+
 def parse_para(input_json):
     with open(input_json, 'r', encoding='utf-8') as f:
         ret_dic = json.load(f)
@@ -8,7 +15,7 @@ def parse_para(input_json):
     return ret_dic
 
 def main():
-    jsons = glob.glob('/home/jerry/Documents/0425-now_loushi/json_modify/*.json')
+    jsons = glob.glob('{}/*.json'.format(args.json_dir))
     dic = {}
     for i in jsons:
         ret_dic = parse_para(i)

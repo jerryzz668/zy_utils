@@ -129,8 +129,8 @@ if __name__ == '__main__':
     # yolo_strategy
     def img_boxes_query(img_file_path):
         # cls_id_name_dict = {0: 'aokeng', 1:'aotuhen', 2:'baisezaodian',3: 'daowen', 4:'guashang', 5:'guashang1', 6:'heidian',7: 'pengshang', 8:'yise'}
-        cls_id_name_dict = {0: 'guashang', 1: 'pengshang', 2: 'tabian', 3: 'yise'}
-        txt_folder_path = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp11/labels'
+        cls_id_name_dict = {0: 'daowenxian', 1: 'guashang', 2: 'heidian', 3: 'pengshang', 4: 'shahenyin',5:'tabian',6:'yise'}
+        txt_folder_path = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp12/labels'
         txt_file = img_file_path[img_file_path.rindex(os.sep)+1:img_file_path.rindex('.')] + '.txt'
         txt_file_path = os.path.join(txt_folder_path, txt_file)
         img = Image.open(img_file_path)
@@ -152,7 +152,7 @@ if __name__ == '__main__':
             # 一个Box代表一个检测目标的xywh、label、confidence
             boxes.append(Box(cx-w/2, cy-h/2, w, h, cls_name, confidence))
         return boxes
-    precision_recall_visualize(target_folder_path='/home/jerry/Documents/yolov5-5.0/runs/detect/exp11',
+    precision_recall_visualize(target_folder_path='/home/jerry/Documents/yolov5-5.0/runs/detect/exp12',
                                # 自定义的query方法
                                img_boxes_query=img_boxes_query,
                                # 保存在图片文件夹下的特定目录名
@@ -161,23 +161,6 @@ if __name__ == '__main__':
                                recall=True,
                                # 计算过检
                                precision=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
