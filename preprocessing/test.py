@@ -80,14 +80,47 @@ from tqdm import tqdm
 #     # print(new_name)
 #     os.renames(os.path.join(input_dir, file), os.path.join(input_dir, new_name))
 
-t1 = np.arange(12)
-t2 = t1.reshape(3,4)
+# t1 = np.arange(12)
+# t2 = t1.reshape(3,4)
+#
+# print(t2)
+# t3 = t2.flatten()
+#
+# print(t3)
+# print(type(t3))
+# t4 = t3.tolist()
+# print(t4)
+# print(type(t4))
 
-print(t2)
-t3 = t2.flatten()
 
-print(t3)
-print(type(t3))
-t4 = t3.tolist()
-print(t4)
-print(type(t4))
+# import numpy as np
+# import matplotlib.pyplot as plt
+# import pywt.data
+
+
+# # 中文显示工具函数
+# def set_ch():
+#     from pylab import mpl
+#     mpl.rcParams['font.sans-serif'] = ['FangSong']
+#     mpl.rcParams['axes.unicode_minus'] = False
+
+
+# set_ch()
+# # original = pywt.data.camera()
+# original = '/Users/zhangyan/Desktop/IMG_3951.JPG'
+# original = cv2.imread(original, 0)
+# # cv2.imshow('ori', original)
+# # cv2.waitKey()
+# # Wavelet transform of image, and plot approximation and details
+# titles = ['近似图像', '水平细节', '垂直细节', '对角线细节']
+# coeffs2 = pywt.dwt2(original, 'haar')
+# LL, (LH, HL, HH) = coeffs2
+# fig = plt.figure(figsize=(12, 3))
+# for i, a in enumerate([LL, LH, HL, HH]):
+#     ax = fig.add_subplot(1, 4, i + 1)
+#     ax.imshow(a, interpolation="nearest", cmap=plt.cm.gray)
+#     ax.set_title(titles[i], fontsize=10)
+#     ax.set_xticks([])
+#     ax.set_yticks([])
+# fig.tight_layout()
+# plt.show()
