@@ -1,4 +1,4 @@
- """
+"""
 @Description: 输入两个路径下的文件名一定要相同！！ 测试图像质量PSNR and SSIM
 @Author     : zhangyan
 @Time       : 2021/6/21 下午3:12
