@@ -2,7 +2,7 @@
 # @Author     : zhangyan
 # @Time       : 2021/1/15 1:56 下午
 
-from zy_utils import *
+from preprocessing.zy_utils import *
 import os
 import shutil
 import time

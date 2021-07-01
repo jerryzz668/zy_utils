@@ -8,10 +8,10 @@ import pandas as pd
 import numpy as np
 import os
 import cv2
-from zy_utils import mkdir
+from preprocessing.zy_utils import make_dir
 
 def draw_rec_text(csv_path, imgs_path, img_save_path):
-    mkdir(img_save_path)
+    make_dir(img_save_path)
     data = pd.read_csv(csv_path)
     data = data.iloc[:,[1,3,4,5,6,7,8,9]]
     data = np.array(data)

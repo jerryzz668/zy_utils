@@ -39,11 +39,6 @@ def extract_xys(axiss):
     '''
     return [float(axis.text) for axis in axiss]
 
-def mkdir(save_path):
-    if not os.path.exists(save_path):
-        os.makedirs(save_path)
-
-
 def json_to_instance(json_file_path):
     '''
     :param json_file_path: json文件路径
@@ -216,7 +211,7 @@ def calculate_inter_area(box1, box2):
     return area
 
 # -----以下代码用来创建文件夹-----
-def make_dir1(base_path):
+def make_dir(base_path):
     if not os.path.exists(base_path):
         os.mkdir(base_path)
 
