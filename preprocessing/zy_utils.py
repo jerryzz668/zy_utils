@@ -6,14 +6,38 @@ date: 2021-04-02 17:42
 
 import os
 import json
+import shutil
+
 import pandas as pd
 import openpyxl as xl
 from pypinyin import pinyin, NORMAL
 from openpyxl.styles import Font, Alignment
 import xml.etree.ElementTree as ET
+import cv2
 
 
-IMG_TYPES = ['jpg', 'png']
+IMG_TYPES = ['jpg', 'png', 'JPG', 'PNG']
+
+def create_empty_json_instance(img_file_path: str):
+    '''
+    :param img_file_path: img路径
+    :return: 构建一个空的labelme json instance对象
+    '''
+    instance = {'version': '1.0',
+                'shapes': [],
+                'imageData': None,
+                'imagePath': img_file_path[img_file_path.rindex(os.sep)+1:]}
+    img = cv2.imread(img_file_path)
+    instance['imageHeight'], instance['imageWidth'], instance['imageDepth'] = img.shape
+    # instance_to_json(instance, img_file_path[:img_file_path.rindex('.')]+'.json')
+    return instance
+
+def extract_xys(axiss):
+    '''
+    :param axiss: xml中的坐标系父节点
+    :return: list[x1,y1,...,xn,yn]
+    '''
+    return [float(axis.text) for axis in axiss]
 
 def mkdir(save_path):
     if not os.path.exists(save_path):
@@ -190,3 +214,36 @@ def calculate_inter_area(box1, box2):
     width = right_x - left_x
     area = height * width if height>0 and width>0 else 0
     return area
+
+# -----以下代码用来创建文件夹-----
+def make_dir1(base_path):
+    if not os.path.exists(base_path):
+        os.mkdir(base_path)
+
+def make_dir2(base_path, folders):
+    if not os.path.exists(base_path):
+        os.mkdir(base_path)
+    for folder in folders:
+        folder_path = os.path.join(base_path, folder)
+        if not os.path.exists(folder_path):
+            os.mkdir(folder_path)
+
+def make_dir3(base_path, folders, subfolders):
+    if not os.path.exists(base_path):
+        os.mkdir(base_path)
+    for folder in folders:
+        folder_path = os.path.join(base_path, folder)
+        if not os.path.exists(folder_path):
+            os.mkdir(folder_path)
+        for subfolder in subfolders:
+            subfolder_path = os.path.join(folder_path, subfolder)
+            if not os.path.exists(subfolder_path):
+                os.mkdir(subfolder_path)
+# -----以上代码用来创建文件夹-----
+
+# 移动文件夹下所有指定尾缀文件到另一个文件夹
+def move_specify_file(input_path, file_type, output_path):
+    file_list = os.listdir(input_path)
+    for file in file_list:
+        if file.endswith(file_type):
+            shutil.move(os.path.join(input_path, file), output_path)

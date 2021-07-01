@@ -1,6 +1,4 @@
 import random
-import sys
-sys.path.append('/home/jerry/Desktop/code/zy_utils')
 from preprocessing.utils import *
 
 

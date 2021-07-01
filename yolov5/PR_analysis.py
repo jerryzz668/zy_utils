@@ -2,7 +2,6 @@ import os
 import json
 import shutil
 
-
 class Box:
     # xy是左上角坐标
     def __init__(self, category, x, y, w, h):
