@@ -60,7 +60,7 @@ def data_to_test(input_dir, output_dir):
         json_save_path = os.path.join(output_dir, optical_sur, 'jsons')
 
         modify_xmls.modify_xmls(xml_path, xml_save_path)  # modify xmls，delete '-'
-        labelme_from_xml.xml_to_labelme(xml_path, image_save_path, 'item', None)  # generate labelme
+        labelme_from_xml.xml_to_labelme(xml_save_path, image_save_path, 'item', None)  # generate labelme
 
         move_specify_file(image_save_path, '.json', json_save_path)  # 生成的json文件移动到jsons文件夹
 

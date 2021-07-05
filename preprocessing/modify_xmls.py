@@ -36,6 +36,7 @@ def modify_xmls(xml_path, save_path):
     t = time.time()
     xml_list = os.listdir(xml_path)
     for xml in xml_list:
+        if not xml.endswith('.xml'): continue
         xml_file = os.path.join(xml_path, xml)  # 输入xml文件
         modify_xml(xml_file, save_path)
         print('{}'.format(xml) + ' has been modified!')
