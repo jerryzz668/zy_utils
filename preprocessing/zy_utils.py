@@ -7,13 +7,14 @@ date: 2021-04-02 17:42
 import os
 import json
 import shutil
-
+import yaml
 import pandas as pd
 import openpyxl as xl
 from pypinyin import pinyin, NORMAL
 from openpyxl.styles import Font, Alignment
 import xml.etree.ElementTree as ET
 import cv2
+import math
 
 
 IMG_TYPES = ['jpg', 'png', 'JPG', 'PNG']
@@ -57,6 +58,16 @@ def instance_to_json(instance, json_file_path):
     with open(json_file_path, 'w', encoding='utf-8') as f:
         content = json.dumps(instance, ensure_ascii=False, indent=2)
         f.write(content)
+
+def yaml_to_instance(yaml_file_path):
+    """
+    yaml_file_path: yaml文件路径
+    return yaml_instance
+    """
+    with open(yaml_file_path, 'r', encoding='utf-8') as f:
+        config = f.read()
+    cfg = yaml.load(config, yaml.FullLoader)
+    return cfg
 
 def filtrate_file(path):
     list = os.listdir(path)
@@ -242,3 +253,44 @@ def move_specify_file(input_path, file_type, output_path):
     for file in file_list:
         if file.endswith(file_type):
             shutil.move(os.path.join(input_path, file), output_path)
+
+# -----以下代码用来进行坐标转换-----
+def extract_xys(axiss):
+    '''
+    :param axiss: xml中的坐标系父节点
+    :return: list[x1,y1,...,xn,yn]
+    '''
+    return [float(axis.text) for axis in axiss]
+
+def points_to_xywh(obj):
+    '''
+    :param obj: labelme instance中待检测目标obj{}
+    :return: box左上坐标+wh
+    '''
+    points = obj['points']
+    shape_type = obj['shape_type']
+    if shape_type == 'circle':
+        center = [points[0][0], points[0][1]]
+        radius = math.sqrt((points[1][0]-center[0])**2+(points[1][1]-center[1])**2)
+        return [center[0]-radius-1, center[1]-radius-1, 2*radius+3, 2*radius+3]
+    xs = [point[0] for point in points]
+    ys = [point[1] for point in points]
+    min_x, max_x = min(xs), max(xs)
+    min_y, max_y = min(ys), max(ys)
+    return [min_x-1, min_y-1, max_x-min_x+3, max_y-min_y+3]
+
+def points_to_center(obj):
+    '''
+    :param obj: labelme instance中待检测目标obj{}
+    :return: box中心坐标
+    '''
+    points = obj['points']
+    shape_type = obj['shape_type']
+    if shape_type == 'circle':
+        return points[0][0], points[0][1]
+    xs = [point[0] for point in points]
+    ys = [point[1] for point in points]
+    min_x, max_x = min(xs), max(xs)
+    min_y, max_y = min(ys), max(ys)
+    return (min_x+max_x)/2, (min_y+max_y)/2
+# -----以上代码用来进行坐标转换-----
