@@ -2,7 +2,6 @@
 # @Author     : zhangyan
 # @Time       : 2020/12/9 6:10 下午
 class Node:
-
     def __init__(self, name='', supported=True, in_nodes=None, out_nodes=None):
         self.name = name
         self.supported = supported
@@ -24,7 +23,6 @@ class Node:
                 print(content)
                 if self.supported == node.supported:
                     node.draw(result)
-
 
 if __name__ == '__main__':
     # a = 'A'
