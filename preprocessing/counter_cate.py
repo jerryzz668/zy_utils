@@ -26,9 +26,11 @@ def main():
             else:
                 dic[j['label']] += 1
     a = sorted(dic.items(),key=lambda x:x[1],reverse=True)
+    total_defects = sum(dic.values())
     print(dic.keys())
     print(a)
     print(len(a))
+    print('目标汇总数：', total_defects)
 
 if __name__ == '__main__':
     main()
