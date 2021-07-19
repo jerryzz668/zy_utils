@@ -88,7 +88,7 @@ def word_to_pinyin(word):
 
 def read_txt(path):
     with open(path, "r") as f:  # 打开文件
-        data = f.read()  # 读取文件
+        data = f.readlines()  # 读取文件
     return data
 
 # 写入新的excel   ### 内容， 保存路径, 路径下sheet， 表头， 表头列， 插入位置行数，插入位置列数
@@ -293,4 +293,13 @@ def points_to_center(obj):
     min_x, max_x = min(xs), max(xs)
     min_y, max_y = min(ys), max(ys)
     return (min_x+max_x)/2, (min_y+max_y)/2
+
+def yolo_to_xywh(line):
+    line = line.split(' ')
+    x = float(line[1]) - float(line[3]) / 2
+    y = float(line[2]) - float(line[4]) / 2
+    w = float(line[3])
+    h = float(line[4])
+    category = int(line[0])
+    return [x, y, w, h, category]
 # -----以上代码用来进行坐标转换-----
