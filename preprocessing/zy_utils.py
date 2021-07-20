@@ -303,3 +303,10 @@ def yolo_to_xywh(line):
     category = int(line[0])
     return [x, y, w, h, category]
 # -----以上代码用来进行坐标转换-----
+
+# 字典对齐---以dic_a为基准，dic_b向dic_a对齐，补0
+def dic_align(dic_a, dic_b):
+    c = [i for i in dic_a if i not in dic_b]
+    for i in c:
+        dic_b[i] = 0
+    return dic_b
