@@ -35,7 +35,7 @@ def missing_over_detect_statistics(gt_txt_dir, pre_txt_dir, iou_threshold):
             for i, pre_line in enumerate(pre_txt_lines):
                 pre_x, pre_y, pre_w, pre_h, pre_c = yolo_to_xywh(pre_line)
                 pre_box = Box(pre_x, pre_y, pre_w, pre_h, pre_c)
-                if gt_box.get_iou(pre_box) < iou_threshold:  # 不管类别，只算iou
+                if gt_box.get_iou(pre_box) < iou_threshold:
                     temp.append(i)
                 # 如果iou > threshold，类别错误也算检出，注释以下两行即可
                 elif gt_box.get_iou(pre_box) > iou_threshold and pre_c != gt_c:
@@ -48,7 +48,7 @@ def missing_over_detect_statistics(gt_txt_dir, pre_txt_dir, iou_threshold):
 def txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold):
     cfg_yolo = yaml_to_instance(cls_yaml_dir)
     cfg_cls_name = cfg_yolo['names']
-    # cls_id_name_dict = dict(zip(range(len(cfg_cls_name)),cfg_cls_name))
+
     gt_list = os.listdir(gt_txt_dir)
     pre_list = os.listdir(pre_txt_dir)
 
@@ -73,14 +73,11 @@ def txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold):
 
     cate, gt, missing, over_detect = pd.DataFrame(cfg_cls_name), pd.DataFrame(gt), pd.DataFrame(missing), pd.DataFrame(over_detect)
     dataframe = (pd.concat((cate, gt, missing, over_detect), axis=1))
-    # print(dataframe)
     df = dataframe.iloc[:, [0, 2, 4, 6]]
     df.columns = ['cate', 'gt', 'missing', 'over_detect']
     # df = df.set_index('cate')
-    # print(df)
     df.loc[len(cate)+1] = df.apply(lambda x: x.sum())
     df.iat[len(df.values)-1, 0] = 'total'
-    print(df)
     return df
 
 if __name__ == '__main__':
@@ -89,4 +86,5 @@ if __name__ == '__main__':
     cls_yaml_dir = '/home/jerry/Desktop/for_missing_and_over/kesen_33074_hy_512.yaml'  # yolo_class--id--dic
     iou_threshold = 0.3
 
-    txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold)
+    df = txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold)
+    print(df)

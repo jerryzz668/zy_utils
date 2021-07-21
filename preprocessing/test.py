@@ -51,14 +51,3 @@ from tqdm import tqdm
 #
 #     # print(instance)
 
-
-def grid_search(a, b):
-    x, y = np.meshgrid(np.linspace(a[0], a[1], a[2]), np.linspace(b[0], b[1], b[2]))
-    cartesian_arr = np.array([x.ravel(),y.ravel().T])
-    return cartesian_arr.T
-
-a = [0.1, 0.8, 3]
-b = [0.3, 0.7, 3]
-
-c = grid_search(a, b)
-print(c)

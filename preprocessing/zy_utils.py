@@ -313,6 +313,11 @@ def dic_align(dic_a, dic_b):
     return dic_b
 
 def grid_search(a, b):
+    """
+    @param a: type->list [start, stop, N]
+    @param b: type->list [start, stop, N]
+    @return: two-dimensional array
+    """
     x, y = np.meshgrid(np.linspace(a[0], a[1], a[2]), np.linspace(b[0], b[1], b[2]))
     cartesian_arr = np.array([x.ravel(),y.ravel().T])
     return cartesian_arr.T
