@@ -8,7 +8,7 @@ from collections import Counter
 import pandas as pd
 
 # gt和全漏失统计
-def gt_total_missing_statistics(gt_txt_dir, total_missing_list, iou_threshold):
+def gt_total_missing_statistics(gt_txt_dir, total_missing_list):
     total_missing_number = []
     for missing in total_missing_list:
         total_missing_path = os.path.join(gt_txt_dir, missing)
@@ -37,8 +37,10 @@ def missing_over_detect_statistics(gt_txt_dir, pre_txt_dir, iou_threshold):
                 pre_box = Box(pre_x, pre_y, pre_w, pre_h, pre_c)
                 if gt_box.get_iou(pre_box) < iou_threshold:  # 不管类别，只算iou
                     temp.append(i)
-                elif gt_box.get_iou(pre_box) > iou_threshold and pre_c != gt_c:  # iou>0.3,类别错误，按没检出算
+                # 如果iou > threshold，类别错误也算检出，注释以下两行即可
+                elif gt_box.get_iou(pre_box) > iou_threshold and pre_c != gt_c:
                     temp.append(i)
+                # 如果iou > threshold，类别错误也算检出，注释以上两行即可
             if len(temp) == len(pre_txt_lines):
                 no_total_missing_number.append(int(gt_line[0]))
     return Counter(no_total_missing_number)
@@ -50,9 +52,9 @@ def txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold):
     gt_list = os.listdir(gt_txt_dir)
     pre_list = os.listdir(pre_txt_dir)
 
-    gt_number_arr = gt_total_missing_statistics(gt_txt_dir, gt_list, iou_threshold)  # gt
+    gt_number_arr = gt_total_missing_statistics(gt_txt_dir, gt_list)  # gt
     total_missing_list = [i for i in gt_list if i not in pre_list]
-    total_missing_number_arr = gt_total_missing_statistics(gt_txt_dir, total_missing_list, iou_threshold)  # 全漏失
+    total_missing_number_arr = gt_total_missing_statistics(gt_txt_dir, total_missing_list)  # 全漏失
     no_total_missing_number_arr = missing_over_detect_statistics(gt_txt_dir, pre_txt_dir, iou_threshold)  # 非全漏失
     overdetect_number_arr = missing_over_detect_statistics(pre_txt_dir, gt_txt_dir, iou_threshold)  # guojian
 
@@ -82,10 +84,9 @@ def txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold):
     return df
 
 if __name__ == '__main__':
-    gt_txt_dir = '/home/jerry/Desktop/for_missing_and_over/gt'
-    pre_txt_dir = '/home/jerry/Desktop/for_missing_and_over/pre'
-    cls_yaml_dir = '/home/jerry/Desktop/for_missing_and_over/kesen_33074_hy_512.yaml'
+    gt_txt_dir = '/home/jerry/Desktop/for_missing_and_over/gt'  # gt_txt
+    pre_txt_dir = '/home/jerry/Desktop/for_missing_and_over/pre'  # predict_txt
+    cls_yaml_dir = '/home/jerry/Desktop/for_missing_and_over/kesen_33074_hy_512.yaml'  # yolo_class--id--dic
     iou_threshold = 0.3
 
     txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold)
-

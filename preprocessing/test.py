@@ -33,27 +33,7 @@ from tqdm import tqdm
 # array = [i for i in range(1,1000,5)]
 # print(array)
 # print(search(array, 46))
-#
 
-# 挑选不同面 dm/cm/gj
-# import os
-# import shutil
-# p = r'G:\BaiduNetdiskDownload\微软D件\D件-0413\D2-2021-04-12\大面\outputs'
-# o_p = r'C:\Users\Administrator\Desktop\dm1314'
-#
-# img_list = os.listdir(p)
-# for img in img_list:
-#     file_path = os.path.join(p, img)
-#     if not os.path.isfile(file_path) or img[img.rindex('.') + 1:] not in ['xml']: continue
-#     suffix_img = img.split('-')[2].split('.')[0]
-#     # print(suffix_img)
-#     if suffix_img in ['13','14']:
-#     # if 5 <= int(suffix_img) <= 12:
-#         # print(file_path)
-#         try:
-#             shutil.move(file_path,o_p)
-#         except:
-#             print(file_path)
 
 # a = '阿姨那种'
 # b = pypinyin(a)
@@ -71,56 +51,14 @@ from tqdm import tqdm
 #
 #     # print(instance)
 
-# rename
-# input_dir = r'G:\BaiduNetdiskDownload\Rain100H\target'
-# file_list = os.listdir(input_dir)
-# for file in file_list:
-#     # new_name = file.split('-')[-1].split('x')[0] + '.png'
-#     new_name = file.split('-')[-1]
-#     # print(new_name)
-#     os.renames(os.path.join(input_dir, file), os.path.join(input_dir, new_name))
 
-# t1 = np.arange(12)
-# t2 = t1.reshape(3,4)
-#
-# print(t2)
-# t3 = t2.flatten()
-#
-# print(t3)
-# print(type(t3))
-# t4 = t3.tolist()
-# print(t4)
-# print(type(t4))
+def grid_search(a, b):
+    x, y = np.meshgrid(np.linspace(a[0], a[1], a[2]), np.linspace(b[0], b[1], b[2]))
+    cartesian_arr = np.array([x.ravel(),y.ravel().T])
+    return cartesian_arr.T
 
+a = [0.1, 0.8, 3]
+b = [0.3, 0.7, 3]
 
-# import numpy as np
-# import matplotlib.pyplot as plt
-# import pywt.data
-
-
-# # 中文显示工具函数
-# def set_ch():
-#     from pylab import mpl
-#     mpl.rcParams['font.sans-serif'] = ['FangSong']
-#     mpl.rcParams['axes.unicode_minus'] = False
-
-
-# set_ch()
-# # original = pywt.data.camera()
-# original = '/Users/zhangyan/Desktop/IMG_3951.JPG'
-# original = cv2.imread(original, 0)
-# # cv2.imshow('ori', original)
-# # cv2.waitKey()
-# # Wavelet transform of image, and plot approximation and details
-# titles = ['近似图像', '水平细节', '垂直细节', '对角线细节']
-# coeffs2 = pywt.dwt2(original, 'haar')
-# LL, (LH, HL, HH) = coeffs2
-# fig = plt.figure(figsize=(12, 3))
-# for i, a in enumerate([LL, LH, HL, HH]):
-#     ax = fig.add_subplot(1, 4, i + 1)
-#     ax.imshow(a, interpolation="nearest", cmap=plt.cm.gray)
-#     ax.set_title(titles[i], fontsize=10)
-#     ax.set_xticks([])
-#     ax.set_yticks([])
-# fig.tight_layout()
-# plt.show()
+c = grid_search(a, b)
+print(c)

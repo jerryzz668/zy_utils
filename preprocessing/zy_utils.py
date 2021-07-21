@@ -15,6 +15,7 @@ from openpyxl.styles import Font, Alignment
 import xml.etree.ElementTree as ET
 import cv2
 import math
+import numpy as np
 
 
 IMG_TYPES = ['jpg', 'png', 'JPG', 'PNG']
@@ -310,3 +311,8 @@ def dic_align(dic_a, dic_b):
     for i in c:
         dic_b[i] = 0
     return dic_b
+
+def grid_search(a, b):
+    x, y = np.meshgrid(np.linspace(a[0], a[1], a[2]), np.linspace(b[0], b[1], b[2]))
+    cartesian_arr = np.array([x.ravel(),y.ravel().T])
+    return cartesian_arr.T
