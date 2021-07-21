@@ -37,8 +37,8 @@ def missing_over_detect_statistics(gt_txt_dir, pre_txt_dir, iou_threshold):
                 pre_box = Box(pre_x, pre_y, pre_w, pre_h, pre_c)
                 if gt_box.get_iou(pre_box) < iou_threshold:  # 不管类别，只算iou
                     temp.append(i)
-                elif gt_box.get_iou(pre_box) > iou_threshold and pre_c != gt_c:
-                    pass
+                elif gt_box.get_iou(pre_box) > iou_threshold and pre_c != gt_c:  # iou>0.3,类别错误，按没检出算
+                    temp.append(i)
             if len(temp) == len(pre_txt_lines):
                 no_total_missing_number.append(int(gt_line[0]))
     return Counter(no_total_missing_number)
