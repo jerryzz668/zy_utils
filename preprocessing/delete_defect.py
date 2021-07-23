@@ -22,9 +22,9 @@ def cut_defects(json_path, defect_list, json_o_path):
 
 if __name__ == '__main__':
 
-    defect_list = ['pengshang']  # 需要保留的缺陷
+    defect_list = ['loushi_huashang', 'loushi_yashang']  # 需要保留的缺陷
 
-    json_path = '/home/jerry/Desktop/test'  # input json path
-    json_o_path = '/home/jerry/Desktop/test_modify'  # output json path & Automatically create folders
+    json_path = '/home/jerry/data/kesen/labelme_31490_hy/labelme_aug_train'  # input json path
+    json_o_path = '/home/jerry/data/kesen/labelme_31490_hy/labelme_aug_train/json_save'  # output json path & Automatically create folders
 
     cut_defects(json_path, defect_list, json_o_path)

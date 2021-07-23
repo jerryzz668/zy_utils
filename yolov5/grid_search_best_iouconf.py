@@ -34,14 +34,14 @@ def search_best_iouconf(gt_txt_path, source, cls_yaml_dir, weights, yolo_project
     return sorted_df_iou_conf
 
 if __name__ == '__main__':
-    source = '/home/jerry/Documents/Micro_AD/0425_yolo/yolo/images/val'  # 需推理的图像路径
-    gt_txt_path = '/home/jerry/Documents/Micro_AD/0425_yolo/yolo/labels/val'  # 需推理图像的标注_txt格式
-    weights = '/home/jerry/Documents/yolov5-5.0/runs/train/exp13/weights/best.pt'  # 训练好的模型
-    cls_yaml_dir = '/home/jerry/Documents/yolov5-5.0/data/loushi.yaml'  # yaml
+    source = '/home/jerry/data/kesen/yolo_31490_hy/yolo/images/val'  # 需推理的图像路径
+    gt_txt_path = '/home/jerry/data/kesen/yolo_31490_hy/yolo/labels/val'  # 需推理图像的标注_txt格式
+    weights = '/home/jerry/Documents/yolov5-5.0/runs/train/exp14/weights/best.pt'  # 训练好的模型
+    cls_yaml_dir = '/home/jerry/Documents/yolov5-5.0/data/31490_hy.yaml'  # yaml
     yolo_project = '/home/jerry/Documents/yolov5-5.0'  # yolo项目路径
     img_size = 512  # 测试图像大小
-    iou = [0.3, 0.8, 4]  # grid_search 范围 【start, stop, step】
-    conf = [0.3, 0.8, 4]  # grid_search 范围 【start, stop, step】
+    iou = [0.3, 0.6, 4]  # grid_search 范围 【start, stop, step】
+    conf = [0.3, 0.6, 4]  # grid_search 范围 【start, stop, step】
 
     search_best_iouconf(gt_txt_path, source, cls_yaml_dir, weights, yolo_project, img_size, iou, conf)
 

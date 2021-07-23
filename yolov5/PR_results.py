@@ -38,8 +38,8 @@ def missing_over_detect_statistics(gt_txt_dir, pre_txt_dir, iou_threshold):
                 if gt_box.get_iou(pre_box) < iou_threshold:
                     temp.append(i)
                 # 如果iou > threshold，类别错误也算检出，注释以下两行即可
-                elif gt_box.get_iou(pre_box) > iou_threshold and pre_c != gt_c:
-                    temp.append(i)
+                # elif gt_box.get_iou(pre_box) > iou_threshold and pre_c != gt_c:
+                #     temp.append(i)
                 # 如果iou > threshold，类别错误也算检出，注释以上两行即可
             if len(temp) == len(pre_txt_lines):
                 no_total_missing_number.append(int(gt_line[0]))
@@ -81,10 +81,10 @@ def txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold):
     return df
 
 if __name__ == '__main__':
-    gt_txt_dir = '/home/jerry/Desktop/for_missing_and_over/gt'  # gt_txt
-    pre_txt_dir = '/home/jerry/Desktop/for_missing_and_over/pre'  # predict_txt
-    cls_yaml_dir = '/home/jerry/Desktop/for_missing_and_over/kesen_33074_hy_512.yaml'  # yolo_class--id--dic
-    iou_threshold = 0.3
+    gt_txt_dir = '/home/jerry/data/kesen/yolo_31490_hy/yolo/labels/val'  # gt_txt
+    pre_txt_dir = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp15/labels'  # predict_txt
+    cls_yaml_dir = '/home/jerry/Documents/yolov5-5.0/data/31490_hy.yaml'  # yolo_class--id--dic
+    iou_threshold = 0.2
 
     df = txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold)
     print(df)
