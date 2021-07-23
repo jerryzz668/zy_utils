@@ -9,9 +9,9 @@ import json
 import shutil
 import yaml
 import pandas as pd
-import openpyxl as xl
-from pypinyin import pinyin, NORMAL
-from openpyxl.styles import Font, Alignment
+# import openpyxl as xl
+# from pypinyin import pinyin, NORMAL
+# from openpyxl.styles import Font, Alignment
 import xml.etree.ElementTree as ET
 import cv2
 import math
@@ -88,7 +88,7 @@ def word_to_pinyin(word):
     return s
 
 def read_txt(path):
-    with open(path, "r") as f:  # 打开文件
+    with open(path, "r", encoding='utf-8') as f:  # 打开文件
         data = f.readlines()  # 读取文件
     return data
 

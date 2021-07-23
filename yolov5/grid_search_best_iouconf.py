@@ -19,7 +19,7 @@ def search_best_iouconf(gt_txt_path, source, cls_yaml_dir, weights, yolo_project
         except:
             print('no_grid_file')
         os.system('python {} --weights {} --source {} --img-size {} --iou-thres {} --conf-thres {} --save-txt --save-conf --nosave --name {}'.format(detect_py, weights, source, img_size, iou, conf, exp_grid))
-        df = txt_to_dataframe(gt_txt_path, os.path.join(yolo_project, 'runs/detect/grid/labels'), cls_yaml_dir, iou)
+        df = txt_to_dataframe(gt_txt_path, os.path.join(yolo_project, 'runs/detect/grid/labels'), cls_yaml_dir, 0.3)
         PR_total = np.floor(np.array(df.iloc[-1, 1:]))
         iou_conf = np.array([iou, conf])
         line_content = np.concatenate((iou_conf, PR_total)).tolist()
@@ -40,8 +40,8 @@ if __name__ == '__main__':
     cls_yaml_dir = '/home/jerry/Documents/yolov5-5.0/data/loushi.yaml'  # yaml
     yolo_project = '/home/jerry/Documents/yolov5-5.0'  # yolo项目路径
     img_size = 512  # 测试图像大小
-    iou = [0.3, 0.8, 10]  # grid_search 范围 【start, stop, step】
-    conf = [0.3, 0.8, 10]  # grid_search 范围 【start, stop, step】
+    iou = [0.3, 0.8, 4]  # grid_search 范围 【start, stop, step】
+    conf = [0.3, 0.8, 4]  # grid_search 范围 【start, stop, step】
 
     search_best_iouconf(gt_txt_path, source, cls_yaml_dir, weights, yolo_project, img_size, iou, conf)
 
