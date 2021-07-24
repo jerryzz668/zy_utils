@@ -122,7 +122,7 @@ if __name__ == '__main__':
     # return 漏检，过检
 
     precision_recall_visualize(# yolo detect.py 推理结果路径
-                               target_folder_path='/home/jerry/Documents/yolov5-5.0/runs/detect/exp16',
+                               target_folder_path='/home/jerry/Documents/yolov5-5.0/runs/detect/exp21',
                                # 自定义的query方法
                                img_boxes_query=img_boxes_query,
                                # 保存在图片文件夹下的特定目录名

@@ -157,13 +157,13 @@ if __name__ == '__main__':
         pad = (1120 - w)//2
         return [[[0, h, 0, w], [0, 0, pad, pad]]]
     # 截图并保存
-    imgs_crop_and_fill(img_folder_path='/home/jerry/data/kesen/labelme_31490_hy/labelme_aug_train',
+    imgs_crop_and_fill(img_folder_path='/home/jerry/data/kesen/labelme_31490_jbl/labelme_val',
                        # 自定义的截图策略
-                       crop_strategy=aug_crop_strategy,
+                       crop_strategy=clustering_crop_strategy,
                        # 截图尺寸
                        img_size=512,
                        # 截图输出路径
-                       output_path='/home/jerry/data/kesen/labelme_31490_hy/labelme_aug_train/aug',
+                       output_path='/home/jerry/data/kesen/labelme_31490_jbl_preprocess/cut_val',
                        # 自动滤去不含检测目标的截图框
                        empty_check=False,
                        # 多线程数
@@ -171,7 +171,7 @@ if __name__ == '__main__':
                        # 被截断的检测目标的面积比阈值，低于阈值将不计入截图框中
                        iou_thres=0.2,
                        # information for crop_strategy method
-                       additional_info={'check_list': ['huashang', 'yashang']})
+                       additional_info={'check_list': ['jiaobuliang', 'jiaobuliang-1', 'jiaobuliang-2']})
 
 
 

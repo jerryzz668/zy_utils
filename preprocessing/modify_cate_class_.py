@@ -41,8 +41,8 @@ def get_max_w_h1(img_jsons,s,label_dic):
             save_json(ret_dic,os.path.join(s,i))
     return 0
 
-img_jsons = r'D:\BaiduNetdiskDownload\0425-now_loushi_cm\img\jsons1'
-save_p = r'D:\BaiduNetdiskDownload\0425-now_loushi_cm\img\jsons'
+img_jsons = '/home/jerry/data/kesen/labelme_31490_hy/labelme_aug_train/augg'
+save_p = '/home/jerry/data/kesen/labelme_31490_hy/labelme_save'
 
 # label_dic = {0:'良品',1:'异色',2:'白点',3:'3',4:'刮伤',5:'擦伤',6:'黑点',7:'砂痕印',8:'异物',
 #              9:'刀纹',10:'刮伤',11:'喷砂不均',12:'应力痕',13:'凸凹痕',14:'凹凸痕',
@@ -53,9 +53,10 @@ save_p = r'D:\BaiduNetdiskDownload\0425-now_loushi_cm\img\jsons'
 #              '7':'shahenyin','8':'yiwu','9':'daowen','10':'huashang','11':'penshabujun','12':'aohen',
 #              '13':'tuhaohen','14':'aotuhen','15':'aokeng','16':'mian','17':'qingweimianhua','18':'qita',
 #              '19':'pengshang','20':'pengshang','21':'huanxingdaowen','22':'daowenxian','23':'tabian','27':'pengshang'}#图像和名字对应表
-label_dic = {'heidian':'heidian', 'guashang-heiduan':'guashang', 'guashang-heizhang':'guashang', 'yise-hei':'yise',
-'pengshang-mian':'pengshang', 'guashang-baiduan':'guashang', 'daowen-mian':'daowen', 'daowen-dantiao':'daowen','yise-heitiao':'yise',
-'pengshang-zhang':'pengshang', 'yise-bai':'yise', 'guashang-baizhang':'guashang', 'penshabujun-bai':'pengshang','yise-hui':'yise','yise-baitiao':'yise',
-             'tabian-an':'tabian','baisezaodian':'baidian','pengshang-bian':'pengshang','pengshang-bian':'pengshang','yise-liang':'yise',
-             'tabian-an':'tabian','pengshang-jiao':'pengshang','yise-liang':'yise','daowen-jiao':'daowen','penshabujun-hei':'pengshabujun','tabian-liang':'tabian'}
+# label_dic = {'heidian':'heidian', 'guashang-heiduan':'guashang', 'guashang-heizhang':'guashang', 'yise-hei':'yise',
+# 'pengshang-mian':'pengshang', 'guashang-baiduan':'guashang', 'daowen-mian':'daowen', 'daowen-dantiao':'daowen','yise-heitiao':'yise',
+# 'pengshang-zhang':'pengshang', 'yise-bai':'yise', 'guashang-baizhang':'guashang', 'penshabujun-bai':'pengshang','yise-hui':'yise','yise-baitiao':'yise',
+#              'tabian-an':'tabian','baisezaodian':'baidian','pengshang-bian':'pengshang','pengshang-bian':'pengshang','yise-liang':'yise',
+#              'tabian-an':'tabian','pengshang-jiao':'pengshang','yise-liang':'yise','daowen-jiao':'daowen','penshabujun-hei':'pengshabujun','tabian-liang':'tabian'}
+label_dic = {'loushi_huashang': 'huashang', 'loushi_yashang': 'yashang'}
 get_max_w_h1(img_jsons,save_p,label_dic)

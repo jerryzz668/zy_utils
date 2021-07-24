@@ -1,24 +1,25 @@
 import json
 import glob
 import argparse
+import sys
 
-parser = argparse.ArgumentParser()
-parser.add_argument('--json_dir', default='', type=str, help='json file which need to be counted')
-args = parser.parse_args()
+def json_to_instance(json_file_path):
+    with open(json_file_path, 'r', encoding='utf-8') as f:
+        instance = json.load(f)
+    return instance
 
-
-def parse_para(input_json):
-    with open(input_json, 'r', encoding='utf-8') as f:
-        ret_dic = json.load(f)
-        # shapes = ret_dic['shapes']
-        # img_name = ret_dic['imagePath']
-    return ret_dic
+try:
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--json_dir', default='', type=str, help='json file which need to be counted')
+    args = parser.parse_args()
+    jsons = glob.glob('{}/*.json'.format(args.json_dir))
+except:
+    jsons = glob.glob('{}/*.json'.format(sys.argv[1]))
 
 def main():
-    jsons = glob.glob('{}/*.json'.format(args.json_dir))
     dic = {}
     for i in jsons:
-        ret_dic = parse_para(i)
+        ret_dic = json_to_instance(i)
         shapes = ret_dic['shapes']
         for j in shapes:
             if j['label'] not in dic:

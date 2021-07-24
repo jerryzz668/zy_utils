@@ -30,15 +30,18 @@ def labelme_to_yolo(img_folder_path):
         with open(txt_file_path, 'w') as f:
             width, height = instance['imageWidth'], instance['imageHeight']
             for obj in instance['shapes']:
-                x, y, w, h = points_to_xywh(obj)
-                cx, cy = points_to_center(obj)
-                box_info = "%d %.03f %.03f %.03f %.03f" % (cls.index(obj['label']), cx/width, cy/height, w/width, h/height)
-                f.write(box_info)
-                f.write('\n')
+                try:
+                    x, y, w, h = points_to_xywh(obj)
+                    cx, cy = points_to_center(obj)
+                    box_info = "%d %.03f %.03f %.03f %.03f" % (cls.index(obj['label']), cx/width, cy/height, w/width, h/height)
+                    f.write(box_info)
+                    f.write('\n')
+                except:
+                    print(img_file)
     print('Process finished!')
 
 
 if __name__ == '__main__':
     # 图片文件夹绝对路径
-    labelme_to_yolo(img_folder_path='/home/jerry/Documents/yolov5-5.0/runs/detect/exp12')
+    labelme_to_yolo(img_folder_path='/home/jerry/data/kesen/labelme_31490_jbl_preprocess/cut_train')
 
