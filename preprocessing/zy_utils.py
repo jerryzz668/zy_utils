@@ -9,9 +9,9 @@ import json
 import shutil
 import yaml
 import pandas as pd
-# import openpyxl as xl
-# from pypinyin import pinyin, NORMAL
-# from openpyxl.styles import Font, Alignment
+import openpyxl as xl
+from pypinyin import pinyin, NORMAL
+from openpyxl.styles import Font, Alignment
 import xml.etree.ElementTree as ET
 import cv2
 import math
