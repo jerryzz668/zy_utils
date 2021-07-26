@@ -1,5 +1,5 @@
-from utils import *
-
+from zy_utils import *
+import sys
 
 def labelme_to_yolo(img_folder_path):
     # 获得所有label并按字母排序
@@ -37,11 +37,12 @@ def labelme_to_yolo(img_folder_path):
                     f.write(box_info)
                     f.write('\n')
                 except:
-                    print(img_file)
+                    print('{}异常，请检查'.format(img_file))
     print('Process finished!')
 
 
 if __name__ == '__main__':
     # 图片文件夹绝对路径
-    labelme_to_yolo(img_folder_path='/home/jerry/data/kesen/labelme_31490_jbl_preprocess/cut_train')
+    img_folder_path = sys.argv[1]
+    labelme_to_yolo(img_folder_path=img_folder_path)
 

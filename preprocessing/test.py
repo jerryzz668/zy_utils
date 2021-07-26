@@ -51,3 +51,13 @@ from tqdm import tqdm
 #
 #     # print(instance)
 
+# delete image_data
+json_path = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp24/PR'
+save_path = '/home/jerry/data/kesen/labelme_31490_jbl/labelme_aug_train'
+json_list = glob.glob('{}/*.json'.format(json_path))
+for json in json_list:
+    base_name = os.path.basename(json)
+    instance = json_to_instance(json)
+    if instance['imageData'] != None:
+        instance['imageData'] = None
+    instance_to_json(instance, os.path.join(save_path, base_name))

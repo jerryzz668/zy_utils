@@ -73,10 +73,8 @@ def txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold):
 
     cate, gt, missing, over_detect = pd.DataFrame(cfg_cls_name), pd.DataFrame(gt), pd.DataFrame(missing), pd.DataFrame(over_detect)
     dataframe = (pd.concat((cate, gt, missing, over_detect), axis=1))
-    print(dataframe)
     df = dataframe.iloc[:, [0, 2, 4, 6]]
     df.columns = ['cate', 'gt', 'missing', 'over_detect']
-    print(df)
     # df = df.set_index('cate')
     df.loc[len(cate)+1] = df.apply(lambda x: x.sum())
     df.iat[len(df.values)-1, 0] = 'total'
@@ -84,7 +82,7 @@ def txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold):
 
 if __name__ == '__main__':
     gt_txt_dir = '/home/jerry/data/kesen/yolo_31490_jbl/yolo/labels/val'  # gt_txt
-    pre_txt_dir = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp22/labels'  # predict_txt
+    pre_txt_dir = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp25/labels'  # predict_txt
     cls_yaml_dir = '/home/jerry/Documents/yolov5-5.0/data/31490_jbl.yaml'  # yolo_class--id--dic
     iou_threshold = 0.2
 

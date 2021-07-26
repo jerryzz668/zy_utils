@@ -1,8 +1,8 @@
 import os
 import shutil
-p = '/home/jerry/data/kesen/labelme_31490_hy/labelme_aug_train'
-o_p = '/home/jerry/data/kesen/labelme_31490_hy/labelme_train'
-o_p_1 = '/home/jerry/data/kesen/labelme_31490_hy/labelme_aug_train'
+p = '/home/jerry/data/kesen/labelme_31490_jbl/labelme_aug_train'
+o_p = '/home/jerry/data/kesen/labelme_31490_jbl/labelme_train'
+o_p_1 = '/home/jerry/data/kesen/labelme_31490_jbl/labelme_aug_train'
 for i in os.listdir(p):
     name = i.split('.json')[0]
     nn = '{}.jpg'.format(name)

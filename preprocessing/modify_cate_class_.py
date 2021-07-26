@@ -41,8 +41,8 @@ def get_max_w_h1(img_jsons,s,label_dic):
             save_json(ret_dic,os.path.join(s,i))
     return 0
 
-img_jsons = '/home/jerry/data/kesen/labelme_31490_hy/labelme_aug_train/augg'
-save_p = '/home/jerry/data/kesen/labelme_31490_hy/labelme_save'
+img_jsons = '/home/jerry/data/kesen/labelme_31490_hy/labelme_aug_train/aug_3'
+save_p = '/home/jerry/data/kesen/labelme_31490_hy/pr_save'
 
 # label_dic = {0:'良品',1:'异色',2:'白点',3:'3',4:'刮伤',5:'擦伤',6:'黑点',7:'砂痕印',8:'异物',
 #              9:'刀纹',10:'刮伤',11:'喷砂不均',12:'应力痕',13:'凸凹痕',14:'凹凸痕',
@@ -59,4 +59,7 @@ save_p = '/home/jerry/data/kesen/labelme_31490_hy/labelme_save'
 #              'tabian-an':'tabian','baisezaodian':'baidian','pengshang-bian':'pengshang','pengshang-bian':'pengshang','yise-liang':'yise',
 #              'tabian-an':'tabian','pengshang-jiao':'pengshang','yise-liang':'yise','daowen-jiao':'daowen','penshabujun-hei':'pengshabujun','tabian-liang':'tabian'}
 label_dic = {'loushi_huashang': 'huashang', 'loushi_yashang': 'yashang'}
+# label_dic = {'loushi_jiaobuliang-1': 'jiaobuliang-1', 'hard_jiaobuliang-2': 'jiaobuliang-2','loushi_jiaobuliang-2':'jiaobuliang-2',
+#              'loushi_jiaobuliang':'jiaobuliang', 'hard_jiaobuliang-1':'jiaobuliang-1', 'hard_jiaobuliang':'jiaobuliang'}
+# label_dic = {'hard_huashang': 'huashang', 'hard_yashang': 'yashang', 'cuowu_huashang_yashang': 'yashang'}
 get_max_w_h1(img_jsons,save_p,label_dic)
