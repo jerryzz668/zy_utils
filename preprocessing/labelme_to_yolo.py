@@ -42,7 +42,7 @@ def labelme_to_yolo(img_folder_path):
 
 
 if __name__ == '__main__':
-    # 图片文件夹绝对路径
+    # terminal 运行  python labelme_to_yolo.py path  即可
     img_folder_path = sys.argv[1]
     labelme_to_yolo(img_folder_path=img_folder_path)
 

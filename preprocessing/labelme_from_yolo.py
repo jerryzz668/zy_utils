@@ -33,10 +33,12 @@ def yolo_to_labelme(yolo_folder_path: str, img_folder_path: str, item_name: str,
             with open(yolo_file_path, 'r') as f:
                 items = f.readlines()
         except:
+            items = []
             print('no ci txt_file')
         height = instance['imageHeight']
         width = instance['imageWidth']
-        print(items)
+        # print(items)
+
         for item in items:
             item = item.strip('\n')
             print(item.split(' '))
@@ -60,9 +62,9 @@ def delete_json(img_folder_path: str):
 
 if __name__ == '__main__':
     # 填入yolo folder path
-    yolo_to_labelme(yolo_folder_path= '/home/jerry/Documents/yolov5-5.0/runs/detect/exp/labels',
-                   # 填入image folder path
-                   img_folder_path= '/home/jerry/Documents/yolov5-5.0/runs/detect/exp',
-                   # 填入yolo文件中目标标签的name
-                   item_name=['ground', 'offground', 'safebelt', 'badge'],
-                   json_path= '/home/jerry/Documents/yolov5-5.0/runs/detect/exp/jsons')
+    yolo_to_labelme(yolo_folder_path='/home/jerry/Documents/yolov5-5.0/runs/detect/exp41/labels',  # txt路径
+
+                   img_folder_path='/home/jerry/Documents/yolov5-5.0/runs/detect/exp41',  # 填入image folder path
+
+                   item_name=['huashang', 'yashang'],  # 填入yolo文件中目标标签的name
+                   json_path='/home/jerry/data/kesen/31490/31490-guojian-0725/hy_json')  # save_path --auto-create folder

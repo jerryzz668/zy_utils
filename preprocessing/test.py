@@ -38,26 +38,33 @@ from tqdm import tqdm
 # a = '阿姨那种'
 # b = pypinyin(a)
 
-# # 如果json为空，移除
-# input_dir = '/home/adt/Desktop/A_daowen_select/daowen_jiao_modify'
-# output_path = '/home/adt/Desktop/A_daowen_select/empty_jsons'
-# json_list = os.listdir(input_dir)
-# for json_name in json_list:
-#     print(json_name)
-#     instance = json_to_instance(os.path.join(input_dir,json_name))
-#     shapes = instance.get('shapes')
-#     if shapes == []:
-#         shutil.move(os.path.join(input_dir,json_name), output_path)
-#
-#     # print(instance)
+# 如果json为空，移除
+input_dir = '/home/jerry/data/kesen/labelme_28413_hy/labelme'
+output_path = '/home/jerry/data/kesen/labelme_28413_hy/labelme_empty'
+json_list = glob.glob('{}/*.json'.format(input_dir))
+
+for json in json_list:
+    # print(json)
+    instance = json_to_instance(json)
+    shapes = instance.get('shapes')
+    if shapes == []:
+        shutil.move(json, output_path)
+        jpg_name = os.path.basename(json).split('.')[0] + '.jpg'
+        jpg_path = os.path.join(os.path.dirname(json), jpg_name)
+        try:
+            shutil.move(jpg_path, output_path)
+        except:
+            print('there is no {}'.format(jpg_name))
+
+    # print(instance)
 
 # delete image_data
-json_path = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp24/PR'
-save_path = '/home/jerry/data/kesen/labelme_31490_jbl/labelme_aug_train'
-json_list = glob.glob('{}/*.json'.format(json_path))
-for json in json_list:
-    base_name = os.path.basename(json)
-    instance = json_to_instance(json)
-    if instance['imageData'] != None:
-        instance['imageData'] = None
-    instance_to_json(instance, os.path.join(save_path, base_name))
+# json_path = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp24/PR'
+# save_path = '/home/jerry/data/kesen/labelme_31490_jbl/labelme_aug_train'
+# json_list = glob.glob('{}/*.json'.format(json_path))
+# for json in json_list:
+#     base_name = os.path.basename(json)
+#     instance = json_to_instance(json)
+#     if instance['imageData'] != None:
+#         instance['imageData'] = None
+#     instance_to_json(instance, os.path.join(save_path, base_name))
