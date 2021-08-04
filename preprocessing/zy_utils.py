@@ -9,13 +9,14 @@ import json
 import shutil
 import yaml
 import pandas as pd
-# import openpyxl as xl
-# from pypinyin import pinyin, NORMAL
-# from openpyxl.styles import Font, Alignment
+import openpyxl as xl
+from openpyxl.styles import Font, Alignment
+from pypinyin import pinyin, NORMAL
 import xml.etree.ElementTree as ET
 import cv2
 import math
 import numpy as np
+import glob
 
 
 IMG_TYPES = ['jpg', 'png', 'JPG', 'PNG']
@@ -33,13 +34,6 @@ def create_empty_json_instance(img_file_path: str):
     instance['imageHeight'], instance['imageWidth'], instance['imageDepth'] = img.shape
     # instance_to_json(instance, img_file_path[:img_file_path.rindex('.')]+'.json')
     return instance
-
-def extract_xys(axiss):
-    '''
-    :param axiss: xml中的坐标系父节点
-    :return: list[x1,y1,...,xn,yn]
-    '''
-    return [float(axis.text) for axis in axiss]
 
 def json_to_instance(json_file_path):
     '''
@@ -324,3 +318,254 @@ def grid_search(a, b):
     x, y = np.meshgrid(np.linspace(a[0], a[1], a[2]), np.linspace(b[0], b[1], b[2]))
     cartesian_arr = np.array([x.ravel(),y.ravel().T])
     return np.round(cartesian_arr.T, 2)
+
+
+################# 以下paul ###################
+
+def instance_clean(instance):
+    '''
+    :param instance: labelme json instance
+    :return: 将不良points进行清洗、更正
+    '''
+    for obj in instance['shapes']:
+        points = obj['points']
+        if obj['shape_type'] in ('line', 'linestrip'):
+            # 排除标注小组的重复落点
+            points_checked = [points[0]]
+            for point in points:
+                if point != points_checked[-1]:
+                    points_checked.append(point)
+            obj['points'] = points_checked
+            points = points_checked
+            # 排除标注小组的往返落点
+            if len(points) >= 3:
+                temp = get_angle((points[-3][0]-points[-2][0], points[-3][1]-points[-2][1]), (points[-1][0]-points[-2][0], points[-1][1]-points[-2][1]))
+                if temp > -0.001 and temp < 0.001: del points[-1]
+            if len(points) == 1: obj['shape_type'] = 'point'
+            elif len(points) == 2: obj['shape_type'] = 'line'
+            else: obj['shape_type'] = 'linestrip'
+
+def instance_points_to_polygon(instance):
+    '''
+    :param instance: labelme json instance
+    :return: 将instance['shapes']中points的标签，由rectangle和circle变为polygon，从而更好地进行crop和fill
+    '''
+    objs = instance['shapes']
+    for obj in objs:
+        shape_type = obj['shape_type']
+        points = obj['points']
+        if shape_type == 'rectangle':
+            xs = [point[0] for point in points]
+            ys = [point[1] for point in points]
+            min_x, min_y = min(xs), min(ys)
+            max_x, max_y = max(xs), max(ys)
+            obj['points'] = [[min_x, min_y], [max_x, min_y], [max_x, max_y], [min_x, max_y]]
+            obj['shape_type'] = 'polygon'
+        elif shape_type == 'circle':
+            center = [points[0][0], points[0][1]]
+            radius = math.sqrt((points[1][0]-center[0])**2+(points[1][1]-center[1])**2)
+            obj['points'] = []
+            obj['shape_type'] = 'polygon'
+            for i in range(0, 360, 10):
+                obj['points'].append([center[0]+math.cos(math.pi*i/180)*radius, center[1]+math.sin(math.pi*i/180)*radius])
+
+# -----以下代码求两线段交点坐标-----
+class Point(object):
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+
+class Line(object):
+    # a=0, b=0, c=0
+    def __init__(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+
+def getLinePara(line):
+    line.a =line.p1.y - line.p2.y
+    line.b = line.p2.x - line.p1.x
+    line.c = line.p1.x *line.p2.y - line.p2.x * line.p1.y
+
+def getCrossPoint(l1, l2):
+    getLinePara(l1)
+    getLinePara(l2)
+    d = l1.a * l2.b - l2.a * l1.b
+    p=Point()
+    if d == 0: return None
+    p.x = (l1.b * l2.c - l2.b * l1.c)*1.0 / d
+    p.y = (l1.c * l2.a - l2.c * l1.a)*1.0 / d
+    return p
+
+def get_cross_point(x1, y1, x2, y2, x3, y3, x4, y4):
+    p1 = Point(x1, y1)
+    p2 = Point(x2, y2)
+    l1 = Line(p1, p2)
+    p3 = Point(x3, y3)
+    p4 = Point(x4, y4)
+    l2 = Line(p3, p4)
+    cp = getCrossPoint(l1, l2)
+    if cp == None \
+            or cp.x < min([x1, x2])-0.01 \
+            or cp.x > max([x1, x2])+0.01 \
+            or cp.y < min([y1, y2])-0.01 \
+            or cp.y > max([y1, y2])+0.01 \
+            or cp.x < min([x3, x4])-0.01 \
+            or cp.x > max([x3, x4])+0.01 \
+            or cp.y < min([y3, y4])-0.01 \
+            or cp.y > max([y3, y4])+0.01:
+        return None
+    else:
+        return [cp.x, cp.y]
+# -----以上求两线段交点坐标-----
+
+def points_to_coco_segmentation(obj, line_pixel):
+    '''
+    :param obj: labelme instance中待检测目标obj{}
+    :param line_pixel: labelme中line、linestrip points的加宽像素值
+    :return: coco segmentation[[x1,y1,x2,y2,...,xn,yn]]
+    '''
+    points = obj['points']
+    shape_type = obj['shape_type']
+    if shape_type == 'rectangle':
+        xs = [point[0] for point in points]
+        ys = [point[1] for point in points]
+        min_x, min_y = min(xs), min(ys)
+        max_x, max_y = max(xs), max(ys)
+        result = [[min_x, min_y, max_x, min_y, max_x, max_y, min_x, max_y]]
+    elif shape_type == 'circle':
+        center = [points[0][0], points[0][1]]
+        radius = math.sqrt((points[1][0]-center[0])**2+(points[1][1]-center[1])**2)
+        temp = []
+        for i in range(0, 360, 10):
+            temp.append(center[0]+math.cos(math.pi*i/180)*radius)
+            temp.append(center[1]+math.sin(math.pi*i/180)*radius)
+        result = [temp]
+    elif shape_type == 'line' or shape_type == 'linestrip':
+        result = [line_pixel_widen(points, line_pixel)]
+    else:
+        result = [np.asarray(points).flatten().tolist()]
+    return result
+
+def line_pixel_widen(points, line_pixel):
+    '''
+    :param points: labelme中标签为line、linestrip的points
+    :param line_pixel: 加宽的像素点
+    :return: 返回coco中直线segmentation的坐标点
+    '''
+    line1 = []
+    line2 = []
+    for i, point in enumerate(points):
+        belong_to_line1 = True
+        if i == 0:
+            vector2 = (points[i+1][0] - point[0], points[i+1][1] - point[1])
+            angle_horiz = get_horiz_angle(vector2) + math.pi/2
+            line1.append(perturbation_around_point(point, angle_horiz, line_pixel)[0])
+            line2.append(perturbation_around_point(point, angle_horiz, line_pixel)[1])
+            continue
+        elif i == len(points)-1:
+            vector1 = (points[i-1][0] - point[0], points[i-1][1] - point[1])
+            angle_horiz = get_horiz_angle(vector1) + math.pi/2
+            perturb_points = perturbation_around_point(point, angle_horiz, line_pixel)
+            if get_cross_point(perturb_points[0][0], perturb_points[0][1], line1[-1][0], line1[-1][1], points[i-1][0], points[i-1][1], point[0], point[1]) != None:
+                belong_to_line1 = False
+        else:
+            vector1 = (points[i-1][0] - point[0], points[i-1][1] - point[1])
+            vector2 = (points[i+1][0] - point[0], points[i+1][1] - point[1])
+            angle_horiz = get_mid_horiz_angle(vector1, vector2)
+            radius = line_pixel/math.sin(get_angle(vector1, vector2)/2)
+            perturb_points = perturbation_around_point(point, angle_horiz, radius)
+            if get_cross_point(perturb_points[0][0], perturb_points[0][1], line1[-1][0], line1[-1][1], points[i-1][0], points[i-1][1], point[0], point[1]) != None:
+                belong_to_line1 = False
+        if belong_to_line1:
+            line1.append(perturb_points[0])
+            line2.append(perturb_points[1])
+        else:
+            line1.append(perturb_points[1])
+            line2.append(perturb_points[0])
+    # import matplotlib.pyplot as plt
+    # line = [[points[i][0], points[i][1], points[i - 1][0], points[i - 1][1]] for i in range(1, len(points))]
+    # plt.plot([p[0] for p in points], [p[1] for p in points], 'g-')
+    # plt.plot([l[0] for l in line1], [l[1] for l in line1], 'b:')
+    # plt.plot([l[0] for l in line2], [l[1] for l in line2], 'b:')
+    # plt.show()
+    return np.asarray(line1 + list(reversed(line2))).flatten().tolist()
+
+def perturbation_around_point(point, angle, radius):
+    '''
+    :param point: 目标坐标点
+    :param angle: 微扰角度
+    :param radius: 微扰幅度
+    :return: 返回一个坐标点的周围两个微扰点
+    '''
+    return [point[0] + radius * math.cos(angle), point[1] + radius * math.sin(angle)],\
+           [point[0] - radius * math.cos(angle), point[1] - radius * math.sin(angle)]
+
+def get_mid_horiz_angle(vector1, vector2):
+    '''
+    :param vector1: 向量1
+    :param vector2: 向量2
+    :return: 两个向量的中间向量与水平线(1,0)的夹角
+    '''
+    angle_horiz_1 = get_horiz_angle(vector1)
+    angle_horiz_2 = get_horiz_angle(vector2)
+    return (angle_horiz_1 + angle_horiz_2)/2
+
+def get_horiz_angle(vector):
+    '''
+    :param vector: 一个向量
+    :return: 该向量和水平线(1,0)的夹角(-180-180)
+    '''
+    angle_horiz = get_angle((1, 0), vector) if vector[1] > 0 else -get_angle((1, 0), vector)
+    return angle_horiz
+
+def get_angle(vector1, vector2):
+    '''
+    :param vector1: 向量1
+    :param vector2: 向量2
+    :return: 向量之间的夹角(0-180)
+    '''
+    inner_product = vector1[0]*vector2[0] + vector1[1]*vector2[1]
+    cosin = inner_product/(math.sqrt((vector1[0]**2+vector1[1]**2)*(vector2[0]**2+vector2[1]**2)))
+    return math.acos(cosin)
+
+def crop_is_empty(instance, crop_size, iou_thres=0.2):
+    '''
+    :param instance: labelme json instance
+    :param crop_size: crop范围[上，下，左，右]
+    :return: bool值
+    '''
+    flag = True
+    for obj in instance['shapes']:
+        if obj_in_crop(obj, crop_size, iou_thres):
+            flag = False
+            break
+    return flag
+
+def obj_in_crop(obj, crop_size, iou_thres=0.2):
+    '''
+    :param points: labelme json中一个obj的points
+    :param crop_size: crop范围[上，下，左，右]
+    :param iou_thres: iou阈值
+    :return: bool值
+    '''
+    crop_box = Box(crop_size[2], crop_size[0], crop_size[3] - crop_size[2], crop_size[1] - crop_size[0])
+    x, y, w, h = points_to_xywh(obj)
+    obj_box = Box(x, y, w, h)
+    inter_area = calculate_inter_area(obj_box, crop_box)
+    return inter_area != 0 and inter_area/obj_box.get_area() >= iou_thres
+
+def point_in_crop(point, crop_size):
+    '''
+    :param point: labelme json中一个obj的points-point[x,y]
+    :param crop_size: crop范围[上，下，左，右]
+    :return: bool值
+    '''
+    return point[0] > crop_size[2] and \
+           point[0] < crop_size[3] and \
+           point[1] > crop_size[0] and \
+           point[1] < crop_size[1]
+################# 以上paul ###################
+
+if __name__ == '__main__':
+    print(perturbation_around_point([1,1], -1.57/2, 1.414))
+

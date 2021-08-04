@@ -1,7 +1,7 @@
 import shutil
 from collections import defaultdict
 import random
-from preprocessing.utils import *
+from preprocessing.zy_utils import *
 
 
 def coco_to_yolo(instance, img_folder_path):

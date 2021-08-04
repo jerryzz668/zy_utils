@@ -1,7 +1,6 @@
 from xml.etree import ElementTree as ET
 from preprocessing.zy_utils import *
 
-
 def xml_to_labelme(xml_folder_path: str, img_folder_path: str, item_name: str, filter=None):
     '''
     :param xml_folder_path: xml文件夹路径

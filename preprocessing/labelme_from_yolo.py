@@ -1,5 +1,5 @@
 
-from utils import *
+from preprocessing.zy_utils import *
 from pathlib import Path
 import os
 
@@ -67,4 +67,4 @@ if __name__ == '__main__':
                    img_folder_path='/home/jerry/Documents/yolov5-5.0/runs/detect/exp41',  # 填入image folder path
 
                    item_name=['huashang', 'yashang'],  # 填入yolo文件中目标标签的name
-                   json_path='/home/jerry/data/kesen/31490/31490-guojian-0725/hy_json')  # save_path --auto-create folder
+                   json_path='/home/jerry/data/kesen/31490/31490-guojian-0725/hy_json')  # Automatically create output folders

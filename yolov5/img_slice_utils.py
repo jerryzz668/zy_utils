@@ -1,5 +1,5 @@
 import random
-from preprocessing.utils import *
+from preprocessing.zy_utils import *
 
 
 def get_crop_num(img_size, crop_size, overlap):
@@ -51,7 +51,7 @@ def _random_crop(cx, cy, w, h, size, shift_x_left=0.75, shift_x_right=0.25, shif
 # 根据过检和漏失的增强截图策略
 def aug_crop_strategy(img, instance, size, additional_info):
     # 过检增强倍数
-    precision_aug = 5
+    precision_aug = 0
     # 漏失增强倍数
     recall_aug = 4
     # 错误、难样本增强倍数

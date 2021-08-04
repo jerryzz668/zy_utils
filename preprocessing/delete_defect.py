@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     defect_list = ['yashang', 'huashang']  # 需要保留的缺陷
 
-    json_path = '/home/jerry/data/kesen/labelme_31490_hy/pr_save'  # input json path
-    json_o_path = '/home/jerry/data/kesen/labelme_31490_hy/labelme_aug_train/aug_3'  # output json path & Automatically create folders
+    json_path = '/home/jerry/data/kesen/labelme_28413_hy/pr_save'  # input json path
+    json_o_path = '/home/jerry/data/kesen/labelme_28413_hy/labelme_aug1'  # Automatically create output json folders
 
     cut_defects(json_path, defect_list, json_o_path)

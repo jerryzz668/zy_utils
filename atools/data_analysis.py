@@ -1,5 +1,4 @@
-from preprocessing.utils import *
-
+from preprocessing.zy_utils import *
 
 def objs_labels(json_folder_path):
     '''

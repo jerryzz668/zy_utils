@@ -2,21 +2,9 @@
 # @Author     : zhangyan
 # @Time       : 2020/12/30 2:20 下午
 
-
-import os
-import random
-import time
-import cv2
-import shutil
-import glob
-import json
-
-import numpy as np
-
 from preprocessing.zy_utils import *
 import pandas as pd
 from tqdm import tqdm
-
 
 # def search(array, num):
 #     low, high = 0, len(array)-1
@@ -38,7 +26,7 @@ from tqdm import tqdm
 # a = '阿姨那种'
 # b = pypinyin(a)
 
-# 如果json为空，移除
+# 如果json为空，移除json和对应jpg
 input_dir = '/home/jerry/data/kesen/labelme_28413_hy/labelme'
 output_path = '/home/jerry/data/kesen/labelme_28413_hy/labelme_empty'
 json_list = glob.glob('{}/*.json'.format(input_dir))

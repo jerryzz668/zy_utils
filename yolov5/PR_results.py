@@ -81,9 +81,9 @@ def txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold):
     return df
 
 if __name__ == '__main__':
-    gt_txt_dir = '/home/jerry/data/kesen/yolo_31490_jbl/yolo/labels/val'  # gt_txt
-    pre_txt_dir = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp38/labels'  # predict_txt
-    cls_yaml_dir = '/home/jerry/Documents/yolov5-5.0/data/31490_jbl.yaml'  # yolo_class--id--dic
+    gt_txt_dir = '/home/jerry/data/kesen/yolo_28413_hy/yolo/labels/val'  # gt_txt
+    pre_txt_dir = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp53/labels'  # predict_txt
+    cls_yaml_dir = '/home/jerry/Documents/yolov5-5.0/data/28413_hy.yaml'  # yolo_class--id--dic
     iou_threshold = 0.2
 
     df = txt_to_dataframe(gt_txt_dir, pre_txt_dir, cls_yaml_dir, iou_threshold)

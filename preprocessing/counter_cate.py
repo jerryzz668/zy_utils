@@ -1,12 +1,7 @@
-import json
 import glob
 import argparse
 import sys
-
-def json_to_instance(json_file_path):
-    with open(json_file_path, 'r', encoding='utf-8') as f:
-        instance = json.load(f)
-    return instance
+from preprocessing.zy_utils import json_to_instance
 
 try:
     parser = argparse.ArgumentParser()
@@ -26,7 +21,7 @@ def main():
                 dic[j['label']] = 1
             else:
                 dic[j['label']] += 1
-    a = sorted(dic.items(),key=lambda x:x[1],reverse=True)
+    a = sorted(dic.items(), key=lambda x: x[1], reverse=True)
     total_defects = sum(dic.values())
     print(dic.keys())
     print(a)

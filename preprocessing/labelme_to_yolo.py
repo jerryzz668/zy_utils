@@ -1,4 +1,4 @@
-from zy_utils import *
+from preprocessing.zy_utils import *
 import sys
 
 def labelme_to_yolo(img_folder_path):
@@ -40,9 +40,8 @@ def labelme_to_yolo(img_folder_path):
                     print('{}异常，请检查'.format(img_file))
     print('Process finished!')
 
-
 if __name__ == '__main__':
-    # terminal 运行  python labelme_to_yolo.py path  即可
+    # 运行方式  python labelme_to_yolo.py path  即可
     img_folder_path = sys.argv[1]
     labelme_to_yolo(img_folder_path=img_folder_path)
 

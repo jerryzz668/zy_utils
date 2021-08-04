@@ -122,17 +122,17 @@ if __name__ == '__main__':
     # return 漏检，过检
 
     precision_recall_visualize(# yolo detect.py 推理结果路径
-                               target_folder_path='/home/jerry/Documents/yolov5-5.0/runs/detect/exp39',
+                               target_folder_path='/home/jerry/Documents/yolov5-5.0/runs/detect/exp54',
                                # 自定义的query方法
                                img_boxes_query=img_boxes_query,
                                # 保存在图片文件夹下的特定目录名
-                               saved_folder_name='PR',
+                               saved_folder_name='PR',  # Automatically create output folders
                                # 计算漏失
                                recall=True,
                                # 计算过检
                                precision=True,
                                # yolo数据集配置文件
-                               yolo_config_yaml_path = '/home/jerry/Documents/yolov5-5.0/data/31490_jbl.yaml')
+                               yolo_config_yaml_path = '/home/jerry/Documents/yolov5-5.0/data/28413_hy.yaml')
 
 
 

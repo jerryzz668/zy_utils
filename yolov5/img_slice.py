@@ -157,13 +157,13 @@ if __name__ == '__main__':
         pad = (1120 - w)//2
         return [[[0, h, 0, w], [0, 0, pad, pad]]]
     # 截图并保存
-    imgs_crop_and_fill(img_folder_path='/home/jerry/data/kesen/labelme_28413_hy/labelme_val',  # img and json should be put in one folder
+    imgs_crop_and_fill(img_folder_path='/home/jerry/data/kesen/labelme_28413_jbl/labelme_aug1',  # img and json should be put in one folder
                        # 自定义的截图策略
-                       crop_strategy=clustering_crop_strategy,  # aug_crop_strategy
+                       crop_strategy=aug_crop_strategy,  # aug_crop_strategy, clustering_crop_strategy
                        # 截图尺寸
                        img_size=512,
                        # 截图输出路径
-                       output_path='/home/jerry/data/kesen/labelme_28413_hy/labelme_val_crop',
+                       output_path='/home/jerry/data/kesen/labelme_28413_jbl/labelme_train_crop',  # Automatically create output folders
                        # 自动滤去不含检测目标的截图框
                        empty_check=False,
                        # 多线程数
