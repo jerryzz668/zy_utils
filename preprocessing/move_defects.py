@@ -2,10 +2,10 @@
 # @Author     : zhangyan
 # @Time       : 2021/1/15 1:56 下午
 
-from preprocessing.zy_utils import *
 import os
 import shutil
 import time
+from preprocessing.zy_utils import json_to_instance, make_dir2
 
 def get_json_label(json_path):
     """

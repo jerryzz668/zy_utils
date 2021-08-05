@@ -1,4 +1,6 @@
-from preprocessing.zy_utils import *
+import os
+import glob
+from preprocessing.zy_utils import json_to_instance, instance_to_json, make_dir
 
 def cut_defect(json_file_path, defect_list, json_out_path):
     shape_list = []

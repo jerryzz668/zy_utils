@@ -1,5 +1,6 @@
+import os
 from xml.etree import ElementTree as ET
-from preprocessing.zy_utils import *
+from preprocessing.zy_utils import IMG_TYPES, create_empty_json_instance, instance_to_json, word_to_pinyin, extract_xys
 
 def xml_to_labelme(xml_folder_path: str, img_folder_path: str, item_name: str, filter=None):
     '''

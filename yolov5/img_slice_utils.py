@@ -1,6 +1,6 @@
 import random
-from preprocessing.zy_utils import *
-
+import math
+from preprocessing.zy_utils import points_to_center, points_to_xywh, Box
 
 def get_crop_num(img_size, crop_size, overlap):
     '''
@@ -177,33 +177,6 @@ def _combine_boxes(box1, box2):
     xmax = max(box1.x+box1.w, box2.x+box2.w)
     ymax = max(box1.y+box1.h, box2.y+box2.h)
     return Box(xmin, ymin, xmax-xmin, ymax-ymin)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

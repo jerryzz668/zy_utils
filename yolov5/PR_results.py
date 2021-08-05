@@ -3,9 +3,10 @@
 @Author     : zhangyan
 @Time       : 2021/7/19 上午11:06
 """
-from preprocessing.zy_utils import *
 from collections import Counter
 import pandas as pd
+import os
+from preprocessing.zy_utils import read_txt, yolo_to_xywh, Box, yaml_to_instance, dic_align
 
 # gt和全漏失统计
 def gt_total_missing_statistics(gt_txt_dir, total_missing_list):

@@ -16,7 +16,6 @@ import xml.etree.ElementTree as ET
 import cv2
 import math
 import numpy as np
-import glob
 
 
 IMG_TYPES = ['jpg', 'png', 'JPG', 'PNG']

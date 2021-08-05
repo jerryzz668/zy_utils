@@ -1,5 +1,5 @@
-from preprocessing.zy_utils import json_to_instance, instance_to_json, make_dir
 import os
+from preprocessing.zy_utils import json_to_instance, instance_to_json, make_dir
 
 def get_max_w_h(img_jsons, s, label_dic):
     make_dir(s)

@@ -2,7 +2,6 @@ import copy
 from concurrent.futures.thread import ThreadPoolExecutor
 from img_slice_utils import *
 
-
 def imgs_crop_and_fill(img_folder_path, crop_strategy, img_size, output_path, empty_check, num_worker, iou_thres, additional_info):
     '''
     :param img_folder_path: 图片文件夹绝对路径
