@@ -22,30 +22,34 @@ def get_json_label(json_path):
 
 def move_json_file(json_path, label_list, json_save_path):
     t0 = time.time()
+    attention = False
     make_dir2(json_save_path, label_list)
     for i in range(len(label_list)):
         json_files = os.listdir(json_path)
         target_path = os.path.join(json_save_path, label_list[i])
 
-        len_label = 0
         for json_file in json_files:
             if not json_file.endswith('.json'): continue
             json_file_path = os.path.join(json_path, json_file)
             img_file_path = json_file_path[:json_file_path.rindex('.')] + '.jpg'
             img_name, json_label_list = get_json_label(json_file_path)
             if label_list[i] in json_label_list:
-                shutil.move(json_file_path, target_path)
+                shutil.move(json_file_path, target_path)  # Attention: this is move
                 try:
-                    shutil.move(img_file_path, target_path)
+                    shutil.move(img_file_path, target_path)  # Attention: this is move
                 except:
                     print('there is no %s' % img_file_path)
-            len_label += 1
-        print(label_list[i] + ' has been moved!')
+            else:
+                attention = True
+        if attention:
+            print('There is no {}!'.format(label_list[i]))
+        if not attention:
+            print(label_list[i] + ' has been moved!')
     t1 = time.time()
     print('time:', t1-t0)
 
 if __name__ == '__main__':
     label_list = ['shahenyin', 'guashang']  # 按照label_list中的先后顺序,将img和json同时移动到新的文件夹中
-    json_path = '/home/adt/data/data/Djian/cemian_crop_qingxi/val_cemian_crop/select/crop'
-    json_save_path = '/home/adt/data/data/Djian/yolo_shahenyin_guashang/images/val'  # Automatically create a save_path folder
+    json_path = '/home/jerry/data/kesen/labelme_31490_jbl/labelme_val'
+    json_save_path = '/home/jerry/data/kesen/labelme_31490_jbl/garbage'  # Automatically create a save_path folder
     move_json_file(json_path, label_list, json_save_path)
