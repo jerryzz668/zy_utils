@@ -45,7 +45,7 @@ def move_json_file(json_path, label_list, json_save_path):
     print('time:', t1-t0)
 
 if __name__ == '__main__':
-    label_list = ['shahenyin', 'guashang']  # 按照label_list中的先后顺序,将img和json依次移动到新的文件夹中
+    label_list = ['shahenyin', 'guashang']  # 按照label_list中的先后顺序,将img和json同时移动到新的文件夹中
     json_path = '/home/adt/data/data/Djian/cemian_crop_qingxi/val_cemian_crop/select/crop'
     json_save_path = '/home/adt/data/data/Djian/yolo_shahenyin_guashang/images/val'  # Automatically create a save_path folder
     move_json_file(json_path, label_list, json_save_path)

@@ -4,7 +4,6 @@
 @Time       : 2021/7/1 下午5:25
 """
 import os.path
-
 from setuptools import setup, find_packages
 import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

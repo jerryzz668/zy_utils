@@ -1,4 +1,3 @@
-import glob
 from preprocessing.zy_utils import *
 
 def cut_defect(json_file_path, defect_list, json_out_path):

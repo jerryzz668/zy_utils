@@ -1,9 +1,5 @@
-
 from preprocessing.zy_utils import *
 from pathlib import Path
-import os
-
-# labels=[]
 
 def yolo_to_labelme(yolo_folder_path: str, img_folder_path: str, item_name: str,json_path:str):
     '''

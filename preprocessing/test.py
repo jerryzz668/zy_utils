@@ -28,9 +28,9 @@ from tqdm import tqdm
 
 # 如果json为空，移除json和对应jpg
 input_dir = '/home/jerry/data/kesen/labelme_28413_hy/labelme'
-output_path = '/home/jerry/data/kesen/labelme_28413_hy/labelme_empty'
+output_path = '/home/jerry/data/kesen/labelme_28413_hy/labelme_empty'  # Automatically create output folders
 json_list = glob.glob('{}/*.json'.format(input_dir))
-
+make_dir(output_path)
 for json in json_list:
     # print(json)
     instance = json_to_instance(json)
