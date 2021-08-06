@@ -1,6 +1,6 @@
 import random
 import math
-from preprocessing.zy_utils import points_to_center, points_to_xywh, Box
+from preprocessing.zy_utils import *
 
 def get_crop_num(img_size, crop_size, overlap):
     '''

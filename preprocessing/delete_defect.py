@@ -1,5 +1,6 @@
 import os
 import glob
+import sys
 from preprocessing.zy_utils import json_to_instance, instance_to_json, make_dir
 
 def cut_defect(json_file_path, defect_list, json_out_path):
@@ -12,7 +13,7 @@ def cut_defect(json_file_path, defect_list, json_out_path):
     instance['shapes'] = shape_list
     instance_to_json(instance, json_out_path)
 
-def cut_defects(json_path, defect_list, json_o_path):
+def cut_defects(json_path, json_o_path, defect_list):
     make_dir(json_o_path)
     json_list = glob.glob('{}/*.json'.format(json_path))
 
@@ -28,4 +29,5 @@ if __name__ == '__main__':
     json_path = '/home/jerry/data/kesen/labelme_28413_hy/pr_save'  # input json path
     json_o_path = '/home/jerry/data/kesen/labelme_28413_hy/labelme_aug1'  # Automatically create output json folders
 
-    cut_defects(json_path, defect_list, json_o_path)
+    # cut_defects(json_path, json_o_path, defect_list)
+    cut_defects(sys.argv[1], sys.argv[2], sys.argv[3])
