@@ -1,106 +1,108 @@
-import json
+from labelme.utils import shape as shape_labelme
 from pycocotools.mask import encode
 import pycocotools.mask as maskUtils
 import numpy as np
+import json
+import multiprocessing
 import glob
-import PIL.Image
-from labelme.utils import shape as shape_labelme
+import time
+import os
+import sys
 
 class labelme2coco(object):
-    def __init__(self,labelme_json=[],save_json_path='./new.json'):
+    def __init__(self, labelme_json=[], save_json_path='./new.json', resume_cate=None):
         '''
         :param labelme_json: 所有labelme的json文件路径组成的列表
         :param save_json_path: json保存位置
         '''
-        self.labelme_json=labelme_json
-        self.save_json_path=save_json_path
-        self.images=[]
-        self.categories=[]
-        self.annotations=[]
-        # self.data_coco = {}
-        self.label=[]
-        self.annID=1
-        self.height=0
-        self.width=0
-
+        self.labelme_json = labelme_json
+        self.save_json_path = save_json_path
+        self.height = 0
+        self.width = 0
         self.save_json()
 
-    def data_transfer(self):
-        for num,json_file in enumerate(self.labelme_json):
-            with open(json_file,'r', encoding='utf-8') as fp:
-                data = json.load(fp)  # 加载json文件
-                self.images.append(self.image(data,num))
-                for shapes in data['shapes']:
-                    label=shapes['label'].split('_')
-                    print(label)
-                    if label[0] not in self.label:
-                        self.categories.append(self.categorie(label))
-                        self.label.append(label[0])
-                    points=shapes['points']
-                    w = data['imageWidth']
-                    h =data['imageHeight']
-                    shape_type =shapes['shape_type']
-                    try:
-                        plevel = shapes['plevel']
-                        describe = shapes['describe']
-                    except:
-                        print('no_plevel_or_describe')
-                    level = data['level']
-                    img_shape = (h,w, 3)
-                    #img_shape = (w, h, 3)
-                    print('json_file:',json_file)
-                    self.annotations.append(self.annotation(img_shape,points,label,num,shape_type, plevel, describe))
-                    self.annID+=1
+    def addshape(self, shape, data, num, annotations, categories, labels):
+        label = shape['label'].split('_')
+        # print('label',label[0],'labels:',labels,'--')
+        if label[0] not in labels:
+            # print(categories,'c---')
+            labels.append(label[0])
+            categories.append(self.categorie(label, labels))
+            # print(categories,'c---1')
+        # print('label1',label,'labels:',labels,'--')
+        points = shape['points']
+        w = data['imageWidth']
+        h = data['imageHeight']
+        shape_type = shape['shape_type']
+        img_shape = (h, w, 3)
+        # print('json_file:')
+        annotations.append(self.annotation(img_shape, points, label, num, shape_type, annotations, categories))
 
-    def image(self,data,num):
-        image={}
-        height,width = data["imageHeight"],data["imageWidth"]
-        image['height']=height
+    def data_transfer(self):
+        pool = multiprocessing.Pool(processes=32)  # 创建进程个数
+        images = []
+        # images=multiprocessing.Manager().list()
+        annotations = multiprocessing.Manager().list()
+        print('anno', annotations)
+        categories = multiprocessing.Manager().list()
+        labels = multiprocessing.Manager().list()
+        for num, json_file in enumerate(self.labelme_json):
+            with open(json_file, 'r', encoding='utf-8') as fp:
+                print('json_file:---', json_file)
+                data = json.load(fp)  # json
+                # print('data',data)
+                images.append(self.image(data, num))
+                for shape in data['shapes']:
+                    print('len(annotations)', len(annotations))
+                    pool.apply_async(self.addshape, args=(shape, data, num, annotations, categories, labels))
+        pool.close()
+        pool.join()
+
+        return (images, annotations, categories)
+
+    def image(self, data, num):
+        image = {}
+        height, width = data["imageHeight"], data["imageWidth"]
+        image['height'] = height
         image['width'] = width
-        image['id']=num+1
+        image['id'] = num + 1
         image['file_name'] = data['imagePath'].split('/')[-1]
 
-        self.height=height
-        self.width=width
+        self.height = height
+        self.width = width
 
         return image
 
-    def categorie(self,label):
-        categorie={}
+    def categorie(self, label, labels):
+        categorie = {}
         categorie['supercategory'] = label[0]
-        categorie['id']=len(self.label)#+1 # 0 默认为背景
+        categorie['id'] = len(labels) - 1  # +1 # 0 默认为背景
         categorie['name'] = label[0]
         return categorie
 
-    def annotation(self,img_shape,points,label,num,shape_type, plevel, describe):
-        annotation={}
-        mask = shape_labelme. shape_to_mask(img_shape[:2], points,shape_type)
-        mask =mask+0
-        print('img_shape, data["shapes"]',img_shape,shape_type,np.shape(mask))
-        mask=np.asfortranarray(mask).astype('uint8')
-        segm = encode(mask)#编码为rle格式
-        annotation['area'] = float(maskUtils.area(segm))#计算mask编码的面积，必须放置在mask转字符串前面，否则计算为0
-        segm['counts'] = bytes.decode(segm['counts'])#将字节编码转为字符串编码
-        annotation['segmentation']=segm
-        annotation['plevel']= plevel  # 增加
-        annotation['describe']= describe  # 增加
+    def annotation(self, img_shape, points, label, num, shape_type, annotations, categories):
+        annotation = {}
+        mask = shape_labelme.shape_to_mask(img_shape[:2], points, shape_type)
+        annotation['bbox'] = list(map(float, self.mask2box(mask)))
+        mask = mask + 0
+        # print('img_shape, data["shapes"]',img_shape,shape_type,np.shape(mask))
+        mask = np.asfortranarray(mask).astype('uint8')
+        segm = encode(mask)  # 编码为rle格式
+        annotation['area'] = float(maskUtils.area(segm))  # 计算mask编码的面积，必须放置在mask转字符串前面，否则计算为0
+        segm['counts'] = bytes.decode(segm['counts'])  # 将字节编码转为字符串编码
+        annotation['segmentation'] = segm
         annotation['iscrowd'] = 0
-        annotation['image_id'] = num+1
-        annotation['bbox'] = list(map(float,self.getbbox(points,shape_type)))
-        annotation['category_id'] = self.getcatid(label)
-        annotation['id'] = self.annID
+        annotation['image_id'] = num + 1
+        # print('categories',categories)
+        annotation['category_id'] = self.getcatid(label, categories)
+        annotation['id'] = len(annotations) + 1
         return annotation
 
-    def getcatid(self,label):
-        for categorie in self.categories:
-            if label[0]==categorie['name']:
+    def getcatid(self, label, categories):
+        for categorie in categories:
+            if label[0] == categorie['name']:
                 return categorie['id']
         return -1
-
-    def getbbox(self,points,shape_type):
-        polygons = points
-        mask = shape_labelme.shape_to_mask([self.height,self.width], polygons,shape_type)
-        return self.mask2box(mask)
 
     def mask2box(self, mask):
         '''从mask反算出其边框
@@ -118,28 +120,36 @@ class labelme2coco(object):
         # 解析右下角行列号
         right_bottom_r = np.max(rows)
         right_bottom_c = np.max(clos)
-        return [left_top_c, left_top_r, right_bottom_c-left_top_c, right_bottom_r-left_top_r]  # [x1,y1,w,h] 对应COCO的bbox格式
+        return [left_top_c, left_top_r, right_bottom_c - left_top_c,
+                right_bottom_r - left_top_r]  # [x1,y1,w,h] 对应COCO的bbox格式
 
-    def polygons_to_mask(self,img_shape, polygons):
-        mask = np.zeros(img_shape, dtype=np.uint8)
-        mask = PIL.Image.fromarray(mask)
-        xy = list(map(tuple, polygons))
-        PIL.ImageDraw.Draw(mask).polygon(xy=xy, outline=1, fill=1)
-        mask = np.array(mask, dtype=bool)
-        return mask
-
-    def data2coco(self):
-        data_coco={}
-        data_coco['images']=self.images
-        data_coco['categories']=self.categories
-        data_coco['annotations']=self.annotations
+    def data2coco(self, images, annotations, categories):
+        # print(annotations,'===',type(annotations))
+        # print(list(categories),'===',type(list(categories)))
+        data_coco = {}
+        data_coco['images'] = images
+        data_coco['categories'] = list(categories)
+        data_coco['annotations'] = list(annotations)
         return data_coco
 
     def save_json(self):
-        self.data_transfer()
-        self.data_coco = self.data2coco()
-        # 保存json文件
-        json.dump(self.data_coco, open(self.save_json_path, 'w',encoding='utf-8'), indent=4)  # indent=4 更加美观显示
+        # print('save')
+        start = time.time()
+        images, annotations, categories = self.data_transfer()
+        # print('images',images)
+        # print('annotations',annotations)
+        print('categories', categories)
+        data_coco = self.data2coco(images, annotations, categories)
+        # print(data_coco)
+        # # 保存json文件
+        json.dump(data_coco, open(self.save_json_path, 'w', encoding='utf-8'), indent=4)
+        print('runtime:', time.time() - start)
 
-labelme_json=glob.glob(r"C:\Users\Administrator\Desktop\xml_to_csv\jsons\*.json")
-labelme2coco(labelme_json,r'C:\Users\Administrator\Desktop\instances_train2017.json')
+if __name__ == '__main__':
+    # labelme_path = '/home/jerry/Documents/Micro_ADR/R78/labeled_train'  # input_json_path
+    labelme_path = sys.argv[1]
+
+    labelme_json = glob.glob('{}/*.json'.format(labelme_path))
+    coco_path = os.path.join(os.path.dirname(labelme_path), 'coco.json')
+    labelme2coco(labelme_json, coco_path)
+

@@ -35,20 +35,11 @@ def create_empty_json_instance(img_file_path: str):
     return instance
 
 def json_to_instance(json_file_path):
-    '''
-    :param json_file_path: json文件路径
-    :return: json instance
-    '''
     with open(json_file_path, 'r', encoding='utf-8') as f:
         instance = json.load(f)
     return instance
 
 def instance_to_json(instance, json_file_path):
-    '''
-    :param instance: json instance
-    :param json_file_path: 保存为json的文件路径
-    :return: 将json instance保存到相应文件路径
-    '''
     with open(json_file_path, 'w', encoding='utf-8') as f:
         content = json.dumps(instance, ensure_ascii=False, indent=2)
         f.write(content)
