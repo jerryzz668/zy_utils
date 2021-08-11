@@ -1,6 +1,6 @@
 import copy
 from concurrent.futures.thread import ThreadPoolExecutor
-from img_slice_utils import *
+from yolov5.img_slice_utils import *
 import datetime
 # dict_label=['bai', 'hongliang', 'hongmie', 'huangliang', 'huangmie', 'luliang', 'lumie']
 
