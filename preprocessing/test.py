@@ -6,6 +6,7 @@ from preprocessing.zy_utils import *
 import pandas as pd
 from tqdm import tqdm
 import glob
+from collections import Counter
 
 # def search(array, num):
 #     low, high = 0, len(array)-1
@@ -57,3 +58,27 @@ import glob
 #     if instance['imageData'] != None:
 #         instance['imageData'] = None
 #     instance_to_json(instance, os.path.join(save_path, base_name))
+
+import openpyxl as xl
+
+excel_path = '/home/jerry/Desktop/Book.xlsx'
+sheet1 = read_excel(excel_path, 'Sheet1')
+k = 0
+excel_list = []
+for i in range(2, sheet1.max_row+1):
+    k+=1
+    img_name = sheet1.cell(i, 3).value
+    excel_list.append(img_name)
+print(excel_list)
+
+a = Counter(excel_list)
+print(a)
+# img_path = '/home/jerry/Desktop/filtered_image'
+# img_list = os.listdir(img_path)
+# # print(img_list)
+#
+# inter = [i for i in excel_list if i not in img_list]
+# print(inter)
+# print(len(inter))
+
+
