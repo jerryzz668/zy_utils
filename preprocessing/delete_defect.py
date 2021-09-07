@@ -34,4 +34,5 @@ if __name__ == '__main__':
     # python delete_defect.py json_path defect_list
     defect_list = ['yashang', 'huashang']  # 需要保留的缺陷
     json_path = '/home/jerry/data/kesen/labelme_28413_hy/pr_save'  # input json path
-    cut_defects(sys.argv[1], sys.argv[2])  # Automatically create output json folders
+    cut_defects(json_path, defect_list)  # Automatically create output json folders
+    # cut_defects(sys.argv[1], sys.argv[2])  # Automatically create output json folders
