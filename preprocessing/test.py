@@ -37,7 +37,7 @@ from collections import Counter
 #     # print(json)
 #     instance = json_to_instance(json)
 #     shapes = instance.get('shapes')
-#     if shapes == []:
+#     if shapes == [] or shapes[0]['points']:
 #         shutil.move(json, output_path)
 #         jpg_name = os.path.basename(json).split('.')[0] + '.jpg'
 #         jpg_path = os.path.join(os.path.dirname(json), jpg_name)
