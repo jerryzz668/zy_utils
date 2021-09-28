@@ -10,7 +10,7 @@ from preprocessing.zy_utils import instance_to_json
 img_dic = {}
 id = 10000
 coco_images = []
-input_dir = '/home/jerry/Desktop/50'
+input_dir = '/home/jerry/Desktop/jpg_r'
 save_coco_path = '/home/jerry/Desktop/empty_img.json'
 imglist = os.listdir(input_dir)
 for img_file in imglist:

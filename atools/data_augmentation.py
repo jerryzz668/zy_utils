@@ -78,7 +78,7 @@ def modify_json_file(bboxs, instance):
 def random_data_aug_2(img_dir, save_dir):
     num_arg = 2
     make_dir(save_dir)
-    img_path_list = glob(os.path.join(img_dir, '*.jpg'))
+    img_path_list = glob(os.path.join(img_dir, '*.JPG'))
     for img_path in img_path_list:
         print(img_path)
         img_name = os.path.basename(img_path) 
@@ -148,8 +148,8 @@ if __name__ == '__main__':
     # save_dir = img_dir.format('')
     save_dir = '/home/jerry/Desktop/jpg_r' # save_path, 1.save img 2. save img and json
 
-    random_data_aug(img_dir, save_dir)  # 1.only img
-    # random_data_aug_2(img_dir, save_dir)  # 2.img and json
+    # random_data_aug(img_dir, save_dir)  # 1.img and json
+    random_data_aug_2(img_dir, save_dir)  # 2.only img
 
 
     
