@@ -8,25 +8,6 @@ from tqdm import tqdm
 import glob
 from collections import Counter
 
-# def search(array, num):
-#     low, high = 0, len(array)-1
-#     while low < high:
-#         mid = (low+high)//2
-#         if num > array[mid]:
-#             low = mid + 1
-#         elif num < array[mid]:
-#             high = mid - 1
-#         else:
-#             return mid
-#     return -1
-#
-# array = [i for i in range(1,1000,5)]
-# print(array)
-# print(search(array, 46))
-
-
-# a = '阿姨那种'
-# b = pypinyin(a)
 
 # # 如果json为空，移除json和对应jpg
 # input_dir = '/home/jerry/Documents/Micro_ADR/R78/daowen'
@@ -58,27 +39,34 @@ from collections import Counter
 #     if instance['imageData'] != None:
 #         instance['imageData'] = None
 #     instance_to_json(instance, os.path.join(save_path, base_name))
+import cv2
+import matplotlib.pyplot as plt
+from atools.erode_dilated_img import MORPH_OPEN, MORPH_GRADIENT
 
-import openpyxl as xl
+input_dir = '/home/jerry/data/zAI_competition/modify/coco_aug/val2017'
+output_dir = '/home/jerry/data/zAI_competition/modify/coco_aug/val2017_r'
+make_dir(output_dir)
+img_list = glob.glob('{}/*.jpg'.format(input_dir))
+# img = '/home/jerry/data/zAI_competition/modify/coco_aug/val2017/connected_img_1.jpg'
+# print(img_list)
+for img in img_list:
+    print('processing:', img)
+    img_BGR = cv2.imread(img)
+    img_G = MORPH_OPEN(img_BGR)
+    img_B = MORPH_GRADIENT(img_BGR)
 
-excel_path = '/home/jerry/Desktop/Book.xlsx'
-sheet1 = read_excel(excel_path, 'Sheet1')
-k = 0
-excel_list = []
-for i in range(2, sheet1.max_row+1):
-    k+=1
-    img_name = sheet1.cell(i, 3).value
-    excel_list.append(img_name)
-print(excel_list)
+    img_BGG = np.concatenate([img_BGR[:, :, 2:3], img_B[:, :, 2:3], img_G[:, :, 2:3]], 2)
+    img_BGG = np.array(img_BGG, 'uint8')
+    cv2.imwrite(os.path.join(output_dir, os.path.basename(img)), img_BGG)
 
-a = Counter(excel_list)
-print(a)
-# img_path = '/home/jerry/Desktop/filtered_image'
-# img_list = os.listdir(img_path)
-# # print(img_list)
-#
-# inter = [i for i in excel_list if i not in img_list]
-# print(inter)
-# print(len(inter))
+# plt.subplot(221)
+# plt.imshow(img_BGR)
+# plt.subplot(222)
+# plt.imshow(img_G)
+# plt.subplot(223)
+# plt.imshow(img_B)
+# plt.subplot(224)
+# plt.imshow(img_BGG)
+# plt.show()
 
 
