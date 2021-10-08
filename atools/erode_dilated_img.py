@@ -7,7 +7,6 @@ import glob
 import os
 import cv2 as cv
 from pathlib import Path
-import copy
 import random
 import numpy as np
 from preprocessing.zy_utils import make_dir, instance_to_json, json_to_instance
@@ -55,9 +54,11 @@ def MORPH_BLACKHAT(image):
     return dst
 
 def modify_json_name(file, write_img_name, output_dir):
-    json_file = file.split('.')[0] + '.json'
-    instance = json_to_instance(json_file)
-    modify_img_path = '{}'.format(write_img_name) + os.path.basename(json_file)
+    json_basename = os.path.basename(file)
+    json_dirname = os.path.dirname(file)
+    json_file = json_basename.split('.')[0] + '.json'
+    instance = json_to_instance(os.path.join(json_dirname, json_file))
+    modify_img_path = '{}'.format(write_img_name) + json_file
     instance['imagePath'] = '{}'.format(write_img_name) + os.path.basename(file)
     instance_to_json(instance, os.path.join(output_dir, modify_img_path))
 
@@ -68,7 +69,7 @@ def get_output_dir(input_dir, filter):
     output_dir = os.path.join(output_dirname, '{}'.format(write_img_name) + output_basename)
     return output_dir
 
-def erode_img(input_dir, filter, probability):
+def erode_img(input_dir, filter, probability, rename):
     output_dir = get_output_dir(input_dir, filter)
     make_dir(output_dir)
     file_list = glob.glob('{}/*.jpg'.format(input_dir))
@@ -78,7 +79,10 @@ def erode_img(input_dir, filter, probability):
         if p < probability:
             json_path = Path(file.split('.jpg')[0] + '.json')
             img_name = os.path.basename(file)
-            write_img_name = str(filter).split('_')[-1].split(' ')[0] + '_'
+            if rename:
+                write_img_name = str(filter).split('_')[-1].split(' ')[0] + '_'
+            else:
+                write_img_name = ''
             if json_path.exists():
                 print('正在处理：{} and {}'.format(img_name, os.path.basename(json_path)))
                 modify_json_name(file, write_img_name, output_dir)
@@ -89,7 +93,7 @@ def erode_img(input_dir, filter, probability):
             cv.imwrite(os.path.join(output_dir, '{}'.format(write_img_name) + img_name), processed_img, [int(cv.IMWRITE_JPEG_QUALITY), 95])
 
 if __name__ == '__main__':
-    input_dir = '/home/jerry/data/zAI_competition/modify/coco_aug/val2017'  # 输入img和json, # Automatically create output folders under the same path
+    input_dir = '/home/jerry/Desktop/erode_test'  # 输入img和json // or only img // or img和部分json
     filter = MORPH_OPEN  # 模式选择-----> demo_erode, demo_dilate, MORPH_OPEN, MORPH_CLOSE, MORPH_GRADIENT, MORPH_TOPHAT, MORPH_BLACKHAT
     probability = 1  # 0.8----->即随机处理80%的输入图像
-    erode_img(input_dir, filter, probability)
+    erode_img(input_dir, filter, probability, rename=False)  # Automatically create output folders under the same path as input_dir
