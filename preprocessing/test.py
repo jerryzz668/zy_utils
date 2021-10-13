@@ -10,23 +10,24 @@ import glob
 from collections import Counter
 
 
-# # 如果json为空，移除json和对应jpg
-# input_dir = '/home/jerry/Documents/Micro_ADR/R78/daowen'
-# output_path = '/home/jerry/Documents/Micro_ADR/R78/garbage'  # Automatically create output folders
-# json_list = glob.glob('{}/*.json'.format(input_dir))
-# make_dir(output_path)
-# for json in json_list:
-#     # print(json)
-#     instance = json_to_instance(json)
-#     shapes = instance.get('shapes')
-#     if shapes == [] or shapes[0]['points']:
-#         shutil.move(json, output_path)
-#         jpg_name = os.path.basename(json).split('.')[0] + '.jpg'
-#         jpg_path = os.path.join(os.path.dirname(json), jpg_name)
-#         try:
-#             shutil.move(jpg_path, output_path)
-#         except:
-#             print('there is no {}'.format(jpg_name))
+# 如果json为空，移除json和对应jpg
+input_dir = '/home/jerry/data/Micro_AD/A_loushi/labeled/10_11Ajian-loushishuju_r/labelme_dm_update'
+output_path = '/home/jerry/data/Micro_AD/A_loushi/labeled/10_11Ajian-loushishuju_r/garbage'  # Automatically create output folders
+json_list = glob.glob('{}/*.json'.format(input_dir))
+make_dir(output_path)
+for json in json_list:
+    # print(json)
+    instance = json_to_instance(json)
+    shapes = instance.get('shapes')
+    # if shapes == [] or shapes[0]['points']:
+    if shapes == []:
+        shutil.move(json, output_path)
+        jpg_name = os.path.basename(json).split('.')[0] + '.jpg'
+        jpg_path = os.path.join(os.path.dirname(json), jpg_name)
+        try:
+            shutil.move(jpg_path, output_path)
+        except:
+            print('there is no {}'.format(jpg_name))
 
 
 
@@ -72,24 +73,24 @@ from collections import Counter
 
 import datetime
  
-def calc_spend_time(func):
-    def new_func(*args, **kargs):
-        start_time = datetime.datetime.now()
-        result = func(*args, **kargs)
-        end_tiem = datetime.datetime.now()
-        print ("result:", result, "used:", (end_tiem - start_time).microseconds, "μs")
-    return new_func
- 
-@calc_spend_time
-def calc_add(a, b):
-    return a + b
- 
- 
-@calc_spend_time
-def calc_diff(a, b):
-    return a - b
- 
-calc_add(a=1, b=2)
-calc_diff(1, 2)
+# def calc_spend_time(func):
+#     def new_func(*args, **kargs):
+#         start_time = datetime.datetime.now()
+#         result = func(*args, **kargs)
+#         end_tiem = datetime.datetime.now()
+#         print ("result:", result, "used:", (end_tiem - start_time).microseconds, "μs")
+#     return new_func
+#
+# @calc_spend_time
+# def calc_add(a, b):
+#     return a + b
+#
+#
+# @calc_spend_time
+# def calc_diff(a, b):
+#     return a - b
+#
+# calc_add(a=1, b=2)
+# calc_diff(1, 2)
 
 

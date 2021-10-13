@@ -17,9 +17,9 @@ def get_max_w_h(img_jsons, s, label_dic):
 
 if __name__ == '__main__':
     # label_dic = {'loushi_jiaobuliang': 'jiaobuliang', 'hard_jiaobuliang': 'jiaobuliang', 'guojian_jiaobuliang': 'jiaobuliang'}
-    label_dic = {'hard_huashang': 'huashang', 'hard_yashang': 'yashang', 'loushi_huashang':'huashang', 'loushi_yashang':'yashang'}
+    label_dic = {'penshabujun-bai': 'penshabujun', 'penshabujun-hei': 'penshabujun'}
 
-    img_jsons = '/home/jerry/data/kesen/labelme_28413_hy/labelme_aug1'
-    save_p = '/home/jerry/data/kesen/labelme_28413_hy/pr_save'  # Automatically create output folders
+    img_jsons = '/home/jerry/data/Micro_AD/A_loushi/labeled/Ajian-2021-11-11-loushi_r/labelme_yin'
+    save_p = '/home/jerry/data/Micro_AD/A_loushi/labeled/Ajian-2021-11-11-loushi_r/labelme_yin/pr_save'  # Automatically create output folders
 
     get_max_w_h(img_jsons, save_p, label_dic)

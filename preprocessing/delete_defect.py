@@ -32,7 +32,7 @@ def cut_defects(json_path, defect_list):
 
 if __name__ == '__main__':
     # python delete_defect.py json_path defect_list
-    defect_list = ['yashang', 'huashang']  # 需要保留的缺陷
-    json_path = '/home/jerry/data/kesen/labelme_28413_hy/pr_save'  # input json path
+    defect_list = ['penshabujun-bai', 'penshabujun-hei']  # 需要保留的缺陷
+    json_path = '/home/jerry/data/Micro_AD/A_loushi/labeled/Ajian-2021-11-11-loushi_r/labelme_hei'  # input json path
     cut_defects(json_path, defect_list)  # Automatically create output json folders
     # cut_defects(sys.argv[1], sys.argv[2])  # Automatically create output json folders
