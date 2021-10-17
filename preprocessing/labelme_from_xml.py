@@ -91,9 +91,9 @@ if __name__ == '__main__':
             flag = False
         return flag
     # 填入xml folder path
-    xml_to_labelme(xml_folder_path=r'C:\Users\Administrator\Desktop\A1_KR_cm\outputs',
+    xml_to_labelme(xml_folder_path='/home/jerry/data/Micro_A/A_loushi/labeled/5_2021ACmoxingloushi/2021ACmoxingloushi/2021-10-14-hei-A/A1014moxingloujian/outputs',
                    # 填入image folder path
-                   img_folder_path=r'C:\Users\Administrator\Desktop\A1_KR_cm',
+                   img_folder_path='/home/jerry/data/Micro_A/A_loushi/labeled/5_2021ACmoxingloushi/2021ACmoxingloushi/2021-10-14-hei-A/A1014moxingloujian',
                    # 填入xml文件中目标标签的name
                    item_name='item',
                    filter=None)

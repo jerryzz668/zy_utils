@@ -155,11 +155,11 @@ def random_data_aug(paramter):
 if __name__ == '__main__':
 
 
-    input_dir = '/home/jerry/data/Micro_A/A_loushi/combined/psbj/blend'
+    input_dir = '/home/jerry/data/Micro_A/A_loushi/combined/dayise/blend'
     parameter = {
         'img_dir':input_dir,
         'save_dir': '{}_augmented'.format(input_dir),
-        'num_aug':2,
+        'num_aug':3,
         'aug_name_list':[random_rot90, random_vertical_flip, random_horizontal_flip],
         'is_transform': False,
         'is_random': True,
