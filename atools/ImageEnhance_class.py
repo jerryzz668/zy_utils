@@ -28,7 +28,7 @@ def RandomSelectionFile(fileDir,rate=0.3):
 
         return sample
 def ImageEnhance_class(Fs_Root_path,sharpen=False,sp_noise=False,gasuss_noise=False,gamma=False,GaussianBlurring=False,equalizeHist=False,adaptivehistogram=False,Brightness=False):
-    imgDirPath=Fs_Root_path+"/1"
+    imgDirPath=Fs_Root_path
     imgFiles_sub = sorted(os.listdir(imgDirPath))
     for i in range(len(imgFiles_sub)):
         imgDirPath_sub=imgDirPath+"/%s"%imgFiles_sub[i]
@@ -89,6 +89,6 @@ def ImageEnhance_class(Fs_Root_path,sharpen=False,sp_noise=False,gasuss_noise=Fa
 
 
 #使用示例
-Fs_Root_path='/home/adt/data/Archive'
+Fs_Root_path='/home/jerry/data/Micro_A/A_loushi/labeled/daowen/dm/test'
 ImageEnhance_class(Fs_Root_path,sharpen=False,sp_noise=False,gasuss_noise=False,gamma=False,
                                 GaussianBlurring=False,equalizeHist=False,adaptivehistogram=True,Brightness=False)
