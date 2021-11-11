@@ -43,12 +43,12 @@ def modify_json_name(file, write_img_name, output_dir):
     instance_to_json(instance, os.path.join(output_dir, modify_img_path))
 
 def blend_two_images1():
-    path_qx=glob.glob('/home/jerry/data/Micro_A/A_loushi/combined/huanxingdaowen/qj/*.jpg')
-    path_dt=glob.glob('/home/jerry/data/Micro_A/A_loushi/combined/huanxingdaowen/bg/*.jpg')
-    path_save = '/home/jerry/data/Micro_A/A_loushi/combined/huanxingdaowen/blend'
+    path_qx=glob.glob('/home/jerry/data/Micro_A/A_loushi/combined/dayise/11-09-dayise_v2/qj1416/*.jpg')
+    path_dt=glob.glob('/home/jerry/data/Micro_A/A_loushi/combined/dayise/11-09-dayise_v2/bg1416/*.jpg')
+    path_save = '/home/jerry/data/Micro_A/A_loushi/combined/dayise/11-09-dayise_v2/blend_1416'
     if not os.path.exists(path_save):
         os.makedirs(path_save)
-    index = 0
+    index = 600
     for i in path_qx:
         for j in path_dt:
             img1 = Image.open(i)

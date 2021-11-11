@@ -12,23 +12,23 @@ from collections import Counter
 
 
 # 如果json为空，移除json和对应jpg
-# input_dir = '/home/jerry/Desktop/cm-daowen_all'
-# output_path = '/home/jerry/Desktop/garbage'  # Automatically create output folders
-# json_list = glob.glob('{}/*.json'.format(input_dir))
-# make_dir(output_path)
-# for json in json_list:
-#     # print(json)
-#     instance = json_to_instance(json)
-#     shapes = instance.get('shapes')
-#     # if shapes == [] or shapes[0]['points']:
-#     if shapes == []:
-#         shutil.move(json, output_path)
-#         jpg_name = os.path.basename(json).split('.')[0] + '.jpg'
-#         jpg_path = os.path.join(os.path.dirname(json), jpg_name)
-#         try:
-#             shutil.move(jpg_path, output_path)
-#         except:
-#             print('there is no {}'.format(jpg_name))
+input_dir = '/home/jerry/data/Micro_A/A_loushi/combined/dayise/11-09-dayise_v2/11-11-blend_daxiaoyise_coco/val2017'
+output_path = '/home/jerry/Desktop/garbage'  # Automatically create output folders
+json_list = glob.glob('{}/*.json'.format(input_dir))
+make_dir(output_path)
+for json in json_list:
+    # print(json)
+    instance = json_to_instance(json)
+    shapes = instance.get('shapes')
+    # if shapes == [] or shapes[0]['points']:
+    if shapes == []:
+        shutil.move(json, output_path)
+        jpg_name = os.path.basename(json).split('.')[0] + '.jpg'
+        jpg_path = os.path.join(os.path.dirname(json), jpg_name)
+        try:
+            shutil.move(jpg_path, output_path)
+        except:
+            print('there is no {}'.format(jpg_name))
 
 # delete image_data
 # json_path = '/home/jerry/Documents/yolov5-5.0/runs/detect/exp24/PR'
@@ -95,20 +95,19 @@ import datetime
 # calc_diff(1, 2)
 
 
-xlsx_path = '/home/jerry/data/Mirco_zz/zz_loushi/labeled/labelme/check.xlsx'
-input_dir = '/home/jerry/data/Mirco_zz/zz_loushi/labeled/labelme/11-03'
-output_dir = '/home/jerry/data/Mirco_zz/zz_loushi/labeled/labelme/clean'
-sheet = read_excel(xlsx_path, 'Sheet1')
-rows = sheet.rows
-values = []
-
-for row in rows:
-    # print(str(row[0].value).zfill(4), str(row[1].value).zfill(4), str(row[2].value).zfill(4))
-    img_name = str(row[0].value).zfill(4) + '-' + str(row[1].value).zfill(4) + '-' + str(row[2].value).zfill(2) + '.jpg'
-    json_name = img_name.replace('.jpg', '.json')
-    # print('processing:', img_name, json_name)
-    try:
-        shutil.copy(os.path.join(input_dir, img_name), output_dir)
-        shutil.copy(os.path.join(input_dir, json_name), output_dir)
-    except:
-        print(img_name)
+# xlsx_path = '/home/jerry/Desktop/Book1.xlsx'
+# input_dir = '/home/jerry/Desktop/2021-11-08-A1'
+# output_dir = '/home/jerry/Desktop/A1_loushi'
+# sheet = read_excel(xlsx_path, 'Sheet1')
+# rows = sheet.rows
+#
+# for row in rows:
+#     # print(str(row[0].value).zfill(4), str(row[1].value).zfill(4), str(row[2].value).zfill(4))
+#     img_name = str(row[0].value).zfill(4) + '-' + str(row[1].value).zfill(4) + '-' + str(row[2].value).zfill(2) + '.jpg'
+#     json_name = img_name.replace('.jpg', '.json')
+#     # print('processing:', img_name, json_name)
+#     try:
+#         shutil.copy(os.path.join(input_dir, img_name), output_dir)
+#         shutil.copy(os.path.join(input_dir, json_name), output_dir)
+#     except:
+#         print(img_name)
