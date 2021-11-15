@@ -37,6 +37,7 @@ __all__ = [
     'policies_v1',
     'policies_v2',
     'policies_v3',
+    'policies_zy',
     'PolicyContainer',
 ]
 
@@ -312,6 +313,107 @@ def policies_v3() -> List[List[POLICY_TUPLE_TYPE]]:
         [
             POLICY_TUPLE('Rotate', 1.0, 10),
             POLICY_TUPLE('Cutout', 1.0, 10)
+        ],
+        [
+            POLICY_TUPLE('Solarize_Add', 0.8, 6),
+            POLICY_TUPLE('Equalize', 0.8, 8)
+        ],
+    ]
+    return policy
+
+def policies_zy() -> List[List[POLICY_TUPLE_TYPE]]:
+    """
+    Version 3 of augmentation policies
+​
+    :rtype: List[List[POLICY_TUPLE_TYPE]]
+    :return: List of policies
+    """
+    policy = [
+        [
+            POLICY_TUPLE('Sharpness', 0.0, 8),
+            POLICY_TUPLE('Shear_X', 0.4, 0)
+        ],
+        [
+            POLICY_TUPLE('Color', 0.0, 0),
+            POLICY_TUPLE('Shear_X_BBox', 0.8, 4)
+        ],
+        [
+            POLICY_TUPLE('Shear_Y_BBox', 0.8, 2),
+            POLICY_TUPLE('Fliplr_BBox', 0.0, 10)
+        ],
+        [
+            POLICY_TUPLE('Cutout', 0.2, 2),
+            POLICY_TUPLE('Brightness', 0.8, 10)
+        ],
+        [
+            POLICY_TUPLE('Color', 1.0, 6),
+            POLICY_TUPLE('Equalize', 1.0, 2)
+        ],
+        [
+            POLICY_TUPLE('Sharpness', 0.4, 4),
+            POLICY_TUPLE('Translate_Y_BBox', 0.0, 4)
+        ],
+        [
+            POLICY_TUPLE('Sharpness', 1.0, 4),
+            POLICY_TUPLE('Solarize_Add', 0.4, 4)
+        ],
+        [
+            POLICY_TUPLE('Solarize_Add', 0.6, 8),
+            POLICY_TUPLE('Brightness', 0.8, 10)
+        ],
+        [
+            POLICY_TUPLE('Auto_Contrast', 0.4, 6),
+            POLICY_TUPLE('Shear_X', 0.8, 8),
+            POLICY_TUPLE('Brightness', 0.0, 10)
+        ],
+        [
+            POLICY_TUPLE('Solarize_Add', 0.2, 6),
+            POLICY_TUPLE('Contrast', 0.0, 10),
+            POLICY_TUPLE('Auto_Contrast', 0.6, 0)
+        ],
+        [
+            POLICY_TUPLE('Cutout', 0.2, 0),
+            POLICY_TUPLE('Solarize', 0.8, 8),
+            POLICY_TUPLE('Color', 1.0, 4)
+        ],
+        [
+            POLICY_TUPLE('Translate_Y', 0.0, 4),
+            POLICY_TUPLE('Equalize', 0.6, 8),
+            POLICY_TUPLE('Solarize', 0.0, 10)
+        ],
+        [
+            POLICY_TUPLE('Rotate', 0.0, 0),
+            POLICY_TUPLE('Equalize', 0.6, 6),
+            POLICY_TUPLE('Shear_Y', 0.6, 8)
+        ],
+        [
+            POLICY_TUPLE('Brightness', 0.8, 8),
+            POLICY_TUPLE('Auto_Contrast', 0.4, 2),
+            POLICY_TUPLE('Brightness', 0.2, 2)
+        ],
+        [
+            POLICY_TUPLE('Cutout_Fraction', 0.2, 10),
+            POLICY_TUPLE('Sharpness', 1.0, 8)
+        ],
+        [
+            POLICY_TUPLE('Equalize', 0.8, 10),
+            POLICY_TUPLE('Auto_Contrast', 0.2, 10)
+        ],
+        [
+            POLICY_TUPLE('Solarize_Add', 0.2, 2),
+            POLICY_TUPLE('Translate_Y', 0.2, 8)
+        ],
+        [
+            POLICY_TUPLE('Sharpness', 0.0, 2),
+            POLICY_TUPLE('Color', 0.4, 8)
+        ],
+        [
+            POLICY_TUPLE('Contrast', 0.0, 2),
+            POLICY_TUPLE('Shear_Y', 0.8, 0)
+        ],
+        [
+            POLICY_TUPLE('Auto_Contrast', 0.8, 10),
+            POLICY_TUPLE('Contrast', 0.2, 10)
         ],
         [
             POLICY_TUPLE('Solarize_Add', 0.8, 6),

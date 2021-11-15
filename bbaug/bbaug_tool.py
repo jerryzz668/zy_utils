@@ -1,5 +1,4 @@
-from bbaug.policies import policies_v3
-from bbaug.augmentations import NAME_TO_AUGMENTATION
+from bbaug.policies import policies_zy
 from bbaug import policies
 import json
 import cv2
@@ -13,7 +12,7 @@ label_dict = []
 
 
 def init_policy() -> policies.PolicyContainer:
-    return policies.PolicyContainer(policies_v3())
+    return policies.PolicyContainer(policies_zy())
 
 
 def data_prepare(img_file) -> tuple:
@@ -74,5 +73,5 @@ def gen_labelme_json_model(img_size, img_path) -> dict:
 
 
 if __name__ == '__main__':
-    aug_process('/home/jerry/data/Micro_A/A_loushi/combined/cm_daowen/bianyuan',
-                '/home/jerry/data/Micro_A/A_loushi/combined/cm_daowen/bianyuan_bbaug')
+    aug_process('/home/jerry/data/Micro_D/D_loushi/D_ng/11-10-D-labelme/labelme_split/labelme_yise',
+                '/home/jerry/data/Micro_D/D_loushi/D_ng/11-10-D-labelme/labelme_split/labelme_yise_bbaug')

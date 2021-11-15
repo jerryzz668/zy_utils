@@ -173,12 +173,12 @@ def img_boxes_query(img_file_path, input_label, cls_id_name_dict):
     return boxes
 
 if __name__ == '__main__':
-    cls_id_name_dict = {0: 'jubuyise', 1: 'quanjuyise'}
-    label_dict = ['jubuyise', 'quanjuyise']  # 需要PR的缺陷list
+    cls_id_name_dict = {0: 'yise', 1: 'quanjuyise'}
+    label_dict = ['yise', 'quanjuyise']  # 需要PR的缺陷list
     precision_recall_visualize(# input_img
-                               target_folder_path='/home/jerry/Desktop/2021_11_12_10_29_15',
+                               target_folder_path='/home/jerry/Desktop/2021_11_15_17_18_08',
                                # inference_txt
-                               input_label='/home/jerry/Desktop/2021_11_12_10_29_15/labels',
+                               input_label='/home/jerry/Desktop/2021_11_15_17_18_08/labels',
                                # 自定义的query方法
                                img_boxes_query=img_boxes_query,
                                # save_path

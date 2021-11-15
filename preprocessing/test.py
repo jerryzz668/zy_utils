@@ -12,7 +12,7 @@ from collections import Counter
 
 
 # 如果json为空，移除json和对应jpg
-input_dir = '/home/jerry/data/Micro_A/A_loushi/combined/dayise/11-09-dayise_v2/11-11-blend_daxiaoyise_coco/val2017'
+input_dir = '/home/jerry/data/Micro_D/D_loushi/D_ng/11-10-D-labelme/labelme_split/labelme_yise_bbaug_crop768'
 output_path = '/home/jerry/Desktop/garbage'  # Automatically create output folders
 json_list = glob.glob('{}/*.json'.format(input_dir))
 make_dir(output_path)
