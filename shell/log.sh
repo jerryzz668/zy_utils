@@ -5,8 +5,8 @@ set target_head 10.0.2.
 set remoteport 22
 
 set bindport [lindex $argv 0]
-set host 112.21.188.132
-set password Wy1qaz@123
+set host 192.168.x.xx
+set password xxxxx
 set timeout -1
 
 spawn ssh -L $bindport:$target_head$target:$remoteport -p 3202 $user@$host

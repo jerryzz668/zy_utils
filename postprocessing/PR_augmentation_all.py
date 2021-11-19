@@ -166,6 +166,9 @@ def img_boxes_query(img_file_path, input_label, cls_id_name_dict):
         words = line.split(' ')
         cls_id = int(words[0])
         cls_name = cls_id_name_dict[cls_id]
+        # if cls_name  in label_dict:
+        #     continue
+
         cx, cy, w, h = float(words[1]) * width, float(words[2]) * height, float(words[3]) * width, float(words[4]) * height
         confidence = float(words[5])
         # 一个Box代表一个检测目标的xywh、label、confidence
@@ -173,12 +176,13 @@ def img_boxes_query(img_file_path, input_label, cls_id_name_dict):
     return boxes
 
 if __name__ == '__main__':
-    cls_id_name_dict = {0: 'yise', 1: 'quanjuyise'}
-    label_dict = ['yise', 'quanjuyise']  # 需要PR的缺陷list
+
+    label_dict = ['quanjuyise', 'yise']  # ordered by alphabetical
+    cls_id_name_dict = dict(zip(range(len(label_dict)), label_dict))
     precision_recall_visualize(# input_img
-                               target_folder_path='/home/jerry/Desktop/2021_11_15_17_18_08',
+                               target_folder_path='/home/jerry/Desktop/PR_test',
                                # inference_txt
-                               input_label='/home/jerry/Desktop/2021_11_15_17_18_08/labels',
+                               input_label='/home/jerry/Desktop/PR_test/labels',
                                # 自定义的query方法
                                img_boxes_query=img_boxes_query,
                                # save_path
