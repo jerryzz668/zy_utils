@@ -1,6 +1,6 @@
 from preprocessing.zy_utils import IMG_TYPES, json_to_instance, create_empty_json_instance, instance_to_json, points_to_xywh, Box, yaml_to_instance, dic_align
 import shutil, os
-import pandas as pd
+from prettytable import PrettyTable
 from PIL import Image
 
 def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_dict, saved_folder_name, input_label, label_dict, iou_thres=0.1, hard_thres=0.7,guo_thres=0.3, recall=True, precision=True):
@@ -109,6 +109,8 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
         if precision:
             for i, predict_box in enumerate(predict_boxes):
                 if i not in temp:
+                    if predict_box.category not in label_dict:  # 按照PR_list进行过滤
+                        continue
                     if predict_box.category not in guo_total:
                         guo_total[predict_box.category] = 1
                     else:
@@ -131,19 +133,18 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
 
     lou_total = dic_align(labels_total, lou_total)
     guo_total = dic_align(labels_total, guo_total)
+    # print(labels_total,lou_total,guo_total)
 
-    labels_total = sorted(labels_total.items(), key=lambda item: item[0])  # 转gt_list并排序
-    lou_total = sorted(lou_total.items(), key=lambda item: item[0])  # 转missing_list并排序
-    guo_total = sorted(guo_total.items(), key=lambda item:item[0])  # 转over_detect_list并排序
+    PR_gt, PR_missing, PR_over_detect = 0, 0, 0
+    table = PrettyTable(['category', 'gt', 'missing', 'over_detect'])
+    for label in label_dict:
+        table.add_row([label, labels_total[label], lou_total[label], guo_total[label]])
+        PR_gt += labels_total[label]
+        PR_missing += lou_total[label]
+        PR_over_detect += guo_total[label]
+    print(table.get_string(sortby='missing', reversesort=True))
 
-    cate, labels_total, lou_total, guo_total = pd.DataFrame(label_dict), pd.DataFrame(labels_total), pd.DataFrame(lou_total), pd.DataFrame(guo_total)
-    dataframe = (pd.concat((cate, labels_total, lou_total, guo_total), axis=1))
-    df = dataframe.iloc[:, [0, 2, 4, 6]]
-    df.columns = ['cate', 'gt', 'missing', 'over_detect']
-    # df = df.set_index('cate')
-    df.loc[len(cate)+1] = df.apply(lambda x: x.sum())
-    df.iat[len(df.values)-1, 0] = 'total'
-    print(df)
+    print('Total objects: %d, missing %d, over-detect: %d' % (PR_gt, PR_missing, PR_over_detect))
 
 # 自定义自己的img-boxes对应方法，Box类参考utils.py
 # yolo_strategy
@@ -166,9 +167,6 @@ def img_boxes_query(img_file_path, input_label, cls_id_name_dict):
         words = line.split(' ')
         cls_id = int(words[0])
         cls_name = cls_id_name_dict[cls_id]
-        # if cls_name  in label_dict:
-        #     continue
-
         cx, cy, w, h = float(words[1]) * width, float(words[2]) * height, float(words[3]) * width, float(words[4]) * height
         confidence = float(words[5])
         # 一个Box代表一个检测目标的xywh、label、confidence
@@ -177,8 +175,8 @@ def img_boxes_query(img_file_path, input_label, cls_id_name_dict):
 
 if __name__ == '__main__':
 
-    label_dict = ['quanjuyise', 'yise']  # ordered by alphabetical
-    cls_id_name_dict = dict(zip(range(len(label_dict)), label_dict))
+    label_dict_all = ['yise', 'quanjuyise']  # 全部缺陷list，按照数据集生成顺序  （personal habit: ordered by alphabetical）
+    label_dict = ['quanjuyise', 'yise']  # 需要PR de list
     precision_recall_visualize(# input_img
                                target_folder_path='/home/jerry/Desktop/PR_test',
                                # inference_txt
@@ -188,7 +186,7 @@ if __name__ == '__main__':
                                # save_path
                                saved_folder_name='PR',
                                label_dict=label_dict,
-                               cls_id_name_dict=cls_id_name_dict,
+                               cls_id_name_dict=dict(zip(range(len(label_dict_all)), label_dict_all)),
                                # 计算漏失
                                recall=True,
                                # 计算过检

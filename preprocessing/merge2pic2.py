@@ -42,7 +42,7 @@ def modify_json_name(file, write_img_name, output_dir):
     instance['imagePath'] = '{}.jpg'.format(write_img_name)
     instance_to_json(instance, os.path.join(output_dir, modify_img_path))
 
-def blend_two_images1():
+def blend_two_images_with_json():
     path_qx=glob.glob('/home/jerry/data/Micro_A/A_loushi/combined/dayise/11-09-dayise_v2/qj1416/*.jpg')
     path_dt=glob.glob('/home/jerry/data/Micro_A/A_loushi/combined/dayise/11-09-dayise_v2/bg1416/*.jpg')
     path_save = '/home/jerry/data/Micro_A/A_loushi/combined/dayise/11-09-dayise_v2/blend_1416'
@@ -63,4 +63,4 @@ def blend_two_images1():
             print('正在融合:{}.jpg'.format(index))
             index += 1
     return
-blend_two_images1()
+blend_two_images_with_json()
