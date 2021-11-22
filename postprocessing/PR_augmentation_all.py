@@ -80,7 +80,8 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
             # 漏检 错检
             false_negative, false_label, hard = True, True, True
             for i, predict_box in enumerate(predict_boxes):
-                if gt_box.get_iou(predict_box) > iou_thres:
+                # 以下判断进行PR的是list or dic
+                if gt_box.get_iou(predict_box) > iou_thres and type(label_dict) == type(labels_total) and predict_box.confidence > label_dict[obj['label']]:  # 按照PR_list进行过滤
                     false_negative = False
                     temp.append(i)
                     if gt_box.category == predict_box.category:
@@ -89,7 +90,16 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
                             hard = False
                     else:
                         w_category = predict_box.category
-
+                elif gt_box.get_iou(predict_box) > iou_thres:
+                    false_negative = False
+                    temp.append(i)
+                    if gt_box.category == predict_box.category:
+                        false_label = False
+                        if predict_box.confidence > hard_thres:
+                            hard = False
+                    else:
+                        w_category = predict_box.category
+                # 以上判断进行PR的是list or dic
             if not recall: continue
             if false_negative:
                 if obj['label'] not in lou_total:
@@ -109,8 +119,14 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
         if precision:
             for i, predict_box in enumerate(predict_boxes):
                 if i not in temp:
-                    if predict_box.category not in label_dict:  # 按照PR_list进行过滤
-                        continue
+                    # 以下判断进行PR的是list or dic
+                    if type(label_dict) == type(labels_total):
+                        if predict_box.category not in label_dict or predict_box.confidence < label_dict[predict_box.category]:  # 按照PR_list进行过滤
+                            continue
+                    elif type(label_dict) == type(temp):
+                        if predict_box.category not in label_dict:  # 按照PR_list进行过滤
+                            continue
+                    # 以上判断进行PR的是list or dic
                     if predict_box.category not in guo_total:
                         guo_total[predict_box.category] = 1
                     else:
@@ -176,7 +192,8 @@ def img_boxes_query(img_file_path, input_label, cls_id_name_dict):
 if __name__ == '__main__':
 
     label_dict_all = ['yise', 'quanjuyise']  # 全部缺陷list，按照数据集生成顺序  （personal habit: ordered by alphabetical）
-    label_dict = ['yise', 'quanjuyise']  # 需要PR de list
+    # label_dict = ['yise', 'quanjuyise']  # 需要PR de list
+    label_dict = {'yise': 0.75, 'quanjuyise': 0.5}  # 需要PR de dic
     precision_recall_visualize(# input_img
                                target_folder_path='/home/jerry/Desktop/PR_test',
                                # inference_txt
