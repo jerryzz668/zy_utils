@@ -8,6 +8,7 @@
 from PIL import Image
 import glob
 import os
+from tqdm import tqdm
 from preprocessing.zy_utils import json_to_instance, instance_to_json
 
 def blend_two_images():
@@ -43,13 +44,13 @@ def modify_json_name(file, write_img_name, output_dir):
     instance_to_json(instance, os.path.join(output_dir, modify_img_path))
 
 def blend_two_images_with_json():
-    path_qx=glob.glob('/home/jerry/data/Micro_A/A_loushi/combined/dayise/11-09-dayise_v2/qj1416/*.jpg')
-    path_dt=glob.glob('/home/jerry/data/Micro_A/A_loushi/combined/dayise/11-09-dayise_v2/bg1416/*.jpg')
-    path_save = '/home/jerry/data/Micro_A/A_loushi/combined/dayise/11-09-dayise_v2/blend_1416'
+    path_qx=glob.glob('/home/jerry/data/Micro_D/D_loushi/combined/11-22-dm-dw/qj/*.jpg')
+    path_dt=glob.glob('/home/jerry/data/Micro_D/D_loushi/combined/11-22-dm-dw/bg/*.jpg')
+    path_save = '/home/jerry/data/Micro_D/D_loushi/combined/11-22-dm-dw/blend'
     if not os.path.exists(path_save):
         os.makedirs(path_save)
-    index = 600
-    for i in path_qx:
+    index = 0
+    for i in tqdm(path_qx):
         for j in path_dt:
             img1 = Image.open(i)
             img1 = img1.convert('RGBA')
@@ -60,7 +61,7 @@ def blend_two_images_with_json():
             # img.show()
             img.save(os.path.join(path_save, "{}.jpg".format(index)))
             modify_json_name(i, index, path_save)
-            print('正在融合:{}.jpg'.format(index))
+            # print('正在融合:{}.jpg'.format(index))
             index += 1
     return
 blend_two_images_with_json()

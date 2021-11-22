@@ -39,7 +39,7 @@ def xml_to_labelme(xml_folder_path: str, img_folder_path: str, item_name: str, f
         for item in items:
             if filter is not None and filter(item): continue
             obj = {'label': word_to_pinyin(item[0].text)}
-            obj['plevel'] = item[4].text if item[4].text else 'qingwei'
+            # obj['plevel'] = item[4].text if item[4].text else 'qingwei'
             # 如果有其他标签类别，通过elif添加
             if item.find('bndbox') != None:
                 xys = extract_xys(item.find('bndbox'))
@@ -91,9 +91,9 @@ if __name__ == '__main__':
             flag = False
         return flag
     # 填入xml folder path
-    xml_to_labelme(xml_folder_path='/home/jerry/data/Micro_A/A_loushi/labeled/5_2021ACmoxingloushi/2021ACmoxingloushi/2021-10-14-hei-A/A1014moxingloujian/outputs',
+    xml_to_labelme(xml_folder_path='/home/jerry/data/Micro_D/D_loushi/D_ng/11-11-chixu/img/outputs',
                    # 填入image folder path
-                   img_folder_path='/home/jerry/data/Micro_A/A_loushi/labeled/5_2021ACmoxingloushi/2021ACmoxingloushi/2021-10-14-hei-A/A1014moxingloujian',
+                   img_folder_path='/home/jerry/data/Micro_D/D_loushi/D_ng/11-11-chixu/img',
                    # 填入xml文件中目标标签的name
                    item_name='item',
                    filter=None)

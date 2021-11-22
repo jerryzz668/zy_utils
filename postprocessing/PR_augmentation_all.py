@@ -3,7 +3,7 @@ import shutil, os
 from prettytable import PrettyTable
 from PIL import Image
 
-def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_dict, saved_folder_name, input_label, label_dict, iou_thres=0.1, hard_thres=0.7,guo_thres=0.3, recall=True, precision=True):
+def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_dict, saved_folder_name, input_label, label_dict, iou_thres=0.1, hard_thres=0.5,guo_thres=0.3, recall=True, precision=True):
     '''
     :param target_folder_path: json文件夹路径
     :param img_boxes_query: 该方法根据json文件名返回box列表
@@ -176,7 +176,7 @@ def img_boxes_query(img_file_path, input_label, cls_id_name_dict):
 if __name__ == '__main__':
 
     label_dict_all = ['yise', 'quanjuyise']  # 全部缺陷list，按照数据集生成顺序  （personal habit: ordered by alphabetical）
-    label_dict = ['quanjuyise', 'yise']  # 需要PR de list
+    label_dict = ['yise', 'quanjuyise']  # 需要PR de list
     precision_recall_visualize(# input_img
                                target_folder_path='/home/jerry/Desktop/PR_test',
                                # inference_txt
