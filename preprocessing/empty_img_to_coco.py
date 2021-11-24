@@ -5,15 +5,16 @@
 """
 import os
 import cv2
+from tqdm import tqdm
 from preprocessing.zy_utils import instance_to_json
 
 img_dic = {}
 id = 10000
 coco_images = []
-input_dir = '/home/jerry/Desktop/jpg_r'
+input_dir = '/home/jerry/Desktop/2021_11_24_02_40_21/PR_crop2048_augmented'
 save_coco_path = '/home/jerry/Desktop/empty_img.json'
 imglist = os.listdir(input_dir)
-for img_file in imglist:
+for img_file in tqdm(imglist):
     img = cv2.imread(os.path.join(input_dir, img_file))
     w, h, c = img.shape
     img_dic['height'] = w
