@@ -8,6 +8,7 @@ import glob
 import time
 import os
 import sys
+from tqdm import tqdm
 
 class labelme2coco(object):
     def __init__(self, labelme_json=[], save_json_path='./new.json', resume_cate=None):
@@ -23,19 +24,14 @@ class labelme2coco(object):
 
     def addshape(self, shape, data, num, annotations, categories, labels):
         label = shape['label'].split('_')
-        # print('label',label[0],'labels:',labels,'--')
         if label[0] not in labels:
-            # print(categories,'c---')
             labels.append(label[0])
             categories.append(self.categorie(label, labels))
-            # print(categories,'c---1')
-        # print('label1',label,'labels:',labels,'--')
         points = shape['points']
         w = data['imageWidth']
         h = data['imageHeight']
         shape_type = shape['shape_type']
         img_shape = (h, w, 3)
-        # print('json_file:')
         annotations.append(self.annotation(img_shape, points, label, num, shape_type, annotations, categories))
 
     def data_transfer(self):
@@ -43,17 +39,14 @@ class labelme2coco(object):
         images = []
         # images=multiprocessing.Manager().list()
         annotations = multiprocessing.Manager().list()
-        print('anno', annotations)
+        # print('anno', annotations)
         categories = multiprocessing.Manager().list()
         labels = multiprocessing.Manager().list()
-        for num, json_file in enumerate(self.labelme_json):
+        for num, json_file in tqdm(enumerate(self.labelme_json)):
             with open(json_file, 'r', encoding='utf-8') as fp:
-                print('json_file:---', json_file)
                 data = json.load(fp)  # json
-                # print('data',data)
                 images.append(self.image(data, num))
                 for shape in data['shapes']:
-                    print('len(annotations)', len(annotations))
                     pool.apply_async(self.addshape, args=(shape, data, num, annotations, categories, labels))
         pool.close()
         pool.join()
@@ -93,7 +86,6 @@ class labelme2coco(object):
         annotation['segmentation'] = segm
         annotation['iscrowd'] = 0
         annotation['image_id'] = num + 1
-        # print('categories',categories)
         annotation['category_id'] = self.getcatid(label, categories)
         annotation['id'] = len(annotations) + 1
         return annotation
@@ -124,24 +116,24 @@ class labelme2coco(object):
                 right_bottom_r - left_top_r]  # [x1,y1,w,h] 对应COCO的bbox格式
 
     def data2coco(self, images, annotations, categories):
-        # print(annotations,'===',type(annotations))
-        # print(list(categories),'===',type(list(categories)))
         data_coco = {}
         data_coco['images'] = images
         data_coco['categories'] = list(categories)
         data_coco['annotations'] = list(annotations)
         return data_coco
 
+    def get_label_dic(self, categories):
+        out_cates = []
+        for cate in categories:
+            out_cate = '{}:{}'.format(cate['name'], cate['id'])
+            out_cates.append(out_cate)
+        return out_cates
     def save_json(self):
-        # print('save')
         start = time.time()
         images, annotations, categories = self.data_transfer()
-        # print('images',images)
-        # print('annotations',annotations)
-        print('categories', categories)
+        # print('categories', categories)
+        print('------', self.get_label_dic(categories), '------')
         data_coco = self.data2coco(images, annotations, categories)
-        # print(data_coco)
-        # # 保存json文件
         json.dump(data_coco, open(self.save_json_path, 'w', encoding='utf-8'), indent=4)
         print('runtime:', time.time() - start)
 

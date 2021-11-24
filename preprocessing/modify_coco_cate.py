@@ -17,6 +17,13 @@ class Modify_COCO_Cate(object):
             ret_dic = json.load(f)
         return ret_dic
 
+    def get_label_dic(self, categories):
+        out_cates = []
+        for cate in categories:
+            out_cate = '{}:{}'.format(cate['name'], cate['id'])
+            out_cates.append(out_cate)
+        return out_cates
+
     def modify(self, cz_json, coco_json, save_coco_json):
         cz_json_data = self.parse_para(cz_json)
         cz_categories = cz_json_data['categories']
@@ -43,6 +50,7 @@ class Modify_COCO_Cate(object):
             save_coco_annotations[i]['id'] = i + 1
         save_coco_dic['images'] = coco_json_data['images']
         save_coco_dic['categories'] = cz_categories
+        print('------', self.get_label_dic(cz_categories), '------')
         save_coco_dic['annotations'] = save_coco_annotations
         self.save_json(save_coco_dic, save_coco_json)
 

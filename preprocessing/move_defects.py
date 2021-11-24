@@ -40,8 +40,8 @@ def move_json_file(json_path, json_save_path, label_list):
     print('time:', t1-t0)
 
 if __name__ == '__main__':
-    label_list = ['daowen']  # 按照label_list中的先后顺序,将img和json同时移动到新的文件夹中
+    label_list = ['guojian_daowen']  # 按照label_list中的先后顺序,将img和json同时移动到新的文件夹中
 
-    json_path = '/home/jerry/data/Micro_D/D_loushi/D_ng/11-10-D-labelme/labelme_split/dm'
-    json_save_path = '/home/jerry/data/Micro_D/D_loushi/D_ng/11-10-D-labelme/labelme_split/dm_dw'  # Automatically create a save_path folder
+    json_path = '/home/jerry/Desktop/2021_11_24_02_40_21/PR_crop2048'
+    json_save_path = '/home/jerry/Desktop/2021_11_24_02_40_21/PR_guojian'  # Automatically create a save_path folder
     move_json_file(json_path, json_save_path, label_list)

@@ -154,16 +154,16 @@ def random_data_aug(paramter):
 if __name__ == '__main__':
 
 
-    input_dir = '/home/jerry/data/Micro_D/D_loushi/combined/11-22-dm-dw/blend'
+    input_dir = '/home/jerry/Desktop/2021_11_24_02_40_21/PR_crop2048'
     parameter = {
         'img_dir': input_dir,
         'save_dir': '{}_augmented'.format(input_dir),
-        'num_aug': 2,
-        # 'aug_name_list': [random_rot90, random_vertical_flip, random_horizontal_flip],
-        'aug_name_list': [random_vertical_flip, random_horizontal_flip],
+        'num_aug': 6,
+        'aug_name_list': [random_rot90, random_vertical_flip, random_horizontal_flip],
+        # 'aug_name_list': [random_vertical_flip, random_horizontal_flip],
         'is_transform': True,
         'is_random': True,
-        'per_aug_rate': 0.8,
+        'per_aug_rate': 0.5,
     }
     random_data_aug(parameter)
 

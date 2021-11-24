@@ -191,13 +191,13 @@ def img_boxes_query(img_file_path, input_label, cls_id_name_dict):
 
 if __name__ == '__main__':
 
-    label_dict_all = ['yise', 'quanjuyise']  # 全部缺陷list，按照数据集生成顺序  （personal habit: ordered by alphabetical）
-    # label_dict = ['yise', 'quanjuyise']  # 需要PR de list
-    label_dict = {'yise': 0.75, 'quanjuyise': 0.5}  # 需要PR de dic
+    label_dict_all = ['daowen', 'daowen1']  # 全部缺陷list，按照数据集生成顺序  （personal habit: ordered by alphabetical）
+    label_dict = ['daowen', 'daowen1']  # 需要PR de list
+    # label_dict = {'daowen': 0.99, 'daowen1': 0.3}  # 需要PR de dic
     precision_recall_visualize(# input_img
-                               target_folder_path='/home/jerry/Desktop/PR_test',
+                               target_folder_path='/home/jerry/Desktop/2021_11_24_06_04_25',
                                # inference_txt
-                               input_label='/home/jerry/Desktop/PR_test/labels',
+                               input_label='/home/jerry/Desktop/2021_11_24_06_04_25/labels',
                                # 自定义的query方法
                                img_boxes_query=img_boxes_query,
                                # save_path
