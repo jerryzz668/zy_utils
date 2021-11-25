@@ -39,7 +39,7 @@ class labelme2coco(object):
         for i, cl in enumerate(cls):
             categorie = {}
             categorie['supercategory'] = cl
-            categorie['id'] = i  # +1 # 0 默认为背景
+            categorie['id'] = i
             categorie['name'] = cl
             categories.append(categorie)
         # print('categories1111111111111111',categories)
