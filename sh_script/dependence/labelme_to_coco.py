@@ -12,20 +12,43 @@ from preprocessing.zy_utils import json_to_instance
 from tqdm import tqdm
 
 class labelme2coco(object):
-    def __init__(self, labelme_json=[], save_json_path='./new.json', resume_cate=None):
+    def __init__(self, labelme_json, save_json_path, train_and_val_path, resume_cate=None):
         '''
         :param labelme_json: 所有labelme的json文件路径组成的列表
         :param save_json_path: json保存位置
         '''
         self.labelme_json = labelme_json
         self.save_json_path = save_json_path
+        self.train_and_val_path = train_and_val_path
         self.height = 0
         self.width = 0
         self.save_json()
 
+    def get_categories(self):
+        # 获得所有label并按字母排序
+        cls = []
+        categories = []
+        for file in os.listdir(self.train_and_val_path):
+            if not file.endswith('.json'): continue
+            instance = json_to_instance(os.path.join(self.train_and_val_path, file))
+            for obj in instance['shapes']:
+                if obj['label'] not in cls:
+                    cls.append(obj['label'])
+        cls = sorted(cls)
+        # print('cls'*80,cls)
+        for i, cl in enumerate(cls):
+            categorie = {}
+            categorie['supercategory'] = cl
+            categorie['id'] = i  # +1 # 0 默认为背景
+            categorie['name'] = cl
+            categories.append(categorie)
+        # print('categories1111111111111111',categories)
+        return categories
+
     def addshape(self, shape, data, num, annotations, categories, labels):
 
         label = shape['label'].split('_')
+
         if label[0] not in labels:
             labels.append(label[0])
             categories.append(self.categorie(label, labels))
@@ -89,6 +112,9 @@ class labelme2coco(object):
         annotation['segmentation'] = segm
         annotation['iscrowd'] = 0
         annotation['image_id'] = num + 1
+
+        categories = self.get_categories()
+        # print('categories',categories)
         annotation['category_id'] = self.getcatid(label, categories)
         annotation['id'] = len(annotations) + 1
         return annotation
@@ -135,7 +161,7 @@ class labelme2coco(object):
         start = time.time()
         images, annotations, categories = self.data_transfer()
         # print('categories', categories)
-        print('------', self.get_label_dic(categories), '------')
+        print('------label_id_dict', self.get_label_dic(categories), '------')
         data_coco = self.data2coco(images, annotations, categories)
         json.dump(data_coco, open(self.save_json_path, 'w', encoding='utf-8'), indent=4)
         print('runtime:', time.time() - start)
@@ -143,8 +169,10 @@ class labelme2coco(object):
 if __name__ == '__main__':
     # labelme_path = '/home/jerry/Documents/Micro_ADR/R78/labeled_train'  # input_json_path
     labelme_path = sys.argv[1]
+    train_and_val_path = sys.argv[2]  # get categories from here
+    coco_path = sys.argv[3]
 
     labelme_json = glob.glob('{}/*.json'.format(labelme_path))
-    coco_path = os.path.join(os.path.dirname(labelme_path), 'coco.json')
-    labelme2coco(labelme_json, coco_path)
+    # coco_path = os.path.join(os.path.dirname(labelme_path), 'coco.json')
+    labelme2coco(labelme_json, coco_path, train_and_val_path)
 

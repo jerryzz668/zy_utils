@@ -3,13 +3,11 @@ import argparse
 import sys
 from preprocessing.zy_utils import json_to_instance
 
-try:
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--json_dir', default='', type=str, help='json file which need to be counted')
-    args = parser.parse_args()
-    jsons = glob.glob('{}/*.json'.format(args.json_dir))
-except:
-    jsons = glob.glob('{}/*.json'.format(sys.argv[1]))
+
+parser = argparse.ArgumentParser()
+parser.add_argument('json_dir', default='', type=str, help='json file which need to be counted')
+args = parser.parse_args()
+jsons = glob.glob('{}/*.json'.format(args.json_dir))
 
 def main():
     dic = {}
@@ -27,6 +25,7 @@ def main():
     print(a)
     print(len(a))
     print('目标汇总数：', total_defects)
+    return len(a)
 
 if __name__ == '__main__':
     main()

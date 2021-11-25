@@ -73,5 +73,5 @@ def gen_labelme_json_model(img_size, img_path) -> dict:
 
 
 if __name__ == '__main__':
-    aug_process('/home/jerry/data/Micro_D/D_loushi/D_ng/11-10-D-labelme/labelme_split/labelme_yise',
-                '/home/jerry/data/Micro_D/D_loushi/D_ng/11-10-D-labelme/labelme_split/labelme_yise_bbaug')
+    aug_process('/home/jerry/data/Micro_D/D_loushi/11-24ceshijieguo/200-no-empty',
+                '/home/jerry/data/Micro_D/D_loushi/11-24ceshijieguo/200-no-empty_bbaug')
