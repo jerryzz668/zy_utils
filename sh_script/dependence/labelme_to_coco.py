@@ -12,7 +12,7 @@ from preprocessing.zy_utils import json_to_instance
 from tqdm import tqdm
 
 class labelme2coco(object):
-    def __init__(self, labelme_json, save_json_path, train_and_val_path, resume_cate=None):
+    def __init__(self, labelme_json, save_json_path, train_and_val_path, remain_bg):
         '''
         :param labelme_json: 所有labelme的json文件路径组成的列表
         :param save_json_path: json保存位置
@@ -20,6 +20,7 @@ class labelme2coco(object):
         self.labelme_json = labelme_json
         self.save_json_path = save_json_path
         self.train_and_val_path = train_and_val_path
+        self.remain_bg = remain_bg
         self.height = 0
         self.width = 0
         self.save_json()
@@ -28,6 +29,7 @@ class labelme2coco(object):
         # 获得所有label并按字母排序
         cls = []
         categories = []
+        class_mapers = {'a': 0}
         for file in os.listdir(self.train_and_val_path):
             if not file.endswith('.json'): continue
             instance = json_to_instance(os.path.join(self.train_and_val_path, file))
@@ -36,14 +38,24 @@ class labelme2coco(object):
                     cls.append(obj['label'])
         cls = sorted(cls)
         # print('cls'*80,cls)
-        for i, cl in enumerate(cls):
-            categorie = {}
-            categorie['supercategory'] = cl
-            categorie['id'] = i
-            categorie['name'] = cl
-            categories.append(categorie)
+        if self.remain_bg == 'bg':
+            categories.append({'supercategory': 'background', 'id': 0, 'name': 'background'})
+            for i, cl in enumerate(cls):
+                categorie = {}
+                categorie['supercategory'] = cl
+                categorie['id'] = i + 1
+                categorie['name'] = cl
+                categories.append(categorie)
+                class_mapers[cl] = i + 1
+        elif self.remain_bg == 'nobg':
+            for i, cl in enumerate(cls):
+                categorie = {}
+                categorie['supercategory'] = cl
+                categorie['id'] = i
+                categorie['name'] = cl
+                categories.append(categorie)
         # print('categories1111111111111111',categories)
-        return categories
+        return categories, class_mapers
 
     def addshape(self, shape, data, num, annotations, categories, labels):
 
@@ -113,7 +125,7 @@ class labelme2coco(object):
         annotation['iscrowd'] = 0
         annotation['image_id'] = num + 1
 
-        categories = self.get_categories()
+        categories, _ = self.get_categories()
         # print('categories',categories)
         annotation['category_id'] = self.getcatid(label, categories)
         annotation['id'] = len(annotations) + 1
@@ -159,7 +171,8 @@ class labelme2coco(object):
         return out_cates
     def save_json(self):
         start = time.time()
-        images, annotations, categories = self.data_transfer()
+        images, annotations, _ = self.data_transfer()
+        categories, _ = self.get_categories()
         # print('categories', categories)
         print('------label_id_dict', self.get_label_dic(categories), '------')
         data_coco = self.data2coco(images, annotations, categories)
@@ -171,8 +184,13 @@ if __name__ == '__main__':
     labelme_path = sys.argv[1]
     train_and_val_path = sys.argv[2]  # get categories from here
     coco_path = sys.argv[3]
+    remain_bg = sys.argv[4]
+    # labelme_path = '/home/jerry/Desktop/garbage/coco/val2017'
+    # train_and_val_path = '/home/jerry/Desktop/garbage/xxx'  # get categories from here
+    # coco_path = '/home/jerry/Desktop/garbage/coco/annotations/instances_val2017.json'
+    # remain_bg = 'bg'
 
     labelme_json = glob.glob('{}/*.json'.format(labelme_path))
     # coco_path = os.path.join(os.path.dirname(labelme_path), 'coco.json')
-    labelme2coco(labelme_json, coco_path, train_and_val_path)
+    labelme2coco(labelme_json, coco_path, train_and_val_path, remain_bg)
 
