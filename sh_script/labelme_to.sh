@@ -1,6 +1,7 @@
 
-basepath=$(cd `dirname $0`; pwd)
-cd dependence
+sh_script=$(cd `dirname $0`; pwd)
+dependence=$sh_script"/dependence"
+cd $dependence
 
 input_dir="$1"
 coco_or_yolo="$2"
