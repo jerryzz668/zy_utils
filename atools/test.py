@@ -3,16 +3,20 @@
 @Author     : zhangyan
 @Time       : 2021/11/22 下午3:53
 """
-empty_dic = {}
-label_dic = {'yise':0.5, 'yise1':0.4}
-# if 'yise1' in label_dic:
-#     print('111')
-# print(label_dic['yise'])
-#
-# for label in label_dic:
-#     print(label)
 
-# print(type(label_dic))
+a,b = 7,5
 
-if type(label_dic) == type(empty_dic):
-    print('111')
+
+def gcd(a,b):
+    if a%b==0:
+        return b
+    elif b%a==0:
+        return a
+    elif a>b:
+        return gcd(a%b, b)
+    elif b>a:
+        return gcd(b%a, a)
+
+for i in range(2, b+1):
+    gcd_result = gcd(a,b)
+    print(int(i/gcd_result))

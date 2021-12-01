@@ -1,4 +1,5 @@
 from bbaug.policies import policies_zy
+from bbaug.policies import policies_v3
 from bbaug import policies
 import json
 import cv2
@@ -7,12 +8,12 @@ import numpy as np
 import os
 from tqdm import tqdm
 
-EXPAND_FACTOR = 10
+
 label_dict = []
 
 
 def init_policy() -> policies.PolicyContainer:
-    return policies.PolicyContainer(policies_zy())
+    return policies.PolicyContainer(policies_v3())
 
 
 def data_prepare(img_file) -> tuple:
@@ -33,7 +34,7 @@ def data_prepare(img_file) -> tuple:
     return img, bbox_list, id_list
 
 
-def aug_process(work_dir, out_dir):
+def aug_process(work_dir, out_dir, EXPAND_FACTOR):
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
     policy_container = init_policy()
@@ -73,5 +74,6 @@ def gen_labelme_json_model(img_size, img_path) -> dict:
 
 
 if __name__ == '__main__':
-    aug_process('/home/jerry/data/Micro_D/D_loushi/D_ng/11-10-D-labelme/labelme_split/labelme_yise',
-                '/home/jerry/data/Micro_D/D_loushi/D_ng/11-10-D-labelme/labelme_split/labelme_yise_bbaug')
+    input_dir = '/home/jerry/data/Micro_D/D_loushi/11-24ceshijieguo/jiaodaowen_crop2048'  # input img and jsons
+    EXPAND_FACTOR = 7
+    aug_process(input_dir, '{}_bbaug'.format(input_dir), EXPAND_FACTOR)
