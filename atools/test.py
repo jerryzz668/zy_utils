@@ -3,20 +3,19 @@
 @Author     : zhangyan
 @Time       : 2021/11/22 下午3:53
 """
+from tqdm import tqdm
 
-a,b = 7,5
 
+nn = [15, 16, 18000000]
+def inteer(a):
+    if a - int(a) == 0:
+        return True
+    else:
+        return False
 
-def gcd(a,b):
-    if a%b==0:
-        return b
-    elif b%a==0:
-        return a
-    elif a>b:
-        return gcd(a%b, b)
-    elif b>a:
-        return gcd(b%a, a)
-
-for i in range(2, b+1):
-    gcd_result = gcd(a,b)
-    print(int(i/gcd_result))
+for n in nn:
+    count = 0
+    for j in tqdm(range(1, n // 2 + 1)):
+        if n/(j+1)-j/2 > 0 and inteer(n/(j+1)-j/2):
+            count += 1
+    print(count)
