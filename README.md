@@ -5,7 +5,7 @@ This is a family of object detection and segmentation utils, such as, mmdetectio
 ---
 
 ```shell
-$ git clone https://gitee.com/jerryzz668/zy_utils.git
+$ git clone https://github.com/jerryzz668/zy_utils.git
 $ cd zy_utils
 $ python setup.py develop
 ```
