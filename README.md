@@ -19,15 +19,15 @@ bash sh_script/labelme_to.sh path_to_input_folder yolo
 ### Convert to coco
 
 ---
-If you want to convert to coco without background and mask, you can run as follows:
+Convert to coco without background and mask, you can run as follows:
 ```shell
 bash sh_script/labelme_to.sh path_to_input_folder coco
 ```
-If you want to convert to coco with background and without mask, you can run as follows:
+Convert to coco with background and without mask, you can run as follows:
 ```shell
 bash sh_script/labelme_to.sh path_to_input_folder coco bg
 ```
-If you want to convert to coco with background and mask, you can run as follows:
+Convert to coco with background and mask, you can run as follows:
 ```shell
 bash sh_script/labelme_to.sh path_to_input_folder coco bg mask
 ```

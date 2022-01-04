@@ -245,7 +245,7 @@ def extract_xys(axiss):
     :param axiss: xml中的坐标系父节点
     :return: list[x1,y1,...,xn,yn]
     '''
-    return [float(axis.text) for axis in axiss]
+    return [float(axis.text) for axis in axiss if len(axis.text) > 5]
 
 def points_to_xywh(obj):
     '''
