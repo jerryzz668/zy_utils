@@ -8,6 +8,7 @@ coco_or_yolo="$2"
 remain_bg="$3"
 gen_mask="$4"
 val_ratio=0.2
+isRLE="False"
 
 # coco_path
 train2017=${input_dir%/*}"/coco/train2017"
@@ -32,18 +33,18 @@ if [ $coco_or_yolo == "yolo" ]; then
 elif [ $coco_or_yolo == "coco" ] & [ ! $remain_bg ]; then
 	echo generating coco
 	python split_train_val.py $input_dir $val_ratio $coco_or_yolo
-	python labelme_to_coco.py $train2017 $input_dir $anno_train "nobg"
-	python labelme_to_coco.py $val2017 $input_dir $anno_val "nobg"
+	python labelme_to_coco.py $train2017 $input_dir $anno_train "nobg" $isRLE
+	python labelme_to_coco.py $val2017 $input_dir $anno_val "nobg" $isRLE
 elif [ $coco_or_yolo == "coco" ] & [ $remain_bg == "bg" ] & [ ! $gen_mask ]; then
 	echo generating coco with bg
 	python split_train_val.py $input_dir $val_ratio $coco_or_yolo
-	python labelme_to_coco.py $train2017 $input_dir $anno_train $remain_bg
-	python labelme_to_coco.py $val2017 $input_dir $anno_val $remain_bg
+	python labelme_to_coco.py $train2017 $input_dir $anno_train $remain_bg $isRLE
+	python labelme_to_coco.py $val2017 $input_dir $anno_val $remain_bg $isRLE
 elif [ $coco_or_yolo == "coco" ] & [ $remain_bg == "bg" ] & [ $gen_mask == "mask" ]; then	
 	echo generating coco with bg and mask
 	python split_train_val.py $input_dir $val_ratio $coco_or_yolo
-	python labelme_to_coco.py $train2017 $input_dir $anno_train $remain_bg
-	python labelme_to_coco.py $val2017 $input_dir $anno_val $remain_bg
+	python labelme_to_coco.py $train2017 $input_dir $anno_train $remain_bg $isRLE
+	python labelme_to_coco.py $val2017 $input_dir $anno_val $remain_bg $isRLE
 	python tomask_label.py $train2017 $input_dir $color_mask_train $gray_mask_train
 	python tomask_label.py $val2017 $input_dir $color_mask_val $gray_mask_val
 	rm -rf $color_mask_train

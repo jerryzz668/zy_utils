@@ -8,11 +8,12 @@ import glob
 import time
 import os
 import sys
+import cv2
 from preprocessing.zy_utils import json_to_instance
 from tqdm import tqdm
 
 class labelme2coco(object):
-    def __init__(self, labelme_json, save_json_path, train_and_val_path, remain_bg):
+    def __init__(self, labelme_json, save_json_path, train_and_val_path, remain_bg, RLE):
         '''
         :param labelme_json: 所有labelme的json文件路径组成的列表
         :param save_json_path: json保存位置
@@ -21,6 +22,7 @@ class labelme2coco(object):
         self.save_json_path = save_json_path
         self.train_and_val_path = train_and_val_path
         self.remain_bg = remain_bg
+        self.RLE = RLE
         self.height = 0
         self.width = 0
         self.save_json()
@@ -57,20 +59,20 @@ class labelme2coco(object):
         # print('categories1111111111111111',categories)
         return categories, class_mapers
 
-    def addshape(self, shape, data, num, annotations, categories, labels):
+    def addshape(self, shape, data, num, annotations):
 
         label = shape['label'].split('_')
 
-        if label[0] not in labels:
-            labels.append(label[0])
-            categories.append(self.categorie(label, labels))
+        # if label[0] not in labels:
+        #     labels.append(label[0])
+        #     categories.append(self.categorie(label, labels))
 
         points = shape['points']
         w = data['imageWidth']
         h = data['imageHeight']
         shape_type = shape['shape_type']
         img_shape = (h, w, 3)
-        annotations.append(self.annotation(img_shape, points, label, num, shape_type, annotations, categories))
+        annotations.append(self.annotation(img_shape, points, label, num, shape_type, annotations))
 
     def data_transfer(self):
         pool = multiprocessing.Pool(processes=32)  # 创建进程个数
@@ -78,18 +80,18 @@ class labelme2coco(object):
         # images=multiprocessing.Manager().list()
         annotations = multiprocessing.Manager().list()
         # print('anno', annotations)
-        categories = multiprocessing.Manager().list()
-        labels = multiprocessing.Manager().list()
+        # categories = multiprocessing.Manager().list()
+        # labels = multiprocessing.Manager().list()
         for num, json_file in tqdm(enumerate(self.labelme_json)):
             with open(json_file, 'r', encoding='utf-8') as fp:
                 data = json.load(fp)  # json
                 images.append(self.image(data, num))
                 for shape in data['shapes']:
-                    pool.apply_async(self.addshape, args=(shape, data, num, annotations, categories, labels))
+                    pool.apply_async(self.addshape, args=(shape, data, num, annotations))
         pool.close()
         pool.join()
 
-        return (images, annotations, categories)
+        return (images, annotations)
 
     def image(self, data, num):
         image = {}
@@ -111,7 +113,15 @@ class labelme2coco(object):
         categorie['name'] = label[0]
         return categorie
 
-    def annotation(self, img_shape, points, label, num, shape_type, annotations, categories):
+    def get_contours_binary(self, img):
+        ret, binary = cv2.threshold(img, 0.5, 255, cv2.THRESH_BINARY)
+        contours, hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        polygons = [items for items in contours if len(items) > 2]
+        if not polygons:
+            raise Exception('Invalid points of polygons: {}'.format(str(contours)))
+        return polygons
+
+    def annotation(self, img_shape, points, label, num, shape_type, annotations):
         annotation = {}
         mask = shape_labelme.shape_to_mask(img_shape[:2], points, shape_type)
         annotation['bbox'] = list(map(float, self.mask2box(mask)))
@@ -120,11 +130,17 @@ class labelme2coco(object):
         mask = np.asfortranarray(mask).astype('uint8')
         segm = encode(mask)  # 编码为rle格式
         annotation['area'] = float(maskUtils.area(segm))  # 计算mask编码的面积，必须放置在mask转字符串前面，否则计算为0
-        segm['counts'] = bytes.decode(segm['counts'])  # 将字节编码转为字符串编码
-        annotation['segmentation'] = segm
-        annotation['iscrowd'] = 0
-        annotation['image_id'] = num + 1
+        if self.RLE == 'True':
+            segm['counts'] = bytes.decode(segm['counts'])  # 将字节编码转为字符串编码
+            annotation['segmentation'] = segm
+            annotation['iscrowd'] = 1
+        elif self.RLE == 'False' :
+            contours = self.get_contours_binary(mask)
+            annotation['segmentation'] = [np.squeeze(contours[0]).flatten().tolist()] if len(contours) != 0 else \
+            points
+            annotation['iscrowd'] = 0
 
+        annotation['image_id'] = num + 1
         categories, _ = self.get_categories()
         # print('categories',categories)
         annotation['category_id'] = self.getcatid(label, categories)
@@ -171,7 +187,7 @@ class labelme2coco(object):
         return out_cates
     def save_json(self):
         start = time.time()
-        images, annotations, _ = self.data_transfer()
+        images, annotations = self.data_transfer()
         categories, _ = self.get_categories()
         # print('categories', categories)
         print('------label_id_dict', self.get_label_dic(categories), '------')
@@ -185,12 +201,14 @@ if __name__ == '__main__':
     train_and_val_path = sys.argv[2]  # get categories from here
     coco_path = sys.argv[3]
     remain_bg = sys.argv[4]
-    # labelme_path = '/home/jerry/Desktop/garbage/coco/val2017'
-    # train_and_val_path = '/home/jerry/Desktop/garbage/xxx'  # get categories from here
-    # coco_path = '/home/jerry/Desktop/garbage/coco/annotations/instances_val2017.json'
-    # remain_bg = 'bg'
+    RLE = sys.argv[5]
+    # labelme_path = '/home/jerry/Desktop/garbage/test_coco/val2017'
+    # train_and_val_path = '/home/jerry/Desktop/garbage/test_coco/val2017'  # get categories from here
+    # coco_path = '/home/jerry/Desktop/garbage/test_coco/instances_val2017.json'
+    # remain_bg = 'nobg'
+    # RLE = True
 
     labelme_json = glob.glob('{}/*.json'.format(labelme_path))
     # coco_path = os.path.join(os.path.dirname(labelme_path), 'coco.json')
-    labelme2coco(labelme_json, coco_path, train_and_val_path, remain_bg)
+    labelme2coco(labelme_json, coco_path, train_and_val_path, remain_bg, RLE)
 
