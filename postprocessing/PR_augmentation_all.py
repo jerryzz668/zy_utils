@@ -3,16 +3,17 @@ import shutil, os
 from prettytable import PrettyTable
 from PIL import Image
 
-def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_dict, saved_folder_name, input_label, label_dict, iou_thres=0.1, hard_thres=0.5,guo_thres=0.3, recall=True, precision=True):
+def precision_recall_visualize(gt_img_json, img_boxes_query, saved_folder_name, predict_label, label_dict, iou_thres=0.1, hard_thres=0.5,guo_thres=0.3, recall=True, precision=True):
+
     '''
-    :param target_folder_path: json文件夹路径
+    :param gt_img_json: json文件夹路径
     :param img_boxes_query: 该方法根据json文件名返回box列表
     :return: 可视化漏失、过检结果
     '''
     # 漏失、过检文件夹
-    pr_folder_path = os.path.join(target_folder_path, saved_folder_name)
+    pr_folder_path = os.path.join(gt_img_json, saved_folder_name)
     if not os.path.exists(pr_folder_path): os.makedirs(pr_folder_path)
-    img_files = os.listdir(target_folder_path)
+    img_files = os.listdir(gt_img_json)
     labels_total = {}
     lou_total = {}
     guo_total = {}
@@ -21,7 +22,7 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
     no_detect = 0
     # 遍历img
     for img_file in img_files:
-        img_file_path = os.path.join(target_folder_path, img_file)
+        img_file_path = os.path.join(gt_img_json, img_file)
         # 过滤文件夹和非图片文件
         if not os.path.isfile(img_file_path) or img_file[img_file.rindex('.')+1:] not in IMG_TYPES: continue
         img_out_path =os.path.join(pr_folder_path, img_file)
@@ -32,7 +33,8 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
             instance = json_to_instance(json_file_path)
         except Exception as e:
             instance = create_empty_json_instance(img_file_path)
-        predict_boxes = img_boxes_query(img_file_path,input_label, cls_id_name_dict)
+        # predict_boxes = img_boxes_query(img_file_path, predict_label, cls_id_name_dict)
+        predict_boxes = img_boxes_query(img_file_path, predict_label)
         # print(img_file_path)
         if len(predict_boxes) == 0 and len(instance['shapes']) == 0:
             continue
@@ -40,7 +42,7 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
         total_objs += len(instance['shapes'])
         # --------------------------全漏失情况--------------------------
         if recall and len(predict_boxes) == 0 and len(instance['shapes']) != 0:
-            tt=instance['shapes'].copy()
+            tt = instance['shapes'].copy()
             for obj in tt:
                 if obj['label'] not in label_dict:
                     instance['shapes'].remove(obj)
@@ -64,12 +66,13 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
         # --------------------------------------------------------------
         necessary = False
         temp = []
-        # 漏失统计
+        # 普通漏失统计
         tt = instance['shapes'].copy()
         for obj in tt:
             if obj['label'] not in label_dict:
                 instance['shapes'].remove(obj)
                 continue
+
             if obj['label'] not in labels_total:
                 labels_total[obj['label']] = 1
             else:
@@ -80,7 +83,7 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
             # 漏检 错检
             false_negative, false_label, hard = True, True, True
             for i, predict_box in enumerate(predict_boxes):
-                # 以下判断进行PR的是list or dic
+                # 如果label_dict为dic
                 if gt_box.get_iou(predict_box) > iou_thres and type(label_dict) == type(labels_total) and predict_box.confidence > label_dict[obj['label']]:  # 按照PR_list进行过滤
                     false_negative = False
                     temp.append(i)
@@ -90,7 +93,9 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
                             hard = False
                     else:
                         w_category = predict_box.category
-                elif gt_box.get_iou(predict_box) > iou_thres:
+
+                # 如果label_dict为list
+                elif gt_box.get_iou(predict_box) > iou_thres and type(label_dict) == type(temp):
                     false_negative = False
                     temp.append(i)
                     if gt_box.category == predict_box.category:
@@ -99,7 +104,7 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
                             hard = False
                     else:
                         w_category = predict_box.category
-                # 以上判断进行PR的是list or dic
+
             if not recall: continue
             if false_negative:
                 if obj['label'] not in lou_total:
@@ -118,21 +123,22 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
         # 过检统计
         if precision:
             for i, predict_box in enumerate(predict_boxes):
-                if i not in temp:
-                    # 以下判断进行PR的是list or dic
+                if i not in temp:  # 如果该检测框没有使用过
+                    # 如果label_dict为dic
                     if type(label_dict) == type(labels_total):
                         if predict_box.category not in label_dict or predict_box.confidence < label_dict[predict_box.category]:  # 按照PR_list进行过滤
                             continue
+                    # 如果label_dict为list
                     elif type(label_dict) == type(temp):
                         if predict_box.category not in label_dict:  # 按照PR_list进行过滤
                             continue
-                    # 以上判断进行PR的是list or dic
+
                     if predict_box.category not in guo_total:
                         guo_total[predict_box.category] = 1
                     else:
                         guo_total[predict_box.category] = guo_total[predict_box.category] + 1
                     # 总过检
-                    if predict_box.confidence<guo_thres:
+                    if predict_box.confidence < guo_thres:
                         continue
                     over_detect += 1
                     obj = {'label': 'guojian_'+predict_box.category, 'shape_type': 'rectangle', 'points': [[predict_box.x, predict_box.y], [predict_box.x+predict_box.w, predict_box.y+predict_box.h]]}
@@ -164,9 +170,11 @@ def precision_recall_visualize(target_folder_path, img_boxes_query, cls_id_name_
 
 # 自定义自己的img-boxes对应方法，Box类参考utils.py
 # yolo_strategy
-def img_boxes_query(img_file_path, input_label, cls_id_name_dict):
-    txt_folder_path = input_label
-    # txt_folder_path = '/home/adt/project_model/yolov5-3.1/inference/output'
+def yolo_strategy(img_file_path, predict_label, cls_id_name_dict):
+    label_dict_all = ['huashang', 'yashen']  # 全部缺陷list，按照数据集生成顺序  （personal habit: ordered by alphabetical）
+    cls_id_name_dict=dict(zip(range(len(label_dict_all)), label_dict_all))
+
+    txt_folder_path = predict_label
     txt_file = img_file_path[img_file_path.rindex(os.sep)+1:img_file_path.rindex('.')] + '.txt'
     txt_file_path = os.path.join(txt_folder_path, txt_file)
     img = Image.open(img_file_path)
@@ -189,50 +197,44 @@ def img_boxes_query(img_file_path, input_label, cls_id_name_dict):
         boxes.append(Box(cx-w/2, cy-h/2, w, h, cls_name, confidence))
     return boxes
 
-if __name__ == '__main__':
+# json_strategy
+def pre_json_query(img_file_path, predict_label):
+    json_file = img_file_path[img_file_path.rindex(os.sep)+1:img_file_path.rindex('.')] + '.json'
+    json_file_path = os.path.join(predict_label, json_file)
 
-    label_dict_all = ['daowen']  # 全部缺陷list，按照数据集生成顺序  （personal habit: ordered by alphabetical）
-    label_dict = ['daowen']  # 需要PR de list
-    # label_dict = {'daowen': 0.99, 'daowen1': 0.3}  # 需要PR de dic
-    precision_recall_visualize(# input_img
-                               target_folder_path='/home/jerry/data/Micro_D/D_loushi/combined/11-22-dm-dw/test',
-                               # inference_txt
-                               input_label='/home/jerry/data/Micro_D/D_loushi/combined/11-22-dm-dw/test/labels',
+    boxes = []
+    try:
+        instance = json_to_instance(json_file_path)
+    except FileNotFoundError:
+        return boxes
+    # 遍历json中每一个检测框
+    shapes = instance['shapes']
+    for shape in shapes:
+        points = shape['points']
+        x1,y1,x2,y2 = points[0][0], points[0][1], points[1][0], points[1][1]
+        xmin, ymin, xmax, ymax = min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2)
+        x, y ,w ,h  = float(xmin), float(ymin), float(xmax-xmin), float(ymax-ymin)
+        cls_name = shape['label']
+        confidence = shape['score']
+        boxes.append(Box(x,y,w,h,cls_name,confidence))
+    return boxes 
+
+if __name__ == '__main__':
+    label_dict = ['huashang', 'yahen']  # 需要PR de list
+    # label_dict = {'huashang': 0.5, 'yahen': 0.5}  # 需要PR de dic
+    precision_recall_visualize(# input_img&json
+                               gt_img_json='/home/jerry/Desktop/garbage/demo/gt',
+                               # inference_result
+                               predict_label='/home/jerry/Desktop/garbage/demo/pre',
                                # 自定义的query方法
-                               img_boxes_query=img_boxes_query,
+                               img_boxes_query=pre_json_query,
                                # save_path
                                saved_folder_name='PR',
                                label_dict=label_dict,
-                               cls_id_name_dict=dict(zip(range(len(label_dict_all)), label_dict_all)),
                                # 计算漏失
                                recall=True,
                                # 计算过检
                                precision=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

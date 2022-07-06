@@ -1,3 +1,4 @@
+from matplotlib.pyplot import contour
 from bbaug.policies import policies_zy
 from bbaug.policies import policies_v3
 from bbaug import policies
@@ -13,11 +14,12 @@ label_dict = []
 
 
 def init_policy() -> policies.PolicyContainer:
-    return policies.PolicyContainer(policies_v3())
+    return policies.PolicyContainer(policies_zy())
 
 
 def data_prepare(img_file) -> tuple:
     img = cv2.imread(img_file)
+    # print('processing:', img_file)
     with open(img_file.replace('jpg', 'json'), 'r') as f:
         load_dict = json.load(f)
     labels = load_dict['shapes']
@@ -30,6 +32,9 @@ def data_prepare(img_file) -> tuple:
             id_list.append(len(label_dict))
             label_dict.append(item['label'])
         points = [list(map(int, pos)) for pos in np.array(item['points']).T]
+        if points == []:
+            continue
+        # print(points)
         bbox_list.append([min(points[0]), min(points[1]), max(points[0]), max(points[1])])
     return img, bbox_list, id_list
 
@@ -40,6 +45,7 @@ def aug_process(work_dir, out_dir, EXPAND_FACTOR):
     policy_container = init_policy()
     img_list = glob.glob(os.path.join(work_dir, '*.jpg'))
     for img_item in tqdm(img_list):
+    # for img_item in img_list:
         if not os.path.exists(img_item.replace('jpg', 'json')):
             print('Warning: {} does not have corresponding json file.'.format(img_item))
             continue
@@ -74,6 +80,6 @@ def gen_labelme_json_model(img_size, img_path) -> dict:
 
 
 if __name__ == '__main__':
-    input_dir = '/home/jerry/data/Micro_D/D_loushi/11-24ceshijieguo/jiaodaowen_crop2048'  # input img and jsons
-    EXPAND_FACTOR = 7
+    input_dir = '/home/jerry/data/Micro_R/R/gs/05-15-gs-loushi/05-15-gs-loushi-clean/05-15-gs-loushi-labelme-filter_crop2048'  # input img and jsons
+    EXPAND_FACTOR = 3
     aug_process(input_dir, '{}_bbaug'.format(input_dir), EXPAND_FACTOR)

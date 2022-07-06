@@ -136,8 +136,9 @@ def check_crop_strategy(img, instance, size, additional_info):
 def clustering_crop_strategy(img, instance, size, additional_info):
     crop_strategies = []
     added = []  # 用来存放截取过的obj
-    w = instance['imageWidth']
-    h = instance['imageHeight']
+    h, w = img.shape[0], img.shape[1]
+    # w = instance['imageWidth']
+    # h = instance['imageHeight']
     objs = instance['shapes']
     num = len(objs)
     for i, obj in enumerate(objs):
