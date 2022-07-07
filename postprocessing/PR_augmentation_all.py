@@ -42,7 +42,8 @@ def precision_recall_visualize(gt_img_json, img_boxes_query, saved_folder_name, 
         total_objs += len(instance['shapes'])
         # --------------------------全漏失情况--------------------------
         if recall and len(predict_boxes) == 0 and len(instance['shapes']) != 0:
-            tt = instance['shapes'].copy()
+            # tt = instance['shapes'].copy()
+            tt = instance['shapes']
             for obj in tt:
                 if obj['label'] not in label_dict:
                     instance['shapes'].remove(obj)
@@ -58,6 +59,8 @@ def precision_recall_visualize(gt_img_json, img_boxes_query, saved_folder_name, 
                     lou_total[obj['label']] = lou_total[obj['label']] + 1
 
                 obj['label'] = 'loushi_' + obj['label']
+                obj['score'] = 0
+
                 no_detect += 1
             instance_to_json(instance, json_out_path)
             shutil.copy(img_file_path, img_out_path)
@@ -67,7 +70,8 @@ def precision_recall_visualize(gt_img_json, img_boxes_query, saved_folder_name, 
         necessary = False
         temp = []
         # 普通漏失统计
-        tt = instance['shapes'].copy()
+        # tt = instance['shapes'].copy()
+        tt = instance['shapes']
         for obj in tt:
             if obj['label'] not in label_dict:
                 instance['shapes'].remove(obj)
@@ -85,6 +89,7 @@ def precision_recall_visualize(gt_img_json, img_boxes_query, saved_folder_name, 
             for i, predict_box in enumerate(predict_boxes):
                 # 如果label_dict为dic
                 if gt_box.get_iou(predict_box) > iou_thres and type(label_dict) == type(labels_total) and predict_box.confidence > label_dict[obj['label']]:  # 按照PR_list进行过滤
+                    obj['score'] = predict_box.confidence
                     false_negative = False
                     temp.append(i)
                     if gt_box.category == predict_box.category:
@@ -96,6 +101,7 @@ def precision_recall_visualize(gt_img_json, img_boxes_query, saved_folder_name, 
 
                 # 如果label_dict为list
                 elif gt_box.get_iou(predict_box) > iou_thres and type(label_dict) == type(temp):
+                    obj['score'] = predict_box.confidence
                     false_negative = False
                     temp.append(i)
                     if gt_box.category == predict_box.category:
@@ -112,12 +118,16 @@ def precision_recall_visualize(gt_img_json, img_boxes_query, saved_folder_name, 
                 else:
                     lou_total[obj['label']] = lou_total[obj['label']] + 1
                 obj['label'] = 'loushi_' + obj['label']
+                obj['score'] = 0
                 # 总漏失
                 no_detect += 1
             elif false_label:
                 obj['label'] = 'cuowu_%s_' % (w_category) + obj['label']
+                obj['score'] = 0
             elif hard:
                 obj['label'] = 'hard_' + obj['label']
+                obj['score'] = 0
+
             if false_negative or false_label or hard:
                 necessary = True
         # 过检统计
@@ -141,9 +151,10 @@ def precision_recall_visualize(gt_img_json, img_boxes_query, saved_folder_name, 
                     if predict_box.confidence < guo_thres:
                         continue
                     over_detect += 1
-                    obj = {'label': 'guojian_'+predict_box.category, 'shape_type': 'rectangle', 'points': [[predict_box.x, predict_box.y], [predict_box.x+predict_box.w, predict_box.y+predict_box.h]]}
+                    obj = {'label': 'guojian_'+predict_box.category, 'shape_type': 'rectangle', 'points': [[predict_box.x, predict_box.y], [predict_box.x+predict_box.w, predict_box.y+predict_box.h]], 'score': predict_box.confidence}
                     instance['shapes'].append(obj)
                     necessary = True
+        
         if necessary:
             instance_to_json(instance, json_out_path)
             shutil.copy(img_file_path, img_out_path)
