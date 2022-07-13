@@ -156,13 +156,15 @@ if __name__ == '__main__':
         pad = (1120 - w)//2
         return [[[0, h, 0, w], [0, 0, pad, pad]]]
     # 截图并保存
-    imgs_crop_and_fill(img_folder_path='/home/jerry/data/chengtaoyuan/1_capture_image',  # img and json should be put in one folder
+    input_dir = '/home/jerry/Desktop/garbage/yolo_series/gs_data/05-15-gs-loushi-labelme-filter_crop2048'
+    crop_size = 768
+    imgs_crop_and_fill(img_folder_path=input_dir,  # img and json should be put in one folder
                        # 自定义的截图策略
                        crop_strategy=clustering_crop_strategy,  # aug_crop_strategy, clustering_crop_strategy
                        # 截图尺寸
-                       img_size=512,
+                       img_size=crop_size,
                        # 截图输出路径
-                       output_path='/home/jerry/data/chengtaoyuan/1_capture_image_crop512',  # Automatically create output folders
+                       output_path=input_dir + '_crop'+ str(crop_size),  # Automatically create output folders
                        # 自动滤去不含检测目标的截图框
                        empty_check=False,
                        # 多线程数

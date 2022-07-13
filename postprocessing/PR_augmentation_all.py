@@ -181,8 +181,8 @@ def precision_recall_visualize(gt_img_json, img_boxes_query, saved_folder_name, 
 
 # 自定义自己的img-boxes对应方法，Box类参考utils.py
 # yolo_strategy
-def yolo_strategy(img_file_path, predict_label, cls_id_name_dict):
-    label_dict_all = ['huashang', 'yashen']  # 全部缺陷list，按照数据集生成顺序  （personal habit: ordered by alphabetical）
+def yolo_strategy(img_file_path, predict_label):
+    label_dict_all = ['guashang']  # 全部缺陷list，按照数据集生成顺序  （personal habit: ordered by alphabetical）
     cls_id_name_dict=dict(zip(range(len(label_dict_all)), label_dict_all))
 
     txt_folder_path = predict_label
@@ -231,14 +231,14 @@ def pre_json_query(img_file_path, predict_label):
     return boxes 
 
 if __name__ == '__main__':
-    label_dict = ['huashang', 'yahen']  # 需要PR de list
+    label_dict = ['guashang']  # 需要PR de list
     # label_dict = {'huashang': 0.5, 'yahen': 0.5}  # 需要PR de dic
     precision_recall_visualize(# input_img&json
-                               gt_img_json='/home/jerry/Desktop/garbage/demo/gt',
+                               gt_img_json='/home/jerry/Desktop/garbage/yolo_series/gs_data/gs',
                                # inference_result
-                               predict_label='/home/jerry/Desktop/garbage/demo/pre',
+                               predict_label='/home/jerry/Desktop/garbage/yolo_series/gs_data/labels',
                                # 自定义的query方法
-                               img_boxes_query=pre_json_query,
+                               img_boxes_query=yolo_strategy,
                                # save_path
                                saved_folder_name='PR',
                                label_dict=label_dict,
@@ -246,6 +246,3 @@ if __name__ == '__main__':
                                recall=True,
                                # 计算过检
                                precision=True)
-
-
-
