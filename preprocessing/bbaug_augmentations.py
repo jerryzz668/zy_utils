@@ -7,8 +7,6 @@ from functools import wraps
 from imgaug import augmenters as iaa
 import numpy as np
 
-from bbaug.exceptions import InvalidMagnitude
-
 _MAX_MAGNITUDE = 10.0
 BBOX_TRANSLATION = 120
 CUTOUT_BBOX = 50
@@ -40,6 +38,16 @@ __all__ = [
     'translate_y',
     'translate_y_bbox',
 ]
+
+""" Custom Exceptions """
+
+
+class BaseError(Exception):
+    """ Base Exception """
+
+
+class InvalidMagnitude(BaseError):
+    """ Error if magnitude is too large or too small """
 
 
 def negate(func):

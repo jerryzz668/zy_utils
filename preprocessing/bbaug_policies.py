@@ -5,28 +5,14 @@ Ref: https://github.com/tensorflow/tpu/blob/2264f53d95852efbfb82ea27f03ca749e120
 
 from collections import namedtuple
 import random
-from typing import (
-    Callable,
-    Dict,
-    Iterable,
-    List,
-    NamedTuple,
-    Tuple,
-    Union,
-)
+from typing import (Callable, Dict, Iterable, List, NamedTuple, Tuple, Union,)
 
-from imgaug.augmentables.bbs import (
-    BoundingBox,
-    BoundingBoxesOnImage,
-)
+from imgaug.augmentables.bbs import (BoundingBox, BoundingBoxesOnImage,)
 import numpy as np
 
-from bbaug.augmentations.augmentations import NAME_TO_AUGMENTATION
+from preprocessing.bbaug_augmentations import NAME_TO_AUGMENTATION
 
-POLICY_TUPLE_TYPE = NamedTuple(
-    'policy',
-    [('name', str), ('probability', float), ('magnitude', str)]
-)
+POLICY_TUPLE_TYPE = NamedTuple('policy', [('name', str), ('probability', float), ('magnitude', str)])
 POLICY_TUPLE = namedtuple('policy', ['name', 'probability', 'magnitude'])
 
 __all__ = [

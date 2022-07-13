@@ -1,7 +1,6 @@
-from matplotlib.pyplot import contour
-from bbaug.policies import policies_zy
-from bbaug.policies import policies_v3
-from bbaug import policies
+from preprocessing.bbaug_policies import policies_zy
+from preprocessing.bbaug_policies import policies_v3
+from preprocessing import bbaug_policies
 import json
 import cv2
 import glob
@@ -13,8 +12,8 @@ from tqdm import tqdm
 label_dict = []
 
 
-def init_policy() -> policies.PolicyContainer:
-    return policies.PolicyContainer(policies_zy())
+def init_policy() -> bbaug_policies.PolicyContainer:
+    return bbaug_policies.PolicyContainer(policies_zy())
 
 
 def data_prepare(img_file) -> tuple:
@@ -80,6 +79,6 @@ def gen_labelme_json_model(img_size, img_path) -> dict:
 
 
 if __name__ == '__main__':
-    input_dir = '/home/jerry/data/Micro_R/R/gs/05-15-gs-loushi/05-15-gs-loushi-clean/05-15-gs-loushi-labelme-filter_crop2048'  # input img and jsons
+    input_dir = '/home/jerry/Desktop/garbage/1_test_demo/bbaug-demo'  # input img and jsons
     EXPAND_FACTOR = 3
     aug_process(input_dir, '{}_bbaug'.format(input_dir), EXPAND_FACTOR)
